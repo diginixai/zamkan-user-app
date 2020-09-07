@@ -1,0 +1,324 @@
+.navbar:before {
+    
+    height: 2px;
+   
+}
+
+.vertical-center {text-align: center!important;
+    padding: 18px 0px;}
+.myaccount-username{
+
+	color: #ba1e7b;
+	display: block; font-size: 18px;
+}
+
+.myaccount-username-location{
+	display: block;
+}
+
+
+.myaccount-usericon .material-icons{
+
+	padding: 10px;
+    font-size: 55px;
+}
+
+.myaccount-userdetail {
+
+	margin-top: 6px;
+    font-size: 11px;
+}
+
+.myaccount-grid-p0:after {
+    content: '';
+    position: absolute;
+    background-color: #eee;
+    display: block;
+    z-index: 15;
+    top: auto;
+    right: auto;
+    
+    left: 0;
+    height: 1px;
+    width: 100%;
+    transform-origin: 50% 100%;
+    transform: scaleY(calc(1 / var(--f7-device-pixel-ratio)));
+}
+/*
+.myaccount-grid-p0{
+
+	border-bottom: 1px solid #eee;
+}*/
+
+
+.myaccount-grid-p1 .material-icons{
+
+	font-size: 20px; color: #a5a5af; padding: 15px 0px;
+}
+
+.myaccount-grid-p1{
+
+	border-right: 1px solid #eee;
+}
+
+
+.myaccount-grid-p3 .material-icons{
+    color: #454545;
+	margin-top: 18px;
+    margin-left: 7px;
+    font-size: 18px;
+}
+    
+
+.myaccount-grid-p2 .myaccount-gridp2-text{
+    color: #454545!important;
+	font-size: 14px;
+    margin-top: 15px; margin-bottom: 14px;
+    display: block;
+    margin-left: 15px;
+}
+
+
+.myaccount-grid-p2 .myaccount-gridp2-creditOption{
+    color: #df953e;
+    font-size: 12px;
+    float: right;
+    margin-top: 2px;
+}
+
+
+.myaccount-payments-addNewCard{
+
+	border: 2px solid #df783e;
+    border-radius: 4px;
+    padding: 8px;
+    text-align: center;
+    background: #df953e3b;
+}
+
+
+.myaccount-payments-addNewCard a{
+
+	color: #ff6209 !important;
+	font-size: 11px;	
+}
+
+.myaccount-payments-addNewCard a .material-icons{
+
+	font-size: 16px;
+    position: relative;
+    top: 3px;
+}
+
+
+.myaccount-payments-note p{
+
+	font-size: 9px;
+}
+
+
+
+
+.myaccount-addcc-card1{
+
+	margin-top: 30px !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.myaccount-addcc-usericon .material-icons{
+
+	margin-left: 20px;
+	color: #666;
+}
+
+.input-text{
+
+	width: 90%;
+}
+
+
+.input-text::placeholder {
+
+	color: #555 !important;
+}
+
+
+
+.myaccount-addcc-ccIcon .material-icons{
+
+	color: #666;
+    margin-left: 10px;
+    font-size: 80px;
+}
+
+
+#cardNumber{
+
+	margin-top: 18px;
+}
+
+
+.myaccount-addcc-cardExpiry , .myaccount-addcc-cardCVV{
+
+	padding: 30px;
+}
+
+
+.myaccount-wallet-credit{
+	text-align: center;
+}
+
+
+
+.myaccount-transaction-history{
+
+	text-align: left;
+    padding-left: 25px;
+}
+
+
+
+.myaccount-wallet-credit-note p{
+	    font-size: 10px;
+    text-align: left;
+}
+
+
+
+
+.myaccount-saved-location-card1{
+
+	margin-top: 30px !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+        border-radius: 7px;
+        overflow: hidden;
+        padding-bottom: 0px;
+}
+
+
+
+
+.myaccount-saved-location-name-row{
+	border-bottom: 1px solid #ccc;
+}
+
+
+.myaccount-wallet-credit-edit{
+
+	 border-right: 1px solid #ccc;
+	 text-align: center;
+    padding: 5px;
+    color: green;
+}
+
+
+.myaccount-wallet-credit-name{
+
+	padding-bottom: 10px;
+}
+
+.myaccount-wallet-credit-edit .material-icons{
+
+	font-size: 20px;
+    position: relative;
+    top: 4px;
+}
+
+
+.myaccount-wallet-credit-delete{
+
+	text-align: center;
+    padding: 5px;
+    color: red;
+}
+
+.myaccount-wallet-credit-delete .material-icons{
+
+	font-size: 20px;
+    position: relative;
+    top: 4px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 576px) { 
+
+
+.card{
+
+  margin-top: 15px !important;
+}
+
+
+
+}
+
+
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { 
+
+	.card{
+
+		  margin-top: 15px !important;
+		}
+
+
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { 
+
+
+
+.card{
+
+  margin-top: 15px !important;
+}
+
+}
+
+
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { 
+
+
+
+.card{ margin-top: 15px !important; }
+
+}
+
+.myaccount-usericon .fa {color:#a5a5af;font-size: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 50%;}

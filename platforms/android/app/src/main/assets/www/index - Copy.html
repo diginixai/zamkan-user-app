@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en" id="myP" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ba1e7b">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:"> -->
+  <title>Zamkan</title>
+  <link rel="stylesheet" href="css/framework7.bundle.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/myaccount.css">
+  <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+  <link rel="icon" href="img/f7-icon.png">
+  <link rel="stylesheet" href="css/framework7-icons.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <style type="text/css">
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: red;
+      opacity: 1; /* Firefox */
+    }
+  </style>
+
+  <style type="text/css">
+  .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+      bottom: 30px;
+      left: 35px;
+      width: 50%;
+  }
+
+  .swiper-pagination {
+      position: absolute;
+      text-align: left;
+      transition: .3s opacity;
+      transform: translate3d(0,0,0);
+      z-index: 10;
+  }
+
+  .swiper-next {
+      bottom: 4px;
+      right: -70px;
+      width: 50%;
+      position: absolute;
+      text-align: right;
+      transition: .3s opacity;
+      transform: translate3d(0,0,0);
+      z-index: 10;
+
+      
+  }
+
+  .swiper-next a{
+
+      background: none;
+      color: red !important;
+      font-weight: 900;
+
+  }
+
+
+  .slider-img{
+    max-width: 403px;
+  }
+
+
+.cart_count_span{ 
+  position: relative;
+    top: -6px;
+    right: 9px;
+    background: #ff7000;
+}
+</style>
+</head>
+<body onload="onDeviceReady()">
+  <div id="app">
+    <!-- <div class="preloader color-multi"></div> -->
+    <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
+    <div class="page no-toolbar no-navbar no-swipeback">
+      <div class="page-content login-screen-content">
+        <div class="login-screen-title">
+          <div class="row">
+            <img src="./img/zamkan/Logo-website-S.png" style="max-width: 100%;">
+          </div>
+            <!-- <p class="text-align-center">Your outsourcing agency on the go.</p> -->
+        </div>
+
+
+        
+
+     
+        <div class="list login-inputs content-login">
+          <div class="block-header">
+            <h1 class="color-theme-hg">Get Started</h1>
+            <p>Login in or create an account and get things done today!</p>
+          </div>
+          <div class="row block-header">
+            <!-- Each "cell" has col-[width in percents] class -->
+            <div onclick="flogin()" class="col-100"><button class="col button button-large button-fill facebook btn-icon"><span><i class="fa fa-facebook"></i></span>Continue with Facebook</button></div>
+            <div class="col-100" onclick="glogin()"><button class="col button button-large button-fill google btn-icon"><span><i class="fa fa-google"></i></span>Continue with Google</button></div>
+            <div class="col-100"><a href="/login/" class="col button button-large button-fill email btn-icon"><span><i class="fa fa-envelope"></i></span>Continue with Email</a></div>
+
+            <a href="/registration/" class="list-button "><span>Don't have an account?</span><strong> Sign up</strong> </a>
+          </div>
+        </div>
+
+        <div class="list login-button-list">
+          <div class="block-footer" style="text-align: right; margin-right: 40px;">
+              
+              <a href="/dashboard/" >Skip</a>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+      
+    </div>
+    
+  </div>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/framework7.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="js/routes.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/pages/userMgr.js"></script>
+  <script src="js/pages/dashboardMgr.js"></script>
+  <script src="js/pages/shop.js"></script>
+  <script src="js/xml2json.min.js"></script>
+  <script src="js/telr_payment.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT952IrtWQHBtyIKNF_Buk8Q_7mL9IoQ8"></script>
+
+<script type="text/javascript">
+$(function(){
+
+  if(localStorage.getItem("lang_rotation") == null || localStorage.getItem("lang_rotation") == undefined){
+      localStorage.setItem("lang_rotation","ltr");
+    }
+
+  if(localStorage.getItem("first_open_app_page") == undefined || localStorage.getItem("first_open_app_page") == null || localStorage.getItem("first_open_app_page") == ""){
+      mainView.router.navigate({ name: 'home' });
+      localStorage.setItem("first_open_app_page","1");
+  }
+
+  
+  $(".login-button").click(function(){ mainView.router.navigate({ name: 'dashboard' });
+      email = $("#email").val();
+      password = $("#password").val();
+
+      if(email == "" || password == ""){
+        app.dialog.alert("Please fill all fields!","Alert!");
+        return;
+      }
+
+      app.preloader.show();
+      var form = new FormData();
+      form.append("email", email);
+      form.append("password", password);
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://dnddemo.com/kingkongtent/kingkong_app/v1/userLogin",
+        "method": "POST",
+        "headers": {
+          "cache-control": "no-cache",
+          "postman-token": "1de5cf5d-bd9c-ceea-49d6-2731b2800ce5"
+        },
+        "processData": false,
+        "contentType": false,
+        "mimeType": "multipart/form-data",
+        "data": form
+      }
+
+      $.ajax(settings).done(function (response) {
+        app.preloader.hide();
+        // console.log(response);
+        data = JSON.parse(response);
+        if(data.error != true){
+          // set user data to local storage
+        localStorage.setItem("email",email);
+        // Create bottom toast
+          var toastBottom = app.toast.create({
+            text: 'Welcome To KingKongTent',
+            closeTimeout: 2000,
+          });
+          toastBottom.open();
+          mainView.router.navigate({ name: 'dashboard' });
+
+        }else{
+          
+          // app.dialog.alert(data.message,"Failure!");
+          // mainView.router.navigate({ name: 'dashboard' });
+          var toastBottom = app.toast.create({
+            text: 'Invalid Credentials!',
+            closeTimeout: 2000,
+          });
+          toastBottom.open();
+          // mainView.router.navigate({ name: 'dashboard' });
+        }
+      });
+
+  });
+});
+
+
+var searchbar = app.searchbar.create({
+  el: '.searchbar',
+  on: {
+    enable: function () {
+      console.log('Searchbar enabled')
+    }
+  }
+})
+</script>
+<script> 
+
+  function glogin(){
+
+        
+        window.plugins.googleplus.logout();
+        window.plugins.googleplus.login(
+        {},
+        function (obj) { 
+
+        // alert("Response: "+JSON.stringify(obj));exit;
+          //document.querySelector("#image").src = obj.imageUrl;
+          //document.querySelector("#image").style.visibility = 'visible';
+          //document.querySelector("#feedback").innerHTML = "Hi, " + obj.displayName + ", " + obj.email;
+        var logintype = 'google';
+        // window.plugins.spinnerDialog.show("Please wait...");
+        // alert(obj.email);sccaccc
+        app.preloader.show();
+        jsonDATA = {
+
+          "email":obj.email,
+          "provider_id":obj.userId,
+          "provider_type":logintype,
+          "first_name":obj.displayName,
+          "last_name": ""
+
+        }
+
+        var settings = {
+          "url": "https://test.zamkanapp.com/api/login/social_authenticate/",
+          "method": "POST",
+          "timeout": 0,
+          "processData": false,
+          "mimeType": "multipart/form-data",
+          "contenttype":"application/json",
+          "data": JSON.stringify(jsonDATA)
+        };
+
+        $.ajax(settings).done(function (response) {
+          
+            response = JSON.parse(response);
+
+            if(response[0] == false){
+
+              app.dialog.alert(response[1],"LOGIN FAILURE!");
+              return;
+
+            }else if (response[0] == true){
+
+              // set local storage
+              localStorage.setItem("id",response[1].id);
+              localStorage.setItem("type",response[1].type);
+              localStorage.setItem("name",response[1].name);
+              localStorage.setItem("last_name",response[1].last_name);
+              localStorage.setItem("mobile",response[1].mobile);
+              localStorage.setItem("email",response[1].email);
+              localStorage.setItem("city_id",response[1].city_id);
+              localStorage.setItem("country",response[1].country);
+              localStorage.setItem("area",response[1].area);
+              localStorage.setItem("street",response[1].street);
+              localStorage.setItem("villa",response[1].villa);
+              localStorage.setItem("email_verified",response[1].email_verified);
+              localStorage.setItem("package",response[1].package);
+              localStorage.setItem("review",response[1].review);
+              localStorage.setItem("profile",response[1].profile);
+              localStorage.setItem("updated_at",response[1].updated_at);
+              localStorage.setItem("api",response[1].api);
+
+
+              mainView.router.navigate({ name: 'dashboard' });
+
+            }else{
+
+              app.dialog.alert('Unable to logged in.',"LOGIN FAILURE!");
+              return;
+            }
+            
+
+        });
+        },
+        function (msg) { 
+          //window.plugins.spinnerDialog.hide(); //myApp.hideIndicator();
+         // myApp.alert("Authentication with Google+ failed, try signing in with Facebook instead.");   
+         alert("Error: "+msg);  
+         //alert("Error: "+msg);
+        }
+    );
+
+  }
+ function flogin(){
+  
+  app.preloader.show(); 
+  CordovaFacebook.login({
+   permissions: ['email'],
+   onSuccess: function(result) { 
+      if(result.declined.length > 0) { 
+         app.preloader.hide();
+         alert("Register via registration form!","Declined!");
+         return;
+      }
+
+      // alert(JSON.stringify(result));
+
+      CordovaFacebook.graphRequest({
+        path: '/me',
+        params: { access_token: result.accessToken, fields: 'email,id,first_name,last_name,gender,link,name' },
+        onSuccess: function (userData) {
+            // alert(JSON.stringify(userData));exit;
+            var logintype = 'facebook';
+            app.preloader.show();
+            // data: JSON.stringify({email:userData.email,logintype:logintype,fullname:userData.name}),
+            CordovaFacebook.logout();
+        jsonDATA = {
+
+          "email":userData.email,
+          "provider_id":userData.id,
+          "provider_type":logintype,
+          "first_name":userData.first_name,
+          "last_name": userData.last_name
+
+        }
+
+        var settings = {
+          "url": "https://test.zamkanapp.com/api/login/social_authenticate/",
+          "method": "POST",
+          "timeout": 0,
+          "processData": false,
+          "mimeType": "multipart/form-data",
+          "contenttype":"application/json",
+          "data": JSON.stringify(jsonDATA)
+        };
+
+        $.ajax(settings).done(function (response) {
+          
+            response = JSON.parse(response);
+
+            if(response[0] == false){
+
+              app.dialog.alert(response[1],"LOGIN FAILURE!");
+              return;
+
+            }else if (response[0] == true){
+
+              // set local storage
+              localStorage.setItem("id",response[1].id);
+              localStorage.setItem("type",response[1].type);
+              localStorage.setItem("name",response[1].name);
+              localStorage.setItem("last_name",response[1].last_name);
+              localStorage.setItem("mobile",response[1].mobile);
+              localStorage.setItem("email",response[1].email);
+              localStorage.setItem("city_id",response[1].city_id);
+              localStorage.setItem("country",response[1].country);
+              localStorage.setItem("area",response[1].area);
+              localStorage.setItem("street",response[1].street);
+              localStorage.setItem("villa",response[1].villa);
+              localStorage.setItem("email_verified",response[1].email_verified);
+              localStorage.setItem("package",response[1].package);
+              localStorage.setItem("review",response[1].review);
+              localStorage.setItem("profile",response[1].profile);
+              localStorage.setItem("updated_at",response[1].updated_at);
+              localStorage.setItem("api",response[1].api);
+
+
+              mainView.router.navigate({ name: 'dashboard' });
+
+            }else{
+
+              app.dialog.alert('Unable to logged in.',"LOGIN FAILURE!");
+              return;
+            }
+            
+
+        });
+            
+        },
+        onFailure: function (result) { 
+
+            app.preloader.hide();
+            if (result.error) {
+                 //alert('error', 'There was an error in graph request:' + result.errorLocalized);
+                app.dialog.alert("Register via registration form!","Declined!");
+                mainView.router.navigate({ name: 'registration' });
+            }
+        }
+    });
+
+      /* ... */
+   },
+   onFailure: function(result) { 
+
+      app.preloader.hide();
+      if(result.cancelled) {
+         // alert("The user doesn't like my app");
+         app.dialog.alert("Register via registration form!","Declined!");
+         mainView.router.navigate({ name: 'registration' });
+      } else if(result.error) {
+         // alert("There was an error:" + result.errorLocalized);
+         app.dialog.alert("Register via registration form!","Declined!");
+         mainView.router.navigate({ name: 'registration' });
+      }
+   }
+});
+//myApp.hideIndicator();
+}
+  // function changelanguage(){
+  //   if (document.getElementById("myP").dir == "ltr") {
+
+  //     document.getElementById("myP").dir = "rtl";
+  //     $('.block').css("padding-right", "16px");
+  //   }else{
+  //       document.getElementById("myP").dir = "ltr";
+  //   }
+    
+
+  // }
+//   $('.savelocation').on('click', function(){ myaApp.alert('fdsfds');
+//   var checkedvalue = $('.location-value').is(":checked");
+//   localStorage.setItem('zamkan-location-user',checkedvalue);
+  
+// });
+</script>
+</body>
+</html>

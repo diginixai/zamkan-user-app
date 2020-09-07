@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" id="myP" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ba1e7b">
+  <!-- <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:"> -->
+  <title>Zamkan</title>
+  <link rel="stylesheet" href="css/framework7.bundle.min.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/myaccount.css">
+  <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+  <link rel="icon" href="img/f7-icon.png">
+  <link rel="stylesheet" href="css/framework7-icons.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <style type="text/css">
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: red;
+      opacity: 1; /* Firefox */
+    }
+  </style>
+
+  <style type="text/css">
+  .swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction {
+      bottom: 30px;
+      left: 35px;
+      width: 50%;
+  }
+
+  .swiper-pagination {
+      position: absolute;
+      text-align: left;
+      transition: .3s opacity;
+      transform: translate3d(0,0,0);
+      z-index: 10;
+  }
+
+  .swiper-next {
+      bottom: 4px;
+      right: -70px;
+      width: 50%;
+      position: absolute;
+      text-align: right;
+      transition: .3s opacity;
+      transform: translate3d(0,0,0);
+      z-index: 10;
+
+      
+  }
+
+  .swiper-next a{
+
+      background: none;
+      color: red !important;
+      font-weight: 900;
+
+  }
+
+
+  .slider-img{
+    max-width: 403px;
+  }
+
+
+.cart_count_span{ 
+  position: relative;
+    top: -6px;
+    right: 9px;
+    background: #ff7000;
+}
+</style>
+</head>
+<body onload="onDeviceReady()">
+  <div id="app">
+    <!-- <div class="preloader color-multi"></div> -->
+    <div class="view view-main view-init safe-areas" data-master-detail-breakpoint="800" data-url="/">
+    <div class="page home">
+        <div class="navbar">
+          <div class="navbar-inner sliding">
+            <div class="row">
+              <div class="col-33" style="text-align: left;">
+                <a href="/select-location/" class="link" >
+                    <i class="material-icons">location_on</i>
+                    <span class="location-value" id="homelocation" style="text-transform: uppercase; font-size: 12px; color: #ba1e7b;"></span>
+                </a>
+              </div>
+              <div class="col-33" style="text-align: center;">
+                <div class="title" style="text-align: center; top: 12px;">
+                 
+                  <img src="./img/zamkan/Logo-website-S.png" style="max-width: 100%;">
+                  
+                </div>
+              </div>
+              <div class="col-33" style="text-align: right;">
+                <a href="#" class="link " id="change-language">
+                  <i class="material-icons">translate</i>
+                    <span class="ios-only">Back</span>
+                </a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar toolbar-bottom" style="background-color: #fdfdfd;height: 60px;">
+          <div class="toolbar-inner">
+            
+            <a class="link active" href="#">
+              <i class="material-icons">home</i><span class="lang" key="home">Home</span>
+            </a>
+            <a class="link" href="/categories/">
+              <i class="fa fa-tag"></i><span class="lang" key="shop">Shop</span>
+            </a>
+          
+            <a  class="link myjobs-check" href="#">
+              <i class="material-icons">build</i><span class="lang" key="myBooking">My Booking</span>
+            </a>
+            <a class="link" href="/support/">
+              <i class="fa fa-commenting"></i><span class="lang" key="support">Support</span>
+            </a>
+            <a class="link myaccount-check" href="#">
+              <i class="material-icons">person</i><span class="lang" key="account">Account</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="page-content home-content hide-navbar-on-scroll" style="background-color: #f8f9fb;">
+          
+          <div class="block" style="padding-right: 0px;">
+            <!-- Block header -->
+            <div class="block-header">
+              <h2 class="color-theme-hg">Hi there,</h2>
+              <p class="lang" key="letsgetdone">Let's get things done today!</p>
+            </div>
+
+
+            <div class="title-latest-course" id="all-services"> 
+           </div>
+
+            <p style="margin: 0 0 26px; color: #ccc;">* Excluding VAT</p>
+
+          </div>
+        </div>
+    </div>
+      
+    </div>
+    
+  </div>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/framework7.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="js/routes.js"></script>
+  <script src="js/language.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/pages/userMgr.js"></script>
+  <script src="js/pages/dashboardMgr.js"></script>
+  <script src="js/pages/shop.js"></script>
+  <script src="js/xml2json.min.js"></script>
+  <script src="js/telr_payment.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDT952IrtWQHBtyIKNF_Buk8Q_7mL9IoQ8"></script>
+
+<script type="text/javascript">
+$(function(){
+  function getServices(){
+
+    /*
+  **** Services list
+    */
+    var form = new FormData();
+  var settings = {
+    "url": "https://test.zamkanapp.com/api/data/services/",
+    "method": "POST",
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": form
+  };
+  app.preloader.show();
+  $.ajax(settings).done(function (response) {
+    // console.log(JSON.parse('{\n    \"form_type\": \"international-movers\",\n    \"first_name\": \"Nishant\",\n    \"last_name\":\"Pandey\",\n    \"mobile\":\"+919889797416\",\n    \"email\": \"nnishantsigra@gmail.com\",\n    \"adr1\": \"adr1\",\n    \"adr2\": \"adr2\",\n    \"date\":\"2020-07-30\",\n    \"city_id\": \"6\",\n    \"description\": \"test enquiry\",\n    \"service_provider\": [1,2,3,4,5,6],\n    \"meta\": {\n       \"type\": \"international\",\n       \"from_country\":\"UAE\",\n       \"from_address\":\"Flat123\",\n       \"from_country\": \"India\",\n       \"from_address\": \"Flat123,234,345345\",\n       \"date\":\"2020-07-30\",\n       \"move_size\":\"2 Bedroom Apartment\",\n       \"Handyman\":true,\n       \"storage\":true,\n       \"carshipping\":true,\n       \"detail\":\"please send me the quote asap\"\n   }\n   \n\n}'));
+    app.preloader.hide();
+
+    response = JSON.parse(response);
+
+   // console.log(response.length);
+
+    // set up html
+    html = '';
+
+    if(response[0] == true){
+
+      main_html = '<div class="title-latest-course">';
+      for(var i in response[1])
+      {
+
+        subcat_html = '';
+        cat_name = localStorage.getItem("lang_rotation") == "rtl" ? response[1][i].name_ar : response[1][i].name;
+        for(var j in response[1][i].subcategory)
+        {
+          form_name = '';
+          
+        form_name = response[1][i].subcategory[j].identifier;
+
+        sub_name = localStorage.getItem("lang_rotation") == "rtl" ? response[1][i].subcategory[j].name_ar : response[1][i].subcategory[j].name;
+          subcat_html += '<div class="swiper-slide b-radius" style="width: 70%; margin-right: 10px;">'+
+                       ' <a href="/'+form_name+'/">'+
+                          '<img src="https://test.zamkanapp.com'+response[1][i].subcategory[j].image+'" style="width: 100%; height: 130px; border-radius: 8px 8px 0px 0px;">'+
+                          '<div class="card-content">'+
+                            '<h6 class="base-color">'+sub_name+'</h6>'+
+                            '<p>'+sub_name+'</p>'+
+                          '</div>'+
+                       ' </a>'+
+                     ' </div>';
+        }
+        
+
+        main_html += '<div class="item-title-row item-inner">'+
+                  '<div class="content-heading">'+cat_name+'</div>'+
+                 '</div>'+
+
+                '<div class="swiper-container swiper-one">'+
+                
+                  '<div data-space-between="10" data-slides-per-view="1.5" class="swiper-container swiper-init demo-swiper">'+
+                    '<div class="swiper-wrapper">'+
+
+                      subcat_html+
+
+                    '</div>'+
+                  '</div>'+
+                '</div>';
+      }
+
+      
+      main_html += '</div>';
+      html = main_html;
+  }
+    
+
+   $("#all-services").html(html);
+   if(localStorage.getItem("selected-location") != "" && localStorage.getItem("selected-location") != null && localStorage.getItem("selected-location") != undefined)
+      {
+          var getsetLocation = localStorage.getItem('selected-location');
+          $('#homelocation').html(getsetLocation);
+      }else{
+        $('#homelocation').html('DUBAI');
+      }
+
+  });
+  }
+
+
+  getServices();
+
+
+  if(localStorage.getItem("lang_rotation") == null || localStorage.getItem("lang_rotation") == undefined){
+      localStorage.setItem("lang_rotation","ltr");
+    }
+
+  if(localStorage.getItem("first_open_app_page") == undefined || localStorage.getItem("first_open_app_page") == null || localStorage.getItem("first_open_app_page") == ""){
+      mainView.router.navigate({ name: 'home' });
+      localStorage.setItem("first_open_app_page","1");
+  }
+
+});
+
+
+var searchbar = app.searchbar.create({
+  el: '.searchbar',
+  on: {
+    enable: function () {
+      console.log('Searchbar enabled')
+    }
+  }
+})
+</script>
+<script> 
+
+  function glogin(){
+
+        
+        window.plugins.googleplus.logout();
+        window.plugins.googleplus.login(
+        {},
+        function (obj) { 
+
+        // alert("Response: "+JSON.stringify(obj));exit;
+          //document.querySelector("#image").src = obj.imageUrl;
+          //document.querySelector("#image").style.visibility = 'visible';
+          //document.querySelector("#feedback").innerHTML = "Hi, " + obj.displayName + ", " + obj.email;
+        var logintype = 'google';
+        // window.plugins.spinnerDialog.show("Please wait...");
+        // alert(obj.email);sccaccc
+        app.preloader.show();
+        jsonDATA = {
+
+          "email":obj.email,
+          "provider_id":obj.userId,
+          "provider_type":logintype,
+          "first_name":obj.displayName,
+          "last_name": ""
+
+        }
+
+        var settings = {
+          "url": "https://test.zamkanapp.com/api/login/social_authenticate/",
+          "method": "POST",
+          "timeout": 0,
+          "processData": false,
+          "mimeType": "multipart/form-data",
+          "contenttype":"application/json",
+          "data": JSON.stringify(jsonDATA)
+        };
+
+        $.ajax(settings).done(function (response) {
+          
+            response = JSON.parse(response);
+            // alert(JSON.stringify(response));
+            app.preloader.hide();
+            if(response.success == false){
+
+              app.dialog.alert("Unable to login.","LOGIN FAILURE!");
+              return;
+
+            }else if (response.success == true){
+
+              // set local storage
+              localStorage.setItem("id",response.data.id);
+              localStorage.setItem("type",response.data.type);
+              localStorage.setItem("name",response.data.name);
+              localStorage.setItem("last_name",response.data.last_name);
+              localStorage.setItem("mobile",response.data.mobile);
+              localStorage.setItem("email",response.data.email);
+              localStorage.setItem("city_id",response.data.city_id);
+              localStorage.setItem("country",response.data.country);
+              localStorage.setItem("area",response.data.area);
+              localStorage.setItem("street",response.data.street);
+              localStorage.setItem("villa",response.data.villa);
+              localStorage.setItem("email_verified",response.data.email_verified);
+              localStorage.setItem("package",response.data.package);
+              localStorage.setItem("review",response.data.review);
+              localStorage.setItem("profile",response.data.profile);
+              localStorage.setItem("updated_at",response.data.updated_at);
+              localStorage.setItem("api",response.data.api);
+
+
+              mainView.router.navigate({ name: 'index' });
+
+            }else{
+
+              app.dialog.alert('Unable to logged in.',"LOGIN FAILURE!");
+              return;
+            }
+            
+
+        });
+        },
+        function (msg) { 
+          //window.plugins.spinnerDialog.hide(); //myApp.hideIndicator();
+         // myApp.alert("Authentication with Google+ failed, try signing in with Facebook instead.");   
+         alert("Error: "+msg);  
+         //alert("Error: "+msg);
+        }
+    );
+
+  }
+ function flogin(){
+  
+  app.preloader.show(); 
+  CordovaFacebook.login({
+   permissions: ['email'],
+   onSuccess: function(result) { 
+      if(result.declined.length > 0) { 
+         app.preloader.hide();
+         alert("Register via registration form!","Declined!");
+         return;
+      }
+
+      // alert(JSON.stringify(result));
+
+      CordovaFacebook.graphRequest({
+        path: '/me',
+        params: { access_token: result.accessToken, fields: 'email,id,first_name,last_name,gender,link,name' },
+        onSuccess: function (userData) {
+            // alert(JSON.stringify(userData));exit;
+            var logintype = 'facebook';
+            app.preloader.show();
+            // data: JSON.stringify({email:userData.email,logintype:logintype,fullname:userData.name}),
+            CordovaFacebook.logout();
+        jsonDATA = {
+
+          "email":userData.email,
+          "provider_id":userData.id,
+          "provider_type":logintype,
+          "first_name":userData.first_name,
+          "last_name": userData.last_name
+
+        }
+
+        var settings = {
+          "url": "https://test.zamkanapp.com/api/login/social_authenticate/",
+          "method": "POST",
+          "timeout": 0,
+          "processData": false,
+          "mimeType": "multipart/form-data",
+          "contenttype":"application/json",
+          "data": JSON.stringify(jsonDATA)
+        };
+
+        $.ajax(settings).done(function (response) {
+          
+            response = JSON.parse(response);
+
+            if(response.success == false){
+
+              app.dialog.alert("Unable to login","LOGIN FAILURE!");
+              return;
+
+            }else if (response.success == true){
+
+              // set local storage
+              localStorage.setItem("id",response.data.id);
+              localStorage.setItem("type",response.data.type);
+              localStorage.setItem("name",response.data.name);
+              localStorage.setItem("last_name",response.data.last_name);
+              localStorage.setItem("mobile",response.data.mobile);
+              localStorage.setItem("email",response.data.email);
+              localStorage.setItem("city_id",response.data.city_id);
+              localStorage.setItem("country",response.data.country);
+              localStorage.setItem("area",response.data.area);
+              localStorage.setItem("street",response.data.street);
+              localStorage.setItem("villa",response.data.villa);
+              localStorage.setItem("email_verified",response.data.email_verified);
+              localStorage.setItem("package",response.data.package);
+              localStorage.setItem("review",response.data.review);
+              localStorage.setItem("profile",response.data.profile);
+              localStorage.setItem("updated_at",response.data.updated_at);
+              localStorage.setItem("api",response.data.api);
+
+              mainView.router.navigate({ name: 'index' });
+
+            }else{
+
+              app.dialog.alert('Unable to logged in.',"LOGIN FAILURE!");
+              return;
+            }
+            
+
+        });
+            
+        },
+        onFailure: function (result) { 
+
+            app.preloader.hide();
+            if (result.error) {
+                 //alert('error', 'There was an error in graph request:' + result.errorLocalized);
+                app.dialog.alert("Register via registration form!","Declined!");
+                mainView.router.navigate({ name: 'registration' });
+            }
+        }
+    });
+
+      /* ... */
+   },
+   onFailure: function(result) { 
+
+      app.preloader.hide();
+      if(result.cancelled) {
+         // alert("The user doesn't like my app");
+         app.dialog.alert("Register via registration form!","Declined!");
+         mainView.router.navigate({ name: 'registration' });
+      } else if(result.error) {
+         // alert("There was an error:" + result.errorLocalized);
+         app.dialog.alert("Register via registration form!","Declined!");
+         mainView.router.navigate({ name: 'registration' });
+      }
+   }
+});
+//myApp.hideIndicator();
+}
+  // function changelanguage(){
+  //   if (document.getElementById("myP").dir == "ltr") {
+
+  //     document.getElementById("myP").dir = "rtl";
+  //     $('.block').css("padding-right", "16px");
+  //   }else{
+  //       document.getElementById("myP").dir = "ltr";
+  //   }
+    
+
+  // }
+//   $('.savelocation').on('click', function(){ myaApp.alert('fdsfds');
+//   var checkedvalue = $('.location-value').is(":checked");
+//   localStorage.setItem('zamkan-location-user',checkedvalue);
+  
+// });
+
+$(".myjobs-check").on("click", function(){
+      // myApp.closePanel();
+           if(localStorage.getItem("id") != "" && localStorage.getItem("id") != null && localStorage.getItem("id") != undefined)
+        {
+            mainView.router.navigate({ name: 'job' });
+        }else{
+            mainView.router.navigate({ name: 'login-type' });
+        } 
+    });
+
+    $(".myaccount-check").on("click", function(){
+      // myApp.closePanel();
+
+      if(localStorage.getItem("id") != "" && localStorage.getItem("id") != null && localStorage.getItem("id") != undefined)
+        {
+            mainView.router.navigate({ name: 'myaccount' });
+
+        }else{
+            mainView.router.navigate({ name: 'login-type' });
+        } 
+
+    }); 
+ 
+
+$("#change-language").on("click", function(){ changelangrotate();  })
+  function changelangrotate(){
+    
+      if (document.getElementById("myP").dir == "ltr") {
+
+        document.getElementById("myP").dir = "rtl";
+        $('.block').css("padding-right", "16px");
+        $('.block').css("padding-left", "0px");
+
+        localStorage.setItem("lang_rotation","rtl");
+
+
+      }else{
+          document.getElementById("myP").dir = "ltr";
+          localStorage.setItem("lang_rotation","ltr");
+          $('.block').css("padding-right", "0px");
+          $('.block').css("padding-left", "16px");
+      }
+
+      var language_name = document.getElementById("myP").dir;
+        $('.lang').each(function(index, element){
+            $(this).text(arrLang[language_name][$(this).attr('key')]);
+        });
+      
+      getServices();
+
+  }
+
+
+</script>
+</body>
+</html>

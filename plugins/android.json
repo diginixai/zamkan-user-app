@@ -1,0 +1,33 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.company.kingkongtent"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.company.kingkongtent"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.company.zamkan"
+    },
+    "cordova-plugin-facebook": {
+      "FACEBOOK_APP_ID": "224578538952033",
+      "FACEBOOK_DISPLAY_NAME": "zamkan",
+      "PACKAGE_NAME": "com.company.zamkan"
+    },
+    "cordova-plugin-googleplus": {
+      "PLAY_SERVICES_VERSION": "15.0.1",
+      "PACKAGE_NAME": "com.company.zamkan"
+    },
+    "org.apache.cordova.geolocation": {
+      "PACKAGE_NAME": "com.company.zamkan"
+    }
+  },
+  "dependent_plugins": {}
+}
