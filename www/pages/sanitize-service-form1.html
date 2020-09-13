@@ -20,23 +20,25 @@
   <div class="page-content sanitiza-form1-page home-content hide-navbar-on-scroll">
 
     <form class="service-form">
+       
     <div class="block">
           <h4>What is the type of the unit you want to sanitized?</h4>
           <div class="list no-margin">
             <div col>
 
-            <input class="hidden-radio-grid radio-label gridbutton" id="cleaners_count1" type="radio" checked="" name="cleaners_count" value="Apartment" />
-            <label class="button-label-radio-grid" for="cleaners_count1">
+            <input class="hidden-radio-grid radio-label gridbutton type_sanitized" id="apartments" type="radio" checked="" name="cleaners_count" value="Apartment" />
+
+            <label class="button-label-radio-grid" for="apartments">
               Apartment
             </label>
 
-            <input class="hidden-radio-grid radio-label gridbutton" id="cleaners_count2" type="radio" name="cleaners_count" value="Villa" />
-            <label class="button-label-radio-grid" for="cleaners_count2">
+            <input class="hidden-radio-grid radio-label gridbutton type_sanitized" id="villa" type="radio" name="cleaners_count" value="Villa" />
+            <label class="button-label-radio-grid" for="villa">
               Villa
             </label>
 
-            <input class="hidden-radio-grid radio-label gridbutton" id="cleaners_count3" type="radio" name="cleaners_count" value="Office" />
-            <label class="button-label-radio-grid" for="cleaners_count3">
+            <input class="hidden-radio-grid radio-label gridbutton type_sanitized" id="office" type="radio" name="cleaners_count" value="Office" />
+            <label class="button-label-radio-grid" for="office">
               Office
             </label>
             
@@ -45,50 +47,24 @@
 
 
             <h4>What is the size of your home?</h4>
-            <div class="list no-margin">
-              <div class="scroll-input" col>
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs1" type="radio" name="stayhrs" value="Studio" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs1" >
-                  <span style="display: block;">Studio</span>
-                  <span style="display: block;    font-size: 13px;">AED 199</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs2" checked="" type="radio" name="stayhrs" value="1 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs2" >
-                  <span style="display: block;">1 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 345</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs3" type="radio" name="stayhrs" value="2 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs3" >
-                  <span style="display: block;">2 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 399</span>
-                </label>
-
-                 <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs4" type="radio" name="stayhrs" value="3 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs4" >
-                  <span style="display: block;">3 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 449</span>
-                </label>
-
-               
-              </div>
+            <div class="list no-margin" id="sanitization_bedroom">
+              <!-- bedroom  -->
+              
             </div>
-
-
 
             <h4 style="margin-bottom: 5px;">What service do you require?</h4>
             <h6 style="margin: 0px;color: #7f7f7f; font-size: 10px; font-weight: 400; margin-bottom: 5px;">To ensure complete sanitization, we recommend you choose out Cleaning <a href="#">Show more details</a></h6>
 
             <div class="list no-margin">
               <div col>
-                <input class="hidden-radio-grid radio-label gridbutton" id="serviceRequire1" type="radio" name="serviceRequire" value="Cleaning and sanitization" />
+                <input class="hidden-radio-grid radio-label gridbutton serviceRequire" id="serviceRequire1" type="radio" name="serviceRequire" value="Cleaning and sanitization" />
+
                 <label class="button-label-radio-grid stayhrs" for="serviceRequire1" style="font-size: 15px;
     padding: 16px 8px;">
                   Cleaning and sanitization
                 </label>
 
-                <input class="hidden-radio-grid radio-label gridbutton" id="serviceRequire2" checked="" type="radio" name="serviceRequire" value="Sanitization only" />
+                <input class="hidden-radio-grid radio-label gridbutton serviceRequire" id="serviceRequire2" checked="" type="radio" name="serviceRequire" value="Sanitization only" />
                 <label class="button-label-radio-grid stayhrs" for="serviceRequire2" style="font-size: 15px;
     padding: 16px 8px;">
                   <span >Sanitization only</span>
@@ -166,6 +142,8 @@
                   </div>
                 </p>
               </div>
+              <input type="hidden" name="prices" id="prices" value="">
+              <input type="hidden" name="service_name" value="Cleaning and sanitization">
 
               <br>
               <br>
@@ -179,7 +157,7 @@
               <div class="col-50 text-align-center" style="padding: 7px;">
                 <a href="#">
                 
-                  <span style="color: green;display: block;font-size: 12px;">AED 545(+VAT)</span>
+                  <span style="color: green;display: block;font-size: 12px;" id="vat_view"></span>
                   <span style="color: #ccc;display: block;font-size: 12px;">View details</span>
               
                 </a>
@@ -271,12 +249,10 @@
                     <li class="item-content item-input">
                       
                       <div class="item-inner">
-                        <div class="item-title item-label">City</div>
+                        <!-- <div class="item-title item-label">City</div> -->
                         <div class="item-input-wrap">
-                          <select class=" citylist" id="city">
-                            <option>Dubai</option>
-                            <option>Abu Dhabi</option>
-                            <option>Sharjah</option>
+                          <select class="citylist" id="city">
+                           
                           </select>
                           
                         </div>
@@ -286,10 +262,12 @@
                     <li class="item-content item-input">
                       
                       <div class="item-inner">
-                        <!-- <div class="item-title item-label">Email Address</div> -->
+                       <!-- <div class="item-title item-label">Area</div> -->
                         <div class="item-input-wrap">
-                          <input type="text" placeholder="Area" id="area">
-                          <span class="input-clear-button"></span>
+                          <select class="area" id="area">
+                            <option value="0">--Select Area--</option>
+                          </select>
+                          
                         </div>
                       </div>
                     </li>

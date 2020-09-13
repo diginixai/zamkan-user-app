@@ -24,12 +24,11 @@
           <h4>What type of home do you live in?</h4>
           <div class="list no-margin">
             <div col>
-
+            <input type="hidden" name="service_name" value="Deep Cleaning">
             <input class="hidden-radio-grid radio-label gridbutton" id="cleaners_count1" type="radio" checked="" name="cleaners_count" value="Apartment" />
             <label class="button-label-radio-grid" for="cleaners_count1">
               Apartment
             </label>
-
             <input class="hidden-radio-grid radio-label gridbutton" id="cleaners_count2" type="radio" name="cleaners_count" value="Villa" />
             <label class="button-label-radio-grid" for="cleaners_count2">
               Villa
@@ -40,56 +39,17 @@
 
 
             <h4>What is the size of your home?</h4>
-            <div class="list no-margin">
-              <div col style="display: flex; overflow-y: auto;">
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs1" type="radio" name="stayhrs" value="Studio" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs1" style="padding: 8px 20px;">
-                  <span style="display: block;">Studio</span>
-                  <span style="display: block;    font-size: 13px;">AED 299</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs2" checked="" type="radio" name="stayhrs" value="1 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs2" style="padding: 8px 20px;">
-                  <span style="display: block;">1 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 399</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs3" type="radio" name="stayhrs" value="2 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs3" style="padding: 8px 20px;">
-                  <span style="display: block;">2 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 499</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs4" type="radio" name="stayhrs" value="3 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs4" style="padding: 8px 20px;">
-                  <span style="display: block;">3 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 799</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs5" type="radio" name="stayhrs" value="4 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs5" style="padding: 8px 20px;">
-                  <span style="display: block;">4 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 999</span>
-                </label>
-
-                <input class="hidden-radio-grid radio-label gridbutton" id="stayhrs6" type="radio" name="stayhrs" value="5 BR" />
-                <label class="button-label-radio-grid stayhrs" for="stayhrs6" style="padding: 8px 20px;">
-                  <span style="display: block;">5 BR</span>
-                  <span style="display: block;    font-size: 13px;">AED 1299</span>
-                </label>
-
+            <div class="list no-margin" id="bedroom">
                
-              </div>
+               <!-- bead room -->
             </div>
-
-
-
             <h4>Is your home furnished?</h4>
           <div class="list no-margin">
             <ul>
               <li>
                 <label class="item-radio item-content" >
                   <input type="radio" name="home_furnished" value="Yes" checked />
+                   <input type="hidden" name="prices" id="prices" value="">
                   <i class="icon icon-radio"></i>
                   <div class="item-inner">
                     <div class="item-title">Yes</div>
@@ -116,7 +76,7 @@
             <ul>
               <li>
                 <label class="item-checkbox item-content">
-                  <input type="checkbox" name="addtional_services" value="Steam Cleaning" checked="checked"/>
+                  <input type="checkbox" name="addtional_services[]" class="services" value="Steam Cleaning" checked="checked"/>
                   <i class="icon icon-checkbox"></i>
                   <div class="item-inner">
                     <div class="item-title">Steam Cleaning</div>
@@ -125,7 +85,7 @@
               </li>
               <li>
                 <label class="item-checkbox item-content">
-                  <input type="checkbox" name="addtional_services" value="Grout Cleaning"/>
+                  <input type="checkbox" name="addtional_services[]" class="services" value="Grout Cleaning"/>
                   <i class="icon icon-checkbox"></i>
                   <div class="item-inner">
                     <div class="item-title">Grout Cleaning</div>
@@ -151,7 +111,7 @@
 
               <h4>Any Special Instructions Or Additional Details</h4>
               <div class="item-input-wrap ">
-                <textarea placeholder="Example: You will need to bring a gate pass, I will not be home and am leaving the key under the mat, et cetera" name="dscription"></textarea>
+                <textarea placeholder="Example: You will need to bring a gate pass, I will not be home and am leaving the key under the mat, et cetera" name="description"></textarea>
               </div>
 
 
@@ -181,7 +141,7 @@
               <div class="col-50 text-align-center" style="padding: 7px;">
                 <a href="#">
                 
-                  <span style="color: green;display: block;font-size: 12px;">AED 545(+VAT)</span>
+                  <span style="color: green;display: block;font-size: 12px;" id="vat_view"></span>
                   <span style="color: #ccc;display: block;font-size: 12px;">View details</span>
               
                 </a>
@@ -273,12 +233,9 @@
                     <li class="item-content item-input">
                       
                       <div class="item-inner">
-                        <div class="item-title item-label">City</div>
+                        <!-- <div class="item-title item-label">City</div> -->
                         <div class="item-input-wrap">
-                          <select class=" citylist" id="city">
-                            <option>Dubai</option>
-                            <option>Abu Dhabi</option>
-                            <option>Sharjah</option>
+                          <select class="citylist" id="city">
                           </select>
                           
                         </div>
@@ -288,10 +245,11 @@
                     <li class="item-content item-input">
                       
                       <div class="item-inner">
-                        <!-- <div class="item-title item-label">Email Address</div> -->
+                        <!-- <div class="item-title item-label">Area</div> -->
                         <div class="item-input-wrap">
-                          <input type="text" placeholder="Area" id="area">
-                          <span class="input-clear-button"></span>
+                           <select class="area" id="area" required> 
+                            <option value="0">--Select Area--</option>
+                          </select>
                         </div>
                       </div>
                     </li>
@@ -334,3 +292,4 @@
       </div>
 
 </div>
+

@@ -40,19 +40,19 @@
                   <i class="material-icons">credit_card</i>
               </div>
 
-              <div class="col-70 myaccount-addcc-cardNumber">
-                  <input type="text" class="input-text" id="cardNumber" name="" placeholder="Enter card number">
+              <div class="col-70 myaccount-addcc-cardNumber"><span id="ErrcardNumber"></span>
+                  <input type="text" class="input-text" id="cardNumber" name="" placeholder="Enter card number" autocomplete="off" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
               </div>
           </div>
 
           <div class="row no-gap">
 
               <div class="col-50 myaccount-addcc-cardExpiry">
-                  <input type="text" class="input-text" id="cardExpiry" readonly="readonly" name="" placeholder="Card expiry">
+                  <input type="text" class="input-text" id="cardExpiry" readonly="readonly" name="" placeholder="Card expiry" autocomplete="off">
               </div>
 
-              <div class="col-50 myaccount-addcc-cardCVV">
-                  <input type="number" maxlength="3" class="input-text" id="cardCVV" name="" placeholder="Enter CVV">
+              <div class="col-50 myaccount-addcc-cardCVV"><span id="ErrcardCVV"></span>
+                  <input type="number" max="3" min="3" class="input-text" id="cardCVV" name="" placeholder="Enter CVV" autocomplete="off">
               </div>
 
           </div>

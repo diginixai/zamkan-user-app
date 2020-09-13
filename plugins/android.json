@@ -8,16 +8,16 @@
   },
   "installed_plugins": {
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.company.kingkongtent"
+      "PACKAGE_NAME": "com.company.zamkan"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.company.kingkongtent"
+      "PACKAGE_NAME": "com.company.zamkan"
     },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "com.company.zamkan"
     },
     "cordova-plugin-facebook": {
-      "FACEBOOK_APP_ID": "224578538952033",
+      "FACEBOOK_APP_ID": "761729421067556",
       "FACEBOOK_DISPLAY_NAME": "zamkan",
       "PACKAGE_NAME": "com.company.zamkan"
     },

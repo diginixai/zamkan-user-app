@@ -23,11 +23,11 @@
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-facebook": {
                 "FACEBOOK_DISPLAY_NAME": "zamkan",
-                "FACEBOOK_APP_ID": "224578538952033"
+                "FACEBOOK_APP_ID": "761729421067556"
             },
             "cordova-plugin-googleplus": {
-                "REVERSED_CLIENT_ID": "com.googleusercontent.apps.205992350303-0192q53rutp1ahe9ans8dvnvsoe1ou00",
-                "WEB_APPLICATION_CLIENT_ID": "205992350303-0192q53rutp1ahe9ans8dvnvsoe1ou00.apps.googleusercontent.com",
+                "REVERSED_CLIENT_ID": "com.googleusercontent.apps.201233421569-5j3u0juf9belu711nk6gppgrf2mt4s3q",
+                "WEB_APPLICATION_CLIENT_ID": "201233421569-5j3u0juf9belu711nk6gppgrf2mt4s3q.apps.googleusercontent.com",
                 "PLAY_SERVICES_VERSION": "15.0.1"
             },
             "org.apache.cordova.geolocation": {}

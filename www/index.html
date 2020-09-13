@@ -132,7 +132,7 @@
           <div class="block" style="padding-right: 0px;">
             <!-- Block header -->
             <div class="block-header">
-              <h2 class="color-theme-hg">Hi there,</h2>
+              <h2 class="color-theme-hg lang" key="hithere">Hi there,</h2>
               <p class="lang" key="letsgetdone">Let's get things done today!</p>
             </div>
 
@@ -169,7 +169,6 @@
 <script type="text/javascript">
 $(function(){
   function getServices(){
-
     /*
   **** Services list
     */
@@ -372,8 +371,7 @@ var searchbar = app.searchbar.create({
 
   }
  function flogin(){
-  
-  app.preloader.show(); 
+  app.preloader.show();
   CordovaFacebook.login({
    permissions: ['email'],
    onSuccess: function(result) { 
@@ -547,7 +545,7 @@ $("#change-language").on("click", function(){ changelangrotate();  })
 
       var language_name = document.getElementById("myP").dir;
         $('.lang').each(function(index, element){
-            $(this).text(arrLang[language_name][$(this).attr('key')]);
+            console.log($(this).text(arrLang[language_name][$(this).attr('key')]));
         });
       
       getServices();

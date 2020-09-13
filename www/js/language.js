@@ -5,7 +5,8 @@ var arrLang = {
 		'myBooking' : 'My Booking',
 		'support' : 'Support',
 		'account' : 'Account',
-		'letsgetdone' : "Let's get things done today!"
+		'letsgetdone' : "Let's get things done today!",
+		'hithere' : "Hi there,"
 	
 	},
 	'rtl' : {
@@ -14,7 +15,8 @@ var arrLang = {
 		'myBooking' : 'الحجز',
 		'support' : 'الدعم',
 		'account' : 'الحساب',
-		'letsgetdone' : 'دعنا ننجز الأشياء اليوم!'
+		'letsgetdone' : 'دعنا ننجز الأشياء اليوم!',
+		'hithere' : 'مرحبا',
 	}
 
 };

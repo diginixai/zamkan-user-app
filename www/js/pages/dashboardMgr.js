@@ -1,11 +1,8 @@
 //Dashboard
 // In page events:
 $$(document).on('page:init', function (e, page) {
-  
   	var Latitude = undefined;
-	var Longitude = undefined;
-
-
+	  var Longitude = undefined;
 
 // Get geo coordinates
 
@@ -14,6 +11,151 @@ function getMapLocation() {
     navigator.geolocation.getCurrentPosition
     (onMapSuccess, onMapError, { enableHighAccuracy: true });
 }
+
+function getcitylist(){
+
+      var settings = {
+        "url": APIURL+"api/data/cities/",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false
+        
+      };
+      $.ajax(settings).done(function (response) {
+        
+          respon = JSON.parse(response);    
+          if(respon[0] == false){
+
+            app.dialog.alert(respon[1],"No Cities!");
+            return;
+
+          }else{
+            localStorage.setItem('city-list', response);
+            var respData = respon[1];
+            var optionHtml = ''; 
+            var optionSelected = ''; 
+            optionHtml+='<option value="0">--Select City--</option>';
+            for (var i = 0; i < respData.length; i++) {
+              optionHtml += '<option value="'+respData[i].id+'">'+respData[i].name+'</option>';
+            }
+            $('.citylist').html(optionHtml);
+
+          }
+          
+      });
+    }
+
+    $$('#city').on('change',function(){
+       var id = $(this).val();
+       var settings = {
+              "url": APIURL+"api/data/area?id="+id,
+              "method": "GET",
+              "timeout": 0,
+              "processData": false,
+              "mimeType": "multipart/form-data",
+              "contentType": false
+            };
+    $.ajax(settings).done(function (response) {
+         respon = JSON.parse(response);
+         var areaHtml = '';
+         if(respon[0] == false){
+           areaHtml +='<option value="0">--No Area--</option>';
+          }else{
+            var respData = respon[1];
+            areaHtml +='<option value="0">--Select Area--</option>';
+            for (var i = 0; i < respData.length; i++) {
+                 areaHtml += '<option value="'+respData[i].areaId+'">'+respData[i].name+'</option>';
+            } 
+          }
+          $('#area').html(areaHtml);
+        });
+     });
+// ===============On change prices and home type =======
+
+ $('#cleaners_count1').click(function(){
+       if($(this).val()=='Apartment'){
+           $('#villa_br').hide();
+           $('#apartment_br').show();
+       }
+   });
+   $('#cleaners_count2').click(function(){
+    if($(this).val()=='Villa'){
+        $('#villa_br').show();
+        $('#villa_br').attr("style","display:flex");
+        $('#apartment_br').hide();
+    }
+   });
+
+   $(document).on("change",".apart_bed",function() {
+        $(this).attr("checked","checked");
+        $('#prices').val($(this).attr('data-price'));
+         var vat = $(this).attr('data-price') * parseInt(5) / parseInt(100);
+         var total = parseInt($(this).attr('data-price')) + parseInt(vat);
+         $('#vat_view').text('AED '+total +'( +VAT)');
+  }); 
+    $(document).on("change",".villa_bed",function() {
+        $(this).attr("checked","checked");
+        $('#prices').val($(this).attr('data-price'));
+         var vat = $(this).attr('data-price') * parseInt(5) / parseInt(100);
+         var total = parseInt($(this).attr('data-price')) + parseInt(vat);
+         $('#vat_view').text('AED '+total+'( +VAT)');
+  });
+
+// ============  End ==============
+
+    function pricechart(){
+          var settings = {
+        "url": APIURL+"api/pricechart/deepcleaning/",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false
+        
+      };
+      $.ajax(settings).done(function (response) {
+          respon = JSON.parse(response);
+          if(respon[0] == false){
+            app.dialog.alert(respon[1],"price chart!");
+            return;
+          }else{
+            localStorage.setItem('price-chart', response);
+            var respData = respon[1];
+            var apartmentHtml = '';
+            var villaHtml = '';
+            var apartment_rate = respData.rate.apartment;
+            var villa_rate = respData.rate.villa;
+            apartmentHtml += '<div col style="display: flex; overflow-y: auto;" id="apartment_br">';
+                            
+            for (var i = 0; i < apartment_rate.length; i++) {
+              var apart_checked = i == 1 ? "checked":"";
+                apartmentHtml += '<input class="hidden-radio-grid radio-label gridbutton apart_bed" '+apart_checked+' id="stayhrs'+i+'" type="radio" name="stayhrs" data-price="'+apartment_rate[i].base+'" value="'+apartment_rate[i].size+'" />';
+                apartmentHtml += '<label class="button-label-radio-grid stayhrs" for="stayhrs'+i+'" style="padding: 8px 20px;">';
+                apartmentHtml += '<span style="display: block;">'+apartment_rate[i].size+'</span>';
+                apartmentHtml += '<span style="display: block; font-size: 13px;">AED '+apartment_rate[i].base+'</span>';
+                apartmentHtml += '</label>';
+              }
+                apartmentHtml +='</div>';   
+
+              villaHtml += '<div col style="display: none; overflow-y: auto;" id="villa_br">';
+
+            for (var j= 0; j < villa_rate.length; j++) {
+                              villaHtml += '<input class="hidden-radio-grid radio-label gridbutton villa_bed" id="stayhrs2'+j+'" type="radio" name="stayhrs" data-price="'+villa_rate[j].base+'" value="'+villa_rate[j].size+'" />';
+                              villaHtml += '<label class="button-label-radio-grid stayhrs villa_label" for="stayhrs2'+j+'" style="padding: 8px 20px;">';
+                              villaHtml += '<span style="display: block;">'+villa_rate[j].size+'</span>';
+                              villaHtml += '<span style="display: block;    font-size: 13px;">AED '+villa_rate[j].base+'</span>';
+                              villaHtml += '</label>';
+                       }
+               villaHtml += '</div>';
+                 $('#bedroom').html(apartmentHtml+villaHtml);
+                 checkt();
+      
+               }
+          
+      });
+    }
 
 // Success callback for get geo coordinates
 
@@ -96,7 +238,7 @@ getMapLocation();
   	/*
 	**** Services list
   	*/
-  	var form = new FormData();
+  var form = new FormData();
 	var settings = {
 	  "url": "https://test.zamkanapp.com/api/data/services/",
 	  "method": "POST",
@@ -112,7 +254,6 @@ getMapLocation();
 		app.preloader.hide();
 
 	  response = JSON.parse(response);
-
 	 // console.log(response.length);
 
 	  // set up html
@@ -166,8 +307,7 @@ getMapLocation();
 	}
 	  
 
-		 
-
+		
 		 $("#all-services").html(html);
 		 if(localStorage.getItem("selected-location") != "" && localStorage.getItem("selected-location") != null && localStorage.getItem("selected-location") != undefined)
 		    {
@@ -406,6 +546,194 @@ getMapLocation();
 
 
  if(page.route.name == "sanitize-service-form1"){ 
+   getcitylist();
+   
+
+  var settings = {
+      "url": APIURL+"api/pricechart/sanitizationservices/",
+      "method": "POST",
+      "timeout": 0,
+      "processData": false,
+      "mimeType": "multipart/form-data",
+      "contentType": false
+      
+    };
+    $.ajax(settings).done(function (response) {
+        respon = JSON.parse(response);
+        if(respon[0] == false){
+          app.dialog.alert(respon[1],"price chart!");
+          return;
+        }else{
+          localStorage.setItem('price-chart', response);
+          var respData = respon[1];
+          var apt_sanitization = '';
+          var apt_cleaning_sanitization = '';
+          var vill_sanitization = '';
+          var vill_sanitization = '';
+          var vill_cleaning_sanitization = '';
+          var apartment_rate = respData.rate.apartment;
+          var villa_rate = respData.rate.villa;
+
+              apt_sanitization += '<div col style="display: flex; overflow-y: auto;" id="apartment_sanitization">';
+                          
+          for (var i = 0; i < apartment_rate.sanitization.length; i++) {
+            var apart_checked = i == 0 ? "checked":"";
+              apt_sanitization += '<input class="hidden-radio-grid radio-label gridbutton sanitization" '+apart_checked+' id="apt_sanitization'+i+'" type="radio" name="stayhrs" data-price="'+apartment_rate.sanitization[i].price+'" value="'+apartment_rate.sanitization[i].size+'" />';
+              apt_sanitization += '<label class="button-label-radio-grid stayhrs" for="apt_sanitization'+i+'" style="padding: 8px 20px;">';
+              apt_sanitization += '<span style="display: block;">'+apartment_rate.sanitization[i].size+'</span>';
+              apt_sanitization += '<span style="display: block; font-size: 13px;">AED '+apartment_rate.sanitization[i].price+'</span>';
+              apt_sanitization += '</label>';
+            }
+              apt_sanitization +='</div>';
+              apt_cleaning_sanitization += '<div col style="display:none; overflow-y: auto;" id="apartment_cleaning_sanitization">';
+                          
+          for (var i = 0; i < apartment_rate.cleaning_sanitization.length; i++) {
+              apt_cleaning_sanitization += '<input class="hidden-radio-grid radio-label gridbutton sanitization"  id="apartment_cleaning_sanitization'+i+'" type="radio" name="stayhrs" data-price="'+apartment_rate.cleaning_sanitization[i].price+'" value="'+apartment_rate.cleaning_sanitization[i].size+'" />';
+              apt_cleaning_sanitization += '<label class="button-label-radio-grid stayhrs" for="apartment_cleaning_sanitization'+i+'" style="padding: 8px 20px;">';
+              apt_cleaning_sanitization += '<span style="display: block;">'+apartment_rate.cleaning_sanitization[i].size+'</span>';
+              apt_cleaning_sanitization += '<span style="display: block; font-size: 13px;">AED '+apartment_rate.cleaning_sanitization[i].price+'</span>';
+              apt_cleaning_sanitization += '</label>';
+            }
+              apt_cleaning_sanitization +='</div>';   
+
+              vill_sanitization += '<div col style="display: none; overflow-y: auto;" id="villa_sanitization">';
+
+          for (var j= 0; j < villa_rate.sanitization.length; j++) {
+              vill_sanitization += '<input class="hidden-radio-grid radio-label gridbutton sanitization" id="vill_sanitization'+j+'" type="radio" name="stayhrs" data-price="'+villa_rate.sanitization[j].price+'" value="'+villa_rate.sanitization[j].size+'" />';
+              vill_sanitization += '<label class="button-label-radio-grid stayhrs villa_label" for="vill_sanitization'+j+'" style="padding: 8px 20px;">';
+              vill_sanitization += '<span style="display: block;">'+villa_rate.sanitization[j].size+'</span>';
+              vill_sanitization += '<span style="display: block;    font-size: 13px;">AED '+villa_rate.sanitization[j].price+'</span>';
+              vill_sanitization += '</label>';
+            }
+              vill_sanitization += '</div>';
+              vill_cleaning_sanitization += '<div col style="display: none; overflow-y: auto;" id="villa_cleaning_sanitization">';
+
+          for (var j= 0; j < villa_rate.cleaning_sanitization.length; j++) {
+              vill_cleaning_sanitization += '<input class="hidden-radio-grid radio-label gridbutton sanitization " id="villa_cleaning_sanitization'+j+'" type="radio" name="stayhrs" data-price="'+villa_rate.cleaning_sanitization[j].price+'" value="'+villa_rate.cleaning_sanitization[j].size+'" />';
+              vill_cleaning_sanitization += '<label class="button-label-radio-grid stayhrs villa_label" for="villa_cleaning_sanitization'+j+'" style="padding: 8px 20px;">';
+              vill_cleaning_sanitization += '<span style="display: block;">'+villa_rate.cleaning_sanitization[j].size+'</span>';
+              vill_cleaning_sanitization += '<span style="display: block;    font-size: 13px;">AED '+villa_rate.cleaning_sanitization[j].price+'</span>';
+              vill_cleaning_sanitization += '</label>';
+            }
+              vill_cleaning_sanitization += '</div>';
+
+               $('#sanitization_bedroom').html(apt_sanitization+apt_cleaning_sanitization+vill_sanitization+vill_cleaning_sanitization);
+               checkt();
+    
+             }
+        
+    });
+
+
+  $(document).on("change",".type_sanitized",function(){
+                 $('#sanitization_bedroom :radio:checked').removeAttr('checked');
+   if($("input:radio.serviceRequire:checked").val() =='Sanitization only'  && $(this).val() == 'Villa'){
+                 $('#villa_sanitization').show();
+                 $('#villa_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                 $('#vill_sanitization0').attr('checked',true);
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.serviceRequire:checked").val() =='Cleaning and sanitization'  && $(this).val() == 'Villa'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').show();
+                 $('#villa_cleaning_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                 $('#villa_cleaning_sanitization0').attr('checked',true);
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.serviceRequire:checked").val() =='Sanitization only'  && $(this).val() == 'Apartment'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').show();
+                 $('#apt_sanitization0').attr('checked',true);
+                 $('#apartment_sanitization').attr("style","display:flex;overflow-y: auto;");
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.serviceRequire:checked").val() =='Cleaning and sanitization'  && $(this).val() == 'Apartment'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').show();
+                 $('#apartment_cleaning_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#apartment_sanitization').hide();
+                 $('#apartment_cleaning_sanitization0').attr('checked',true);
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.serviceRequire:checked").val() =='Cleaning and sanitization'  && $(this).val() == 'Office'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       } else if($("input:radio.serviceRequire:checked").val() =='Sanitization only'  && $(this).val() == 'Office'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                  var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       } 
+
+          console.log('type_sanitized'+checked_br);
+         
+          $('#prices').val(checked_br);
+           var vat = checked_br * parseInt(5) / parseInt(100);
+           var total = parseInt(checked_br) + parseInt(vat);
+           $('#vat_view').text('AED '+total +'( +VAT)');
+   });
+   
+ $(document).on("change",".serviceRequire",function(){
+                 $('#sanitization_bedroom :radio:checked').removeAttr('checked');
+       if($("input:radio.type_sanitized:checked").val() =='Villa'  && $(this).val() == 'Sanitization only'){
+                 $('#villa_sanitization').show();
+                 $('#villa_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                 $('#vill_sanitization0').attr('checked',true);
+              var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.type_sanitized:checked").val() =='Villa'  && $(this).val() == 'Cleaning and sanitization'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').show();
+                 $('#villa_cleaning_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').hide();
+                 $('#villa_cleaning_sanitization0').attr('checked',true);
+             var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.type_sanitized:checked").val() =='Apartment'  && $(this).val() == 'Sanitization only'){
+        console.log('ok'+$(this).val());
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').hide();
+                 $('#apartment_sanitization').show();
+                 $('#apartment_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#apt_sanitization0').attr('checked',true);
+             var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       }else if($("input:radio.type_sanitized:checked").val() =='Apartment'  && $(this).val() == 'Cleaning and sanitization'){
+                 $('#villa_sanitization').hide();
+                 $('#villa_cleaning_sanitization').hide();
+                 $('#apartment_cleaning_sanitization').show();
+                 $('#apartment_cleaning_sanitization').attr("style","display:flex;overflow-y: auto;");
+                 $('#apartment_sanitization').hide();
+                 $('#apartment_cleaning_sanitization0').attr('checked',true);
+            var checked_br = $('#sanitization_bedroom :radio:checked').attr('data-price');
+       } 
+         
+          console.log('serviceRequire'+checked_br);
+          $('#prices').val(checked_br);
+           var vat = checked_br * parseInt(5) / parseInt(100);
+           var total = parseInt(checked_br) + parseInt(vat);
+           $('#vat_view').text('AED '+total +'( +VAT)');
+   });
+
+      $(document).on("change",".sanitization",function() {
+               $('#sanitization_bedroom :radio:checked').removeAttr('checked');
+               var this_cheked = $(this).attr('data-price');
+               $('#prices').val(this_cheked);
+               var vat = this_cheked * parseInt(5) / parseInt(100);
+               var total = parseInt(this_cheked) + parseInt(vat);
+               $('#vat_view').text('AED '+total +'( +VAT)');
+        }); 
+
 
  	$$('.popup-address-google').on('popup:open', function (e) {
 	  // alert('About popup open');
@@ -421,12 +749,19 @@ getMapLocation();
 
  	$("#clickNext").on("click", function(){
 
- 		// console.log(objectifyForm($(".service-form").serializeArray()));
+
  		app.data.form_data = objectifyForm($(".service-form").serializeArray());
+    if(app.data.form_data.prices == ''){
+         app.dialog.alert('Please select any service!', 'Alert');
+          return false;
+    }
+    if(app.data.form_data.date==''){
+      app.dialog.alert('Date is requied!', 'Alert');
+      return false;
+    }
  		mainView.router.navigate({ name: 'review-booking-detail' });
  		
  	});
-
  	var settings = {
       "url": APIURL+"api/profile/addresslist",
       "headers": {
@@ -445,24 +780,34 @@ getMapLocation();
         response = JSON.parse(response);
         add_html = '';
         
-      	if(response[1].length > 0){
-      		for(var i in response[1]){
-      			add_html +=  '<div class="row">'+
-		                        '<div class="col-75">'+
-		                          '<input type="hidden" name="from_address" id="from_address" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
-		                          '<input type="hidden" name="from_country" id="from_country" value="'+response[1][i].city_id+'">'+
-		                          '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
-		                          '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
+        if(response[1].length > 0){
+          for(var i in response[1]){
+            add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address'+response[1][i].id+'" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
+                              '<input type="hidden" name="from_city" id="from_city'+response[1][i].id+'" value="'+response[1][i].city_id+'">'+
+                              '<input type="hidden" name="from_area" id="from_area'+response[1][i].id+'" value="'+response[1][i].area_id+'">'+
+                              '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
+                              '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
 
-		                        '</div>'+
-		                        '<div class="col-25">'+
-		                          '<input type="radio" name="from_address_selected" class="radio">'+
-		                        '</div>'+
-		                      '</div>';
-      		}
-      		$(".address-card").show();
-      		$("#all_address_list").html(add_html);
-      	}
+                            '</div>'+
+                            '<div class="col-25">'+
+                              '<input type="radio" name="from_address_selected" class="radio">'+
+                            '</div>'+
+                          '</div>';
+          }
+          $(".address-card").show();
+        }else{
+          add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address" value="">'+
+                              '<input type="hidden" name="from_city" id="from_city" value="">'+
+                              '<input type="hidden" name="from_area" id="from_area" value="">'+
+                            '</div>'+
+                          '</div>';
+        }
+          
+          $("#all_address_list").html(add_html);
  		
 
     });
@@ -493,8 +838,8 @@ getMapLocation();
               "street":streetname,
               "area_id":area,
               "city_id":city,
-              "lat":lat,
-              "lng":long,
+              "lat":111111,
+              "lng":100000,
           };
 
 
@@ -521,24 +866,34 @@ getMapLocation();
 
  		response = JSON.parse(response);
  		add_html = '';
- 		if(response[1].length > 0){
-      		for(var i in response[1]){
-      			add_html +=  '<div class="row">'+
-		                        '<div class="col-75">'+
-		                          '<input type="hidden" name="from_address" id="from_address" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
-		                          '<input type="hidden" name="from_country" id="from_country" value="'+response[1][i].city_id+'">'+
-		                          '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
-		                          '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
+ 		 if(response[1].length > 0){
+          for(var i in response[1]){
+            add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address'+response[1][i].id+'" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
+                              '<input type="hidden" name="from_city" id="from_city'+response[1][i].id+'" value="'+response[1][i].city_id+'">'+
+                              '<input type="hidden" name="from_area" id="from_area'+response[1][i].id+'" value="'+response[1][i].area_id+'">'+
+                              '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
+                              '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
 
-		                        '</div>'+
-		                        '<div class="col-25">'+
-		                          '<input type="radio" name="from_address_selected" class="radio">'+
-		                        '</div>'+
-		                      '</div>';
-      		}
-      		$(".address-card").show();
-      		$("#all_address_list").html(add_html);
-      	}
+                            '</div>'+
+                            '<div class="col-25">'+
+                              '<input type="radio" name="from_address_selected" class="radio">'+
+                            '</div>'+
+                          '</div>';
+          }
+          $(".address-card").show();
+        }else{
+          add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address" value="">'+
+                              '<input type="hidden" name="from_city" id="from_city" value="">'+
+                              '<input type="hidden" name="from_area" id="from_area" value="">'+
+                            '</div>'+
+                          '</div>';
+        }
+          
+          $("#all_address_list").html(add_html);
 
     });
 
@@ -552,8 +907,17 @@ getMapLocation();
 
  }
 
+ function checkt(){
+     $('#prices').val($("input[name='stayhrs']:checked").attr('data-price'));
+     var vat = $("input[name='stayhrs']:checked").attr('data-price') * parseInt(5) / parseInt(100);
+     var total = parseInt($("input[name='stayhrs']:checked").attr('data-price')) + parseInt(vat);
+     $('#vat_view').text('AED '+total +'( +VAT)');
+ }
+
 if(page.route.name == "deep-cleaning"){ 
 
+  getcitylist();
+  pricechart();
 
 	$$('.popup-address-google').on('popup:open', function (e) {
 	  // alert('About popup open');
@@ -570,8 +934,25 @@ if(page.route.name == "deep-cleaning"){
 
  	$("#clickNext").on("click", function(){
 
- 		// console.log(objectifyForm($(".service-form").serializeArray()));
- 		app.data.form_data = objectifyForm($(".service-form").serializeArray());
+    app.data.form_data = objectifyForm($(".service-form").serializeArray());
+
+        var services = [];
+        $('.services:checkbox:checked').each(function(i){
+          services[i] = $(this).val();
+        });
+
+     app.data.form_data.servicess = services;
+     if(app.data.form_data.servicess.length == 0){
+      app.dialog.alert('Please checked Service!', 'Alert');
+      return false
+     }
+     if(app.data.form_data.date == ''){
+      app.dialog.alert('Date is requied!', 'Alert');
+      return false;
+     }if(app.data.form_data.time == ''){
+      app.dialog.alert('Time is requied!', 'Alert');
+      return false;
+     }
  		mainView.router.navigate({ name: 'review-booking-detail' });
  		
  	});
@@ -598,8 +979,9 @@ if(page.route.name == "deep-cleaning"){
       		for(var i in response[1]){
       			add_html +=  '<div class="row">'+
 		                        '<div class="col-75">'+
-		                          '<input type="hidden" name="from_address" id="from_address" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
-		                          '<input type="hidden" name="from_country" id="from_country" value="'+response[1][i].city_id+'">'+
+		                          '<input type="hidden" name="from_address" id="from_address'+response[1][i].id+'" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
+		                          '<input type="hidden" name="from_city" id="from_city'+response[1][i].id+'" value="'+response[1][i].city_id+'">'+
+                              '<input type="hidden" name="from_area" id="from_area'+response[1][i].id+'" value="'+response[1][i].area_id+'">'+
 		                          '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
 		                          '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
 
@@ -609,20 +991,25 @@ if(page.route.name == "deep-cleaning"){
 		                        '</div>'+
 		                      '</div>';
       		}
-      		$(".address-card").show();
-      		$("#all_address_list").html(add_html);
-      	}
- 		
+          $(".address-card").show();
+      	}else{
+          add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address" value="">'+
+                              '<input type="hidden" name="from_city" id="from_city" value="">'+
+                              '<input type="hidden" name="from_area" id="from_area" value="">'+
+                            '</div>'+
+                          '</div>';
+        }
+ 		      
+          $("#all_address_list").html(add_html);
 
     });
 
 
 
 
-
-
  	$(".save-new-address").on("click", function()/**/{
-
  		var address = $('#address').val();
  		var city = $('#city').val();
  		var area = $('#area').val();
@@ -630,7 +1017,6 @@ if(page.route.name == "deep-cleaning"){
  		var apartment = $('#apartment').val();
  		var lat = localStorage.getItem("lat");
  		var long = localStorage.getItem("long");
-
  		if (address == '' || area == '') {
  			app.dialog.alert('This field is requied!', 'Alert');
  			return false;
@@ -642,11 +1028,9 @@ if(page.route.name == "deep-cleaning"){
               "street":streetname,
               "area_id":area,
               "city_id":city,
-              "lat":lat,
-              "lng":long,
+              "lat":11111,
+              "lng":11111,
           };
-
-
       var settings = {
       "url": APIURL+"api/profile/addaddress",
       "headers": {
@@ -664,7 +1048,6 @@ if(page.route.name == "deep-cleaning"){
     app.preloader.show();
     $.ajax(settings).done(function (response) {
       app.preloader.hide();
-
       	var Address_array = [address,city,area,streetname,apartment];
  		localStorage.setItem('booking-address',Address_array);
 
@@ -674,8 +1057,8 @@ if(page.route.name == "deep-cleaning"){
       		for(var i in response[1]){
       			add_html +=  '<div class="row">'+
 		                        '<div class="col-75">'+
-		                          '<input type="hidden" name="from_address" id="from_address" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
-		                          '<input type="hidden" name="from_country" id="from_country" value="'+response[1][i].city_id+'">'+
+		                          '<input type="hidden" name="from_address" id="from_address'+response[1][i].id+'" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
+		                          '<input type="hidden" name="from_country" id="from_country'+response[1][i].id+'" value="'+response[1][i].city_id+'">'+
 		                          '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
 		                          '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
 
@@ -685,9 +1068,25 @@ if(page.route.name == "deep-cleaning"){
 		                        '</div>'+
 		                      '</div>';
       		}
-      		$(".address-card").show();
-      		$("#all_address_list").html(add_html);
-      	}
+      	
+      		
+      	}else{
+             add_html +='<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address" value="">'+
+                              '<input type="hidden" name="from_country" id="from_country" value="">'+
+                              '<h4 class="address-data no-margin"></h4>'+
+                              '<p class="all-address-data no-margin"></p>'+
+
+                            '</div>'+
+                            '<div class="col-25">'+
+                              '<input type="radio" name="from_address_selected" class="radio">'+
+                            '</div>'+
+                          '</div>'
+        }
+        
+        $(".address-card").show();
+        $("#all_address_list").html(add_html);
 
     });
 
@@ -703,7 +1102,7 @@ if(page.route.name == "deep-cleaning"){
 
 
  if(page.route.name == "handy-man"){ 
-
+   getcitylist();
 
  	$$('.popup-address-google').on('popup:open', function (e) {
 	  // alert('About popup open');
@@ -716,17 +1115,21 @@ if(page.route.name == "deep-cleaning"){
 	});
 
 
-
-
  	$("#clickNext").on("click", function(){
 
- 		// console.log(objectifyForm($(".service-form").serializeArray()));
+ 		 console.log(objectifyForm($(".service-form").serializeArray()));
  		app.data.form_data = objectifyForm($(".service-form").serializeArray());
+     if(app.data.form_data.date == ''){
+      app.dialog.alert('Date is requied','Alert!');
+     return false;
+    } 
+    if(app.data.form_data.time == ''){
+      app.dialog.alert('time is requied','Alert!');
+     return false;
+    }
  		mainView.router.navigate({ name: 'review-booking-detail' });
  		
  	});
-
-
 
  	var settings = {
       "url": APIURL+"api/profile/addresslist",
@@ -747,31 +1150,35 @@ if(page.route.name == "deep-cleaning"){
         add_html = '';
         
       	if(response[1].length > 0){
-      		for(var i in response[1]){
-      			add_html +=  '<div class="row">'+
-		                        '<div class="col-75">'+
-		                          '<input type="hidden" name="from_address" id="from_address" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
-		                          '<input type="hidden" name="from_country" id="from_country" value="'+response[1][i].city_id+'">'+
-		                          '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
-		                          '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
+          for(var i in response[1]){
+            add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address'+response[1][i].id+'" value="'+response[1][i].villa+', '+response[1][i].street+'">'+
+                              '<input type="hidden" name="from_city" id="from_city'+response[1][i].id+'" value="'+response[1][i].city_id+'">'+
+                              '<input type="hidden" name="from_area" id="from_area'+response[1][i].id+'" value="'+response[1][i].area_id+'">'+
+                              '<h4 class="address-data no-margin">'+response[1][i].villa+'</h4>'+
+                              '<p class="all-address-data no-margin">'+response[1][i].villa+', '+response[1][i].street+'</p>'+
 
-		                        '</div>'+
-		                        '<div class="col-25">'+
-		                          '<input type="radio" name="from_address_selected" class="radio">'+
-		                        '</div>'+
-		                      '</div>';
-      		}
-      		$(".address-card").show();
-      		$("#all_address_list").html(add_html);
-      	}
- 		
+                            '</div>'+
+                            '<div class="col-25">'+
+                              '<input type="radio" name="from_address_selected" class="radio">'+
+                            '</div>'+
+                          '</div>';
+          }
+          $(".address-card").show();
+        }else{
+          add_html +=  '<div class="row">'+
+                            '<div class="col-75">'+
+                              '<input type="hidden" name="from_address" id="from_address" value="">'+
+                              '<input type="hidden" name="from_city" id="from_city" value="">'+
+                              '<input type="hidden" name="from_area" id="from_area" value="">'+
+                            '</div>'+
+                          '</div>';
+        }
+          
+          $("#all_address_list").html(add_html);
 
     });
-
-
-
-
-
 
  	$(".save-new-address").on("click", function()/**/{
 
@@ -1037,6 +1444,7 @@ if(page.route.name == "deep-cleaning"){
     };
     app.preloader.show();
     $.ajax(settings).done(function (response) {
+
       app.preloader.hide();
         response = JSON.parse(response);
         add_html = '';
@@ -1294,9 +1702,25 @@ if(page.route.name == "deep-cleaning"){
  	});
 
  }
+ 
+  $('#prices').val($("input[name='stayhrs']:checked").attr('data-price'));
+     var vat = $("input[name='stayhrs']:checked").attr('data-price') * parseInt(5) / parseInt(100);
+     var total = parseInt($("input[name='stayhrs']:checked").attr('data-price')) + parseInt(vat);
+     $('#vat_view').text('AED '+total +'( +VAT)');
 
+    
+    $(document).on("change",".hours_aed",function() {
+        $(this).attr("checked","checked");
+        $('#prices').val($(this).attr('data-price'));
+         var vat = $(this).attr('data-price') * parseInt(5) / parseInt(100);
+         var total = parseInt($(this).attr('data-price')) + parseInt(vat);
+         $('#vat_view').text('AED '+total +'( +VAT)');
+  }); 
 
  if(page.route.name == "electrician"){ 
+
+ 
+     
 
  	$$('.popup-address-google').on('popup:open', function (e) {
 	  // alert('About popup open');
@@ -1311,8 +1735,17 @@ if(page.route.name == "deep-cleaning"){
 
  	$("#clickNext").on("click", function(){
 
- 		// console.log(objectifyForm($(".service-form").serializeArray()));
+ 		
+
  		app.data.form_data = objectifyForm($(".service-form").serializeArray());
+    if(app.data.form_data.date == ''){
+      app.dialog.alert('Date is requied','Alert!');
+     return false;
+    } 
+    if(app.data.form_data.time == ''){
+      app.dialog.alert('time is requied','Alert!');
+     return false;
+    }
  		mainView.router.navigate({ name: 'review-booking-detail' });
  		
  	});
@@ -1554,7 +1987,7 @@ if(page.route.name == "deep-cleaning"){
     $.ajax(settings).done(function (response) {
       app.preloader.hide();
 
-      	var Address_array = [address,city,area,streetname,apartment];
+    var Address_array = [address,city,area,streetname,apartment];
  		localStorage.setItem('booking-address',Address_array);
 
  		response = JSON.parse(response);
@@ -1591,12 +2024,8 @@ if(page.route.name == "deep-cleaning"){
  }
 
 
-
-
-
  if(page.route.name == "review-booking-detail"){ 
-
- 	console.log(app.data.form_data);
+ 
  	// set review details
  	html_i = '<ul >'+
                 '<li class="col-100">'+
@@ -1606,7 +2035,7 @@ if(page.route.name == "deep-cleaning"){
                 '</li>'+
                 '<li class="col-100">'+
                   '<div class="item-inner">'+
-                    '<span class="sub-head text-start">Time: </span> <span class="text-end">'+(app.data.form_data.time == undefined ? "" : app.data.form_data.time)+'</span>'+
+                    '<span class="sub-head text-start">Time: </span> <span class="text-end">'+(app.data.form_data.time == undefined ? "N/A" : app.data.form_data.time)+'</span>'+
                   '</div>'+
                 '</li>'+
                '<li class="col-100">'+
@@ -1616,52 +2045,61 @@ if(page.route.name == "deep-cleaning"){
                 '</li>'+
                '<li class="col-100">'+
                   '<div class="item-inner">'+
-                    '<span class="sub-head text-start">Address: </span> <span class="text-end">'+app.data.form_data.from_address+'</span>'+
+                    '<span class="sub-head text-start">Address: </span> <span class="text-end">'+(app.data.form_data.from_address ? app.data.form_data.from_address:localStorage.getItem("street")+', '+localStorage.getItem("villa"))+'</span>'+
                   '</div>'+
                 '</li>'+
               
               '</ul>';
 
-    $("#review-details").html(html_i);
- 	$("#clickConfirm").on("click", function(){
-
- 		
+           $("#subtotalprice").text('AED '+app.data.form_data.prices);
+           $("#sub_total_pay").val(app.data.form_data.prices);
+           var vat = app.data.form_data.prices * parseInt(5) / parseInt(100);
+           var total = parseInt(app.data.form_data.prices) + parseInt(vat);
+           $('#vat_value').val(vat);
+           $('#vat_text').text('AED '+vat);
+           $("#total_pay").text('AED '+total.toFixed(2));
+           $("#total_pay_price").val(total);
+           $("#review-details").html(html_i);
+ 	  $("#clickConfirm").on("click", function(){
  		if(localStorage.getItem("id") == null || localStorage.getItem("id") == undefined || localStorage.getItem("id") == ''){
-
  			app.dialog.alert("Please login","Alert!");
  			return;
 
  		}
-
- 		if($("input[name='my-radio']:checked").val() == "card"){
-
- 			telrService.start();
+    if($("input[name='my-radio']:checked").val() ==""){
+        app.dialog.alert("Please Select Payment Method","Alert!");
+        return false;
+    }else if($("input[name='my-radio']:checked").val() == "card"){
+ 			   telrService.start();
  		}else{
 
  			// console.log(objectifyForm($(".service-form").serializeArray()));
+
  		formdata = app.data.form_data;
  		customerData = {
-
- 			"adr1":localStorage.getItem("villa"),
- 			"adr2":localStorage.getItem("area") + localStorage.getItem("street"),
- 			// "city_id":Number(localStorage.getItem("city_id")),
- 			"city_id":6,
- 			"date":"2020/07/24",
- 			"description":localStorage.getItem("review"),
- 			"email":localStorage.getItem("email"),
- 			"first_name":localStorage.getItem("name"),
- 			"form_type":"NA",
- 			"last_name":localStorage.getItem("last_name"),
- 			"mobile":localStorage.getItem("mobile"),
- 			"service_provider":[0,1,2]
+ 			"action":formdata.service_name,
+      "home_furnished":formdata.home_furnished,
+      "additional_service":formdata.servicess,
+      "first_name":localStorage.getItem("name"),
+      "last_name":localStorage.getItem("last_name"),
+      "email":localStorage.getItem("email"),
+      "mobile":localStorage.getItem("mobile"),
+      "customer_villa":localStorage.getItem("villa"),
+ 			"customer_street":localStorage.getItem("street"),
+ 			"customer_city": Number(formdata.from_city ? formdata.from_city:localStorage.getItem("city_id")),
+      "customer_area":Number(formdata.from_area ? formdata.from_area:localStorage.getItem("area_id")),
+ 			"service_provider":[0,1,2],
+      "subtotalamt":$("#sub_total_pay").val(),
+      "vatamt":$('#vat_value').val(),
+      "totalamt":$('#total_pay_price').val(),
+      "pay":$("input[name='my-radio']:checked").val()
 
  		}
-
  		//merging
  		customerData.meta = formdata;
- 		console.log(JSON.stringify(JSON.stringify(customerData)));
+ 		//console.log(JSON.stringify(JSON.stringify(customerData)));
  		var settings = {
-			  "url": "https://test.zamkanapp.com/api/enquiry/create/",
+			  "url": APIURL+"api/booking/create",
 			  "method": "POST",
 			  "timeout": 0,
 			  "headers": {
@@ -1672,7 +2110,10 @@ if(page.route.name == "deep-cleaning"){
 			app.preloader.show();
 			$.ajax(settings).done(function (response) {
 			  app.preloader.hide();
-			  console.log(response);
+        if(response[0] == false){
+             app.dialog.alert(response[1]);
+             return false;
+        }
 			  mainView.router.navigate({ name: 'booking-success' });
 			  
 			});
@@ -1755,7 +2196,7 @@ if(page.route.name == "deep-cleaning"){
 						      '<div class="col">'+
 						      '<span>'+
 						          'Card Holder :  '+ response[1][i].owner_name+
-						        '</span>'+
+						        '</span><br>'+
 						        '<span>'+
 						          'Card Number :  '+ response[1][i].card_numer+
 						        '</span>'+
@@ -1790,7 +2231,6 @@ if(page.route.name == "deep-cleaning"){
 				    "cvv":$("#cardCVV").val()
 				};
 
-
  	var settings = {
       "url": APIURL+"api/user/add_card",
       "headers": {
@@ -1812,6 +2252,29 @@ if(page.route.name == "deep-cleaning"){
     });
 
  	});
+   $$('#cardNumber').keypress(function(e){
+       var value = $(this).val();
+       if(value.length >= 16){
+          e.preventDefault();
+       }else{
+           $('#ErrcardNumber').text('');
+       }
+   }).on("cut copy paste",function(e){
+        e.preventDefault();
+  });
+
+
+ $$('#cardCVV').keypress(function(e){
+       var value = $(this).val();
+       if(value.length >= 3){
+          e.preventDefault();
+       }else{
+           $('#ErrcardCVV').text('');
+       }
+   }).on("cut copy paste",function(e){
+        e.preventDefault();
+  });
+
  }
 
 
@@ -1887,29 +2350,28 @@ if(page.route.name == "job"){
           "lat":'',
           "lng":''
 	};
-	console.log(form);
 	// var userApi = localStorage.getItem('api');
-	var userApi = 'api_bc55859464394b9f4187c940061acde5f220482120c4bc9499fa61df47e6bb2a';
+	//var userApi = 'api_bc55859464394b9f4187c940061acde5f220482120c4bc9499fa61df47e6bb2a';
 	var settings = {
 	  "url": "https://test.zamkanapp.com/api/user/mybookings/",
 	  "method": "POST",
 	  "timeout": 0,
 	  "headers": {
-	    "api": userApi
+	    "api": localStorage.getItem('api')
 	  },
 	  "processData": false,
 	  "mimeType": "multipart/form-data",
 	  "contentType": false,
 	  "data": form
 	};
+
 	app.preloader.show();
 	$.ajax(settings).done(function (response) {
 	  app.preloader.hide();
 	    response = JSON.parse(response);
-
 	    html = '';
 		if(response[0] == false){
-
+          return; 
 		}else if (response[0] == true){
 
 		  	main_html = '<br><br>';
@@ -1971,13 +2433,13 @@ if(page.route.name == "job"){
 	};
 	
 	// var userApi = localStorage.getItem('api');
-	var userApi = 'api_bc55859464394b9f4187c940061acde5f220482120c4bc9499fa61df47e6bb2a';
+	//var userApi = 'api_bc55859464394b9f4187c940061acde5f220482120c4bc9499fa61df47e6bb2a';
 	var settings = {
 	  "url": "https://test.zamkanapp.com/api/user/mybookings/",
 	  "method": "POST",
 	  "timeout": 0,
 	  "headers": {
-	    "api": userApi
+	    "api": localStorage.getItem('api')
 	  },
 	  "processData": false,
 	  "mimeType": "multipart/form-data",
@@ -1988,10 +2450,8 @@ if(page.route.name == "job"){
       $.ajax(settings).done(function (response) {
         app.preloader.hide();
        response = JSON.parse(response);
-
       html = '';
       if(response[0] == false){
-
         return;
 
       }else if (response[0] == true){

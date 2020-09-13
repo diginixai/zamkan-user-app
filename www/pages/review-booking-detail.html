@@ -43,7 +43,8 @@
               <span >Subtotal</span>
             </div>
             <div class="col-50" style="text-align: right;">
-              <span>AED 735.00</span>
+              <span id="subtotalprice"></span>
+              <input type="hidden" name="sub_total_pay" id="sub_total_pay">
             </div>
         </div>
         <br>
@@ -52,7 +53,8 @@
               <span>VAT (5 %) </span>
             </div>
             <div class="col-50" style="text-align: right;">
-              <span>AED 36.75</span>
+              <span id="vat_text"></span>
+              <input type="hidden" name="" id="vat_value" value="">
             </div>
         </div>
         <!-- <br>
@@ -69,16 +71,13 @@
 
         <div class="row">
             <div class="col-50">
-              <span style="color: #000; font-size: 16px;
-    font-weight: 600;">Total to pay</span>
+              <span style="color: #000; font-size: 16px; font-weight: 600;">Total to pay</span>
             </div>
             <div class="col-50" style="text-align: right;">
-              <span style="color: blue; font-size: 16px;
-    font-weight: 600;">AED 771.75</span>
+              <span style="color: blue; font-size: 16px; font-weight: 600;" id="total_pay"></span>
+              <input type="hidden" name="total_pay_price" id="total_pay_price">
             </div>
         </div>
-
-
       </div>
       </div>
       <div class="clearfix"></div>
@@ -99,7 +98,6 @@
               <input type="radio" name="my-radio" class="paycheck" value="card"/>
             </div>
         </div>
-
         <div class="row no-gap">
             <div class="col-25" style="padding: 10px;">
               <i class="material-icons" style="font-size: 19px;">money_off</i>
@@ -108,24 +106,17 @@
               <span>Cash</span>
             </div>
             <div class="col-50" style="padding: 10px;text-align: right;">
-              <input type="radio" name="my-radio" class="paycheck" value="cash"/>
+              <input type="radio" name="my-radio" class="paycheck" value="Cash" checked />
             </div>
         </div>
-       
       </div>
-
         <div class="card-footer">
           <p>Pay the team in cash once the service is complete. By making this booking, you agree to serviceMaket's Terms and Conditions</p>
         </div>
       </div>
-
-
       <br>
       <br>
-
-
     </div>
-
     </div>
 
         <div class="list login-button-list">
@@ -135,7 +126,6 @@
     background: #df953e ;
     padding: 18px;">
               <a href="#" id = "clickConfirm" style="color: #fff !important;">
-                
                 CONTINUE
               </a>
             </div>

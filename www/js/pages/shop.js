@@ -272,9 +272,6 @@ $$(document).on('page:init', function (e, page) {
 
 		  	html = main_html;
 		  	$("#all-productList").html(html);
-	 		
-	   
-
 		    $(".productid").on("click", function(){ 
 
 		     var pid = $(this).attr('data-pid');
@@ -296,10 +293,8 @@ $$(document).on('page:init', function (e, page) {
        
 
    }
-
    if(page.route.name == "productdetails"){
-
-   	 $$("#my_cart_top").on('click', function(){
+   	 $$("#my_cart_top2").on('click', function(){
    	 	if(localStorage.getItem("id") == "" || localStorage.getItem("id") == null || localStorage.getItem("id") == undefined)
 	    {
 	        mainView.router.navigate({ name: 'login-type' });
@@ -370,7 +365,6 @@ $$(document).on('page:init', function (e, page) {
 
    }
 
-
    if(page.route.name == "my-cart"){
 
    		var form = {
@@ -396,7 +390,6 @@ $$(document).on('page:init', function (e, page) {
 				
 				response = JSON.parse(response);
 				html = '';
-				console.log(response[1]);
 				total = 0;
 				for(var i in response[1]){
 					options='';

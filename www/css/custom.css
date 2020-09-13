@@ -212,6 +212,14 @@ input[type="file"] { display: none; }
   background: #ba1e7b;
   color: #efefef; border: 1px solid #ba1e7b;
 }
+.apart_gridbutton:checked + .apart_label {
+  background: #ba1e7b;
+  color: #efefef; border: 1px solid #ba1e7b;
+}
+.villa_gridbutton:checked + .villa_label{
+  background: #ba1e7b;
+  color: #efefef; border: 1px solid #ba1e7b;
+}
 .gridbutton:checked + .button-label-radio-grid:hover {
   background: #ba1e7b;
   color: #e2e2e2; 

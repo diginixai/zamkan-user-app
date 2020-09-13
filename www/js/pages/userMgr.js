@@ -138,7 +138,8 @@ $$(document).on('page:init', function (e, page) {
         inputEl: '#cardExpiry',
         rotateEffect: true,
         formatValue: function (values, displayValues) {
-          return displayValues[0] + ',' + values[1];
+
+          return displayValues[0] + '/' + values[1];
         },
         cols: [
           // Months
@@ -184,51 +185,77 @@ $$(document).on('page:init', function (e, page) {
   if(page.route.name == "editProfile"){
 
     getcitylist();
+    getarealist();
     // Set values to form
     $("#first_name").val(localStorage.getItem("name"));
     $("#last_name").val(localStorage.getItem("last_name"));
     $("#email").val(localStorage.getItem("email"));
     $("#phone_no").val(localStorage.getItem("mobile"));
-    $("#city").val(localStorage.getItem("city_id"));
-    $("#area").val(localStorage.getItem("area"));
+    $("#location").val(localStorage.getItem("city_id"));
     $("#building_street").val(localStorage.getItem("street"));
     $("#villa").val(localStorage.getItem("villa"));
-
-
+  
     $$("#update_profile_button").on('click', function(){
-      
-      
       var form = {
               "customer_id":localStorage.getItem("id"),
               "first_name":$("#first_name").val(),
               "last_name":$("#last_name").val(),
+              "city_id":$("#location").val(),
+              "area_id":$("#area").val(),
               "email":$("#email").val(),
               "phone":$("#phone_no").val()
           };
-
-
       var settings = {
       "url": APIURL+"api/user/update_profile",
       "method": "POST",
+      "headers": {
+                  "api": localStorage.getItem("api")
+                  },
       "timeout": 0,
       "processData": false,
       "mimeType": "multipart/form-data",
-      "contentType": false,
+      "contentType": false,  
       "data": JSON.stringify(form)
     
     };
 
     app.preloader.show();
     $.ajax(settings).done(function (response) {
-
       app.preloader.hide();
       app.dialog.alert('Profile updated successfully!', 'Success'); 
     });
 
     })
+$$('#location').on('change',function(){
+       var id = $(this).val();
+       var settings = {
+              "url": APIURL+"api/data/area?id="+id,
+              "method": "GET",
+              "timeout": 0,
+              "processData": false,
+              "mimeType": "multipart/form-data",
+              "contentType": false
+            };
+    $.ajax(settings).done(function (response) {
+         respon = JSON.parse(response);
+         var areaHtml = '';
+         if(respon[0] == false){
+           areaHtml +='<option value="0">--No Area--</option>';
+          }else{
+            var respData = respon[1];
+            areaHtml +='<option value="0">--Select Area--</option>';
+            for (var i = 0; i < respData.length; i++) {
+                 areaHtml += '<option value="'+respData[i].areaId+'">'+respData[i].name+'</option>';
+            } 
+          }
+          $('#area').html(areaHtml);
+        });
+     });
+
 
   }
 
+  
   function getcitylist(){
 
       var settings = {
@@ -255,15 +282,53 @@ $$(document).on('page:init', function (e, page) {
             var respData = respon[1];
             var optionHtml = ''; 
             var optionSelected = ''; 
+            optionHtml+='<option value="0">--Select City--</option>';
             for (var i = 0; i < respData.length; i++) {
+              
               if (localStorage.getItem("city_id")!='' || localStorage.getItem("city_id")!=null || localStorage.getItem("city_id")!=undefined) {
                  optionSelected = (respData[i].id == localStorage.getItem("city_id"))?'selected':'';
               }
               optionHtml += '<option '+optionSelected+' value="'+respData[i].id+'">'+respData[i].name+'</option>';
           
             }
-
             $('.updatecitylist').html(optionHtml);
+
+          }
+          
+      });
+    }
+
+    function getarealist(){
+      var city_id = localStorage.getItem("city_id");
+      var settings = {
+        "url": APIURL+"api/data/area?id="+city_id,
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false
+        
+      };
+      
+      $.ajax(settings).done(function (response) {
+          respon = JSON.parse(response);   
+          if(respon[0] == false){
+            app.dialog.alert(respon[1],"No Area!");
+            return;
+          }else{
+            localStorage.setItem('area-list', response);
+            var respData = respon[1];
+            var optionHtml = ''; 
+            var optionSelected = ''; 
+            optionHtml+='<option value="0">--Select Area--</option>';
+            for (var i = 0; i < respData.length; i++) {
+              if (localStorage.getItem("area_id")!='' || localStorage.getItem("area_id")!=null || localStorage.getItem("area_id")!=undefined) {
+                 optionSelected = (respData[i].areaId == localStorage.getItem("area_id"))?'selected':'';
+              }
+              optionHtml += '<option '+optionSelected+' value="'+respData[i].areaId+'">'+respData[i].name+'</option>';
+          
+            }
+            $('#area').html(optionHtml);
 
           }
           

@@ -19,7 +19,6 @@ $$(document).on('page:init', function (e, page) {
 					"email":$('#username').val(),
 					"password":$('#password').val()
 				}
-
 				var settings = {
 				  "url": "https://test.zamkanapp.com/api/login/login/",
 				  "method": "POST",
@@ -29,14 +28,14 @@ $$(document).on('page:init', function (e, page) {
 				  "contenttype":"application/json",
 				  "data": JSON.stringify(jsonDATA)
 				};
-
+				app.preloader.show();	
 				$.ajax(settings).done(function (response) {
 				  
 				  	response = JSON.parse(response);
-
 				  	if(response[0] == false){
 
 				  		app.dialog.alert(response[1],"LOGIN FAILURE!");
+				  		app.preloader.hide();
 				  		return;
 
 				  	}else if (response[0] == true){
@@ -50,7 +49,7 @@ $$(document).on('page:init', function (e, page) {
 				  		localStorage.setItem("email",response[1].email);
 				  		localStorage.setItem("city_id",response[1].city_id);
 				  		localStorage.setItem("country",response[1].country);
-				  		localStorage.setItem("area",response[1].area);
+				  		localStorage.setItem("area_id",response[1].area_id);
 				  		localStorage.setItem("street",response[1].street);
 				  		localStorage.setItem("villa",response[1].villa);
 				  		localStorage.setItem("email_verified",response[1].email_verified);
@@ -59,8 +58,7 @@ $$(document).on('page:init', function (e, page) {
 				  		localStorage.setItem("profile",response[1].profile);
 				  		localStorage.setItem("updated_at",response[1].updated_at);
 				  		localStorage.setItem("api",response[1].api);
-
-
+				  		app.preloader.hide();
 				  		mainView.router.navigate({ name: 'index' });
 
 				  	}else{
@@ -83,14 +81,69 @@ $$(document).on('page:init', function (e, page) {
 			})
 		}
 
+		// forgot password
+		if(page.route.name == "forgetpassword"){
+
+			$(".forgot-button").on("click",function(){ 
+				var email = $("#f_email").val();
+                 console.log('check email',email);
+				if(email == ""){
+					app.dialog.alert('Please enter email id.',"");
+				  	return;
+				}
+				jsonDATA = {
+
+					"email":$('#f_email').val()
+				}
+				var settings = {
+				  "url": "https://test.zamkanapp.com/api/login/forget",
+				  "method": "POST",
+				  "timeout": 0,
+				  "processData": false,
+				  "mimeType": "multipart/form-data",
+				  "contenttype":"application/json",
+				  "data": JSON.stringify(jsonDATA)
+				};
+				app.preloader.show();	
+				$.ajax(settings).done(function (response) {
+				  
+				  	response = JSON.parse(response);
+				  	console.log('check forgot response',response)
+				  	//return;
+				  	if(response[0] == false){
+
+				  		app.dialog.alert(response[1]);
+				  		app.preloader.hide();
+				  		return;
+
+				  	}else if (response[0] == true){
+
+				  		//console.log('elseif',response)
+				  		app.dialog.alert(response[1]);
+				  		app.preloader.hide();
+				  		mainView.router.navigate({ name: 'index' });
+				  		
+
+				  	}else{
+
+				  		app.dialog.alert('Unable to change password.',"FORGOT PASSWORD FAILURE!");
+				  		return;
+				  	}
+
+
+				});
+
+			})
+		}
+
+		//End of forgot password
+
 
 		if(page.route.name == "registration"){
-
 			getcitylist();
-
 			$(".submit-register").on("click", function(){
-
 				var fname = $("#first_name").val();
+				var lname = $("#last_name").val();
 				var email = $("#email").val();
 				var location = $("#location").val();
 				var last_name = $("#last_name").val();
@@ -100,6 +153,9 @@ $$(document).on('page:init', function (e, page) {
 
 				if(fname == ""){
 					app.dialog.alert('Please enter first name.',"");
+				  	return;
+				}else if(lname == ""){
+					app.dialog.alert('Please enter last name.',"");
 				  	return;
 				}else if(email == ""){
 					app.dialog.alert('Please enter email id.',"");
@@ -121,28 +177,15 @@ $$(document).on('page:init', function (e, page) {
 				  	return;
 				}
 
-				// jsonDATA = {
-
-				// 	"first_name":fname,
-				// 	"last_name":email,
-				// 	"email":location,
-				// 	"mobile":phone_no,
-				// 	"password":mainpassword,
-				// 	"password2":mainpassword,
-				// 	"city":1
-				// }
-
-
 				var form = new FormData();
 				form.append("first_name", fname);
-				form.append("last_name", last_name);
+				form.append("last_name", lname);
 				form.append("email", email);
 				form.append("mobile", phone_no);
 				form.append("password", mainpassword);
 				form.append("password2", retypepassword);
-				form.append("city", "1");
-
-
+				form.append("referral", 0);
+				form.append("city",location);
 
 				var settings = {
 				  "url": "https://test.zamkanapp.com/api/login/register/",
@@ -153,18 +196,18 @@ $$(document).on('page:init', function (e, page) {
 				  "contentType": false,
 				  "data": form
 				};
-
+				app.preloader.show();
 				$.ajax(settings).done(function (response) {
-				  
 				  	response = JSON.parse(response);
 
 				  	if(response[0] == false){
 
 				  		app.dialog.alert(response[1],"REGISTRATION FAILED!");
+				  		app.preloader.hide();
 				  		return;
 
 				  	}else if (response[0] == true){
-
+				  		app.preloader.hide();
 				  		app.dialog.alert("You are successfully registered to zamkan.","REGISTRATION SUCCESS!");
 				  		setTimeout(function(){  
 				  			mainView.router.navigate({ name: 'login-type' });
@@ -181,8 +224,6 @@ $$(document).on('page:init', function (e, page) {
 			})
 
 		}
-
-
 
 		// $(".logout-account").on("click", function(){
 		// 	// myApp.closePanel();
@@ -329,17 +370,16 @@ $$(document).on('page:init', function (e, page) {
                     
 				  	if(respon[0] == false){
 
-				  		app.dialog.alert(respon[1],"No Cities!");
+				  		optionHtml += '<option value="0">--No Cities--</option>';
 				  		return;
 
 				  	}else{
 				  		localStorage.setItem('city-list', response);
 				  		var respData = respon[1];
 				  		var optionHtml = ''; 
+				  		optionHtml += '<option value="0">--Select City--</option>';
 				  		for (var i = 0; i < respData.length; i++) {
-				  			
 				  			optionHtml += '<option value="'+respData[i].id+'">'+respData[i].name+'</option>';
-				  	
 				  		}
 				  		$('.citylist').html(optionHtml);
 
