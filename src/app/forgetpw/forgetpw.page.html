@@ -1,0 +1,61 @@
+<ion-content [fullscreen]="true" class="background-opts" [ngStyle]="background">
+	<ion-header class="ion-no-border">
+		<ion-toolbar>
+			<ion-buttons slot="start">
+				<ion-menu-button></ion-menu-button>
+			</ion-buttons>
+		</ion-toolbar>
+	</ion-header>
+	<ion-grid class="ion-padding-horizontal">
+		<ion-row class="ion-padding-vertical">
+			<ion-col size="9" class="ion-padding-vertical">
+				<h1 class="title">Forget Password?</h1>
+				<ion-text class="mb">We will send you a password reset code in your mentioned email.</ion-text>
+			</ion-col>
+		</ion-row>
+		<ion-row class="ion-padding-top">
+			<ion-col class="ion-padding-vertical">
+				<!-- <form> -->
+					<ion-item lines="none" class="ion-no-padding">
+						<ion-input [(ngModel)]="reset.email" placeholder="Email Address" type="email" >
+						</ion-input>
+					</ion-item>
+					
+					<ion-button class="action-button" expand="block" fill="solid" color="zamkan" type="submit" (click)="resetpw()">
+						<span>Send</span>
+					</ion-button>
+				<!-- </form> -->
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col class="ion-text-center ion-padding-bottom">
+				<a class="link" [routerLink]="['/login']">Login</a>
+
+				<br><br><br>
+
+				<a class="link" [routerLink]="['/register']">Register Now</a>
+
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+	
+<!-- 
+	<br><br><br>
+
+<ion-grid class="ion-padding-horizontal">
+<ion-row class="ion-padding-top">
+			<ion-col class="ion-padding-vertical">
+		<ion-button class="action-button" expand="block" fill="solid" color="zamkan" type="submit" [routerLink]="['/register']">
+						<span>Register Now</span>
+					</ion-button>
+</ion-col>
+</ion-row>
+</ion-grid>
+ -->
+</ion-content>
+
+<!-- <ion-footer>
+<ion-text color="light"><h3>Skip</h3></ion-text>
+</ion-footer>
+ -->

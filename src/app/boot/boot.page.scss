@@ -1,0 +1,17 @@
+.fullheight {
+  height: 100%;
+}
+
+.xc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.beat{
+animation: beat .8s infinite alternate;
+}
+
+@keyframes beat{
+	to { transform: scale(1.2); }
+}

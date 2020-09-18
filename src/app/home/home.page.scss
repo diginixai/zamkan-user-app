@@ -1,0 +1,19 @@
+.product_box{
+	height:180px;
+	background-size:cover;
+	
+	position:relative;
+	border-radius:10px;
+}
+
+.product_title{
+	position:absolute;
+	bottom:0px;
+	color:white;
+	padding:10px;
+	
+}
+
+.incompletebox{
+	opacity:.50;
+}

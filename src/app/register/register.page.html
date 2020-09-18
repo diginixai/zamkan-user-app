@@ -1,0 +1,82 @@
+<ion-header class="ion-no-border">
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+	<ion-grid class="ion-padding-horizontal">
+		<ion-row class="ion-padding-bottom">
+			<ion-col class="ion-text-center">
+				<h1 class="title">Create an account</h1>
+				<p class="mb ion-padding-horizontal">
+					Create your account and join to our community today.
+				</p>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+			
+					<ion-item lines="none" class="ion-no-padding">
+<ion-input placeholder="First Name" type="text" [(ngModel)]="signup.first_name"></ion-input>
+					</ion-item>
+
+					<ion-item lines="none" class="ion-no-padding">
+<ion-input placeholder="Last Name" type="text" [(ngModel)]="signup.last_name"></ion-input>
+					</ion-item>
+
+					
+					<ion-item lines="none" class="ion-no-padding">
+						<ion-input placeholder="Email Address" type="email" [(ngModel)]="signup.email">
+						</ion-input>
+					</ion-item>
+					
+					
+
+
+					<ion-item lines="none" class="ion-no-padding">
+						<ion-input placeholder="Mobile Number" type="email" [(ngModel)]="signup.mobile">
+						</ion-input>
+					</ion-item>
+					
+					
+
+
+
+					<ion-item lines="none" class="ion-no-padding">
+						<ion-input placeholder="Password" type="password" [(ngModel)]="signup.password"></ion-input>
+					</ion-item>
+
+					<ion-item lines="none" class="ion-no-padding">
+						<ion-input placeholder="Retype Password" type="password" [(ngModel)]="signup.password2"></ion-input>
+					</ion-item>
+
+
+					
+					<ion-button class="action-button ion-margin-top" expand="block" fill="solid" color="primary"
+						(click)="register();">
+						<span>Register</span>
+					</ion-button>
+				
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col class="ion-text-center ion-padding">
+				Or
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<ion-button class="social-button" expand="block" fill="solid" color="facebook" (click)="facebook_login()">
+					<ion-icon name="logo-facebook" class="ion-padding-end"></ion-icon>
+					<span>Continue with Facebook</span>
+				</ion-button>
+				<ion-button class="social-button ion-margin-top" expand="block" fill="solid" color="google" (click)="google_login()">
+					<ion-icon name="logo-google" class="ion-padding-end"></ion-icon>
+					<span>Continue with Google</span>
+				</ion-button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

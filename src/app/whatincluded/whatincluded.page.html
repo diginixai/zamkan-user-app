@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar background="danger">
+<ion-buttons slot="secondary">
+    <ion-button (click)="closemodal()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+</ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+<div *ngIf="what_included.image" class="what_included_bgimage" 
+[style.backgroundImage]="'url(' + what_included.image + ')'">
+	<ion-text color="light"><h1>{{diginix.translate(what_included.title,what_included.title_ar)}}</h1></ion-text>
+	<ion-text color="light"><h4>{{diginix.translate(what_included.subtitle,what_included.subtitle_ar)}}</h4></ion-text>
+</div>
+<div class="ion-padding">	
+<div [innerHTML]="diginix.translate(what_included.content,what_included.content_ar)"></div>
+</div>
+</ion-content>

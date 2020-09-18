@@ -1,0 +1,109 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="secondary">
+    <ion-button (click)="closemodal()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+</ion-buttons>
+
+    <ion-title>+{{diginix.translate('REVIEW BOOKING DETAILS','مراجعة تفاصيل الحجز')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+<div class="shadowbox">
+<ion-list>
+  <ion-item>
+    <ion-label>{{diginix.translate('Booking Details','تفاصيل الحجز')}}</ion-label>
+  </ion-item>
+
+  <ion-item lines="none" *ngFor="let bd of booking_data.booking_details; index as i; count as c;" >
+    <ion-label color="zamkan">{{diginix.translate(bd.title,bd.title_ar)}}</ion-label>
+    {{bd.value}}
+  </ion-item>
+
+
+</ion-list>
+</div>
+
+
+
+
+
+
+
+<div class="shadowbox">
+<ion-list>
+  <ion-item>
+    <ion-label>{{diginix.translate('Payment Details','بيانات الدفع')}}</ion-label>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label color="zamkan">{{diginix.translate('Price','السعر')}}</ion-label>
+    AED {{booking_data.bill.selling_amount}}
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label color="zamkan">Vat ({{booking_data.tax}}%)</ion-label>
+    AED {{booking_data.bill.selling_amount*booking_data.tax/100}}
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label color="zamkan">{{diginix.translate('Total to pay','إجمالي الدفع')}}</ion-label>
+    AED {{booking_data.bill.selling_amount + booking_data.bill.selling_amount*booking_data.tax/100 }}
+  </ion-item>
+
+</ion-list>
+</div>
+
+
+
+
+
+
+<div class="shadowbox">
+
+
+<ion-list>
+  <ion-radio-group [(ngModel)]="booking_data.payment_method">
+    <ion-list-header>
+      <ion-label>
+        {{diginix.translate('Payment Method','طريقة الدفع او السداد')}}
+      </ion-label>
+    </ion-list-header>
+
+    <ion-item lines="none">
+     <ion-icon name="card-outline"></ion-icon>	
+      <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Card','بطاقة')}}</ion-label>
+      <ion-radio value="card"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+    	<ion-icon name="cash-outline"></ion-icon>
+      <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Cash','السيولة النقدية')}}</ion-label>
+      <ion-radio value="cash"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+    	<small color="light">{{diginix.translate('Your card will only be charged after the service has been completed. By making this booking. you agree to Zamkanapp\'s Terms and Conditions.','لن يتم الخصم من بطاقتك إلا بعد اكتمال الخدمة. من خلال إجراء هذا الحجز. أنت توافق على شروط وأحكام Zamkanapp.')}}</small>
+    </ion-item>
+
+   
+  </ion-radio-group>
+</ion-list>
+
+</div>
+
+<small color="light">{{diginix.translate('We accept Visa & Mastercard. Your card will be verified for AED 1 and the charge will be reversed. You will only be charged for the service after it has been completed.','نحن نقبل Visa & Mastercard. سيتم التحقق من بطاقتك بمبلغ 1 درهم إماراتي وسيتم إلغاء الرسوم. سيتم محاسبتك على الخدمة فقط بعد اكتمالها.')}}</small>
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border" *ngIf="booking_data.payment_method">
+	<ion-button *ngIf="booking_data.payment_method=='card'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('GOTO PAYMENT PAGE','اذهب إلى صفحة الدفع')}}</ion-button>
+  <ion-button *ngIf="booking_data.payment_method=='cash'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('CONFIRM BOOKING','تأكيد الحجز')}}</ion-button>
+</ion-footer>

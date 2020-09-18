@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>account</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>
+
+
+
+<ion-footer>
+	<ion-grid>
+		<ion-row>
+			<ion-col>
+				<ion-tab-button tab="schedule" [routerLink]="['/home']">
+			      <ion-icon name="home"></ion-icon>
+			     <ion-label>{{diginix.translate('Home','الصفحة الرئيسية')}}</ion-label>
+			    </ion-tab-button>
+				
+			</ion-col>
+
+			<ion-col>
+				<ion-tab-button tab="schedule" [routerLink]="['/jobs']">
+				<ion-icon name="newspaper"></ion-icon>
+       			<ion-label>{{diginix.translate('Jobs','وظائف')}}</ion-label>
+       			</ion-tab-button>
+			</ion-col>
+
+			<ion-col>
+				<ion-tab-button tab="schedule" [routerLink]="['/support']">
+					<ion-icon name="help-buoy"></ion-icon>
+      			<ion-label>{{diginix.translate('Support','الدعم')}}</ion-label>
+      		</ion-tab-button>
+			</ion-col>
+
+			<ion-col>
+				<ion-tab-button tab="schedule" [routerLink]="['/account']">
+					<ion-icon name="person-circle"></ion-icon>
+     			<ion-label>{{diginix.translate('Account','الحساب')}}</ion-label>
+     		</ion-tab-button>
+			</ion-col>
+
+		</ion-row>
+	</ion-grid>
+</ion-footer>
+

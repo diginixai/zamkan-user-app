@@ -2,7 +2,81 @@
 // http://ionicframework.com/docs/theming/
 
 /** Ionic CSS Variables **/
+
+.zamkan-bg{
+  background-color:#cc334a;
+  color:white;
+}
+
+.strikethrough{
+  text-decoration: line-through;
+}
+
 :root {
+  --ion-color-zamkan: #cc334a;
+  --ion-color-zamkan-rgb: 204,51,74;
+  --ion-color-zamkan-contrast: #ffffff;
+  --ion-color-zamkan-contrast-rgb: 255,255,255;
+  --ion-color-zamkan-shade: #b42d41;
+  --ion-color-zamkan-tint: #d1475c;
+
+
+  /* FACEBOOK */
+  --ion-color-facebook: #3b5998;
+  --ion-color-facebook-rgb: 59, 89, 152;
+  --ion-color-facebook-contrast: #ffffff;
+  --ion-color-facebook-contrast-rgb: 255, 255, 255;
+  --ion-color-facebook-shade: #344e86;
+  --ion-color-facebook-tint: #4f6aa2;
+
+  /* GOOGLE */
+  --ion-color-google: #DB4437;
+  --ion-color-google-rgb: 219,68,55;
+  --ion-color-google-contrast: #ffffff;
+  --ion-color-google-contrast-rgb: 255,255,255;
+  --ion-color-google-shade: #c13c30;
+  --ion-color-google-tint: #df574b;
+
+
+  
+}
+
+.ion-color-zamkan {
+  --ion-color-base: var(--ion-color-zamkan);
+  --ion-color-base-rgb: var(--ion-color-zamkan-rgb);
+  --ion-color-contrast: var(--ion-color-zamkan-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-zamkan-contrast-rgb);
+  --ion-color-shade: var(--ion-color-zamkan-shade);
+  --ion-color-tint: var(--ion-color-zamkan-tint);
+}
+
+
+
+
+
+.ion-color-facebook {
+  --ion-color-base: var(--ion-color-facebook);
+  --ion-color-base-rgb: var(--ion-color-facebook-rgb);
+  --ion-color-contrast: var(--ion-color-facebook-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-facebook-contrast-rgb);
+  --ion-color-shade: var(--ion-color-facebook-shade);
+  --ion-color-tint: var(--ion-color-facebook-tint);
+}
+
+.ion-color-google {
+  --ion-color-base: var(--ion-color-google);
+  --ion-color-base-rgb: var(--ion-color-google-rgb);
+  --ion-color-contrast: var(--ion-color-google-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-google-contrast-rgb);
+  --ion-color-shade: var(--ion-color-google-shade);
+  --ion-color-tint: var(--ion-color-google-tint);
+}
+
+
+:root {
+
+
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -83,6 +157,8 @@
    */
 
   body {
+
+  
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66,140,255;
     --ion-color-primary-contrast: #ffffff;

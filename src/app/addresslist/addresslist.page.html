@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+<ion-buttons slot="secondary">
+    <ion-button (click)="closemodal()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-button>
+    
+  </ion-buttons>
+
+    <ion-title>Address History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+<div *ngIf="newaddress_block==false">
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>Your previous saved address</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item  *ngFor="let adr of address_history; index as i; count as c;" >
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{adr.city_info.name}}</h2>
+            <h3>{{adr.area_info.name}}</h3>
+            <p>{{adr.villa}} {{adr.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="dismiss(adr)">Select</ion-button>
+  </ion-item>
+</ion-list>
+</div>
+
+<div *ngIf="newaddress_block!=false">
+
+<!-- 
+<ion-item>
+	<ion-icon name="pencil-outline" slot="start"></ion-icon>	
+  <ion-label position="floating">Address Nickname</ion-label>
+  <ion-input [(ngModel)]="add_address.nickname" placeholder="Address nickname (e.g. Home )"></ion-input>
+</ion-item>
+ -->
+
+<ion-item>
+<ion-icon name="golf-outline" slot="start"></ion-icon>	
+  <!-- <ion-label position="floating">City</ion-label> -->
+  
+  <ion-select [(ngModel)]="add_address.city_id" (ionChange)="populate_area();">
+    <ion-select-option *ngFor="let c of cities" value="{{c.id}}">{{diginix.translate(c.name,c.name_ar)}}</ion-select-option>
+</ion-select>
+
+
+</ion-item>
+
+<ion-item>
+<ion-icon name="navigate-circle-outline" slot="start"></ion-icon>
+  <!-- <ion-label position="floating">Area</ion-label> -->
+  <ion-select [(ngModel)]="add_address.area_id">
+    <ion-select-option *ngFor="let c of areas" value="{{c.areaId}}">{{diginix.translate(c.name,'')}}</ion-select-option>
+</ion-select>
+</ion-item>
+
+
+<ion-item>
+  <ion-icon name="git-merge-outline" slot="start"></ion-icon>
+  <!-- <ion-label position="floating">Building/Street Name</ion-label> -->
+  <ion-input [(ngModel)]="add_address.street" placeholder="Building/Street Name"></ion-input>
+</ion-item>
+
+
+<ion-item>
+  <ion-icon name="home-outline" slot="start"></ion-icon>
+  <!-- <ion-label position="floating">Apartment/Villa number</ion-label> -->
+  <ion-input [(ngModel)]="add_address.villa" placeholder="Apartment/Villa number"></ion-input>
+</ion-item>
+
+</div>
+
+
+
+
+</ion-content>
+
+
+
+<ion-footer class="ion-no-border">
+  
+  <ion-button *ngIf="newaddress_block==false" color="zamkan" expand="full"  (click)="newaddress_block=true" >Add New Address</ion-button>
+
+    <ion-button *ngIf="newaddress_block!=false" color="zamkan" expand="full"  (click)="add_new_address()" >Save and Use</ion-button>
+
+
+</ion-footer>
+

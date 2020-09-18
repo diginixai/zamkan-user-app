@@ -1,0 +1,170 @@
+<ion-header *ngIf="formvalue.step==1">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-button (click)="gohome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-header *ngIf="formvalue.step==2">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-button (click)="formvalue.step=1">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate("Back","عودة")}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+<div class="ion-padding" *ngIf="formvalue.step==1">	
+
+
+
+
+
+
+
+
+
+<ion-text><h4>{{diginix.translate("How many cleaners do you need?","المنظفات")}}</h4></ion-text>
+<ion-button *ngFor="let cl of cleaners; index as i; count as c;" [color]="formvalue.cleaners==cl?'zamkan':'light'" (click)="formvalue.cleaners=cl;calculate();" >{{cl.size}}</ion-button>
+
+
+<ion-text><h4>{{diginix.translate("How many hours should they stay?","كم ساعة يجب أن يمكثوا؟")}}</h4></ion-text>
+<ion-button *ngFor="let hr of hours; index as i; count as c;" [color]="formvalue.hours==hr?'zamkan':'light'" (click)="formvalue.hours=hr;calculate();" >{{hr.size}}</ion-button>
+
+<ion-text><h4>{{diginix.translate("How often do you need cleaning?","كم مرة تحتاج للتنظيف؟")}}</h4></ion-text>
+<ion-select [(ngModel)]="formvalue.frequency">
+    <ion-select-option value="once">{{diginix.translate("Once","ذات مرة")}}</ion-select-option>
+    <ion-select-option value="every_week">{{diginix.translate("Every Week","كل اسبوع")}}</ion-select-option>
+    <ion-select-option value="every_two_weeks">{{diginix.translate("Every 2 Weeks","كل 2 أسابيع")}}</ion-select-option>
+    <ion-select-option value="multiple_times_a_week">{{diginix.translate("Multiple times a week","عدة مرات في الأسبوع")}}</ion-select-option>
+</ion-select>
+
+
+<ion-text><h4>{{diginix.translate("Cleaning Start Date","تاريخ بدء التنظيف")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+<ion-text><h4>{{diginix.translate("Cleaning time","وقت التنظيف")}}</h4></ion-text>
+<ion-select [(ngModel)]="formvalue.cleaning_time">
+     <ion-select-option *ngFor="let tm of time" value="{{tm}}">{{tm}}</ion-select-option>
+</ion-select>
+</div>
+
+
+<div class="ion-padding" *ngIf="formvalue.step==2">
+
+
+
+
+
+
+<!-- (ionChange)="mcqAnswer($event)" -->
+<ion-list>
+  <ion-radio-group [(ngModel)]="formvalue.materials_index" >
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Do you need cleaning materials?","هل تحتاج إلى مواد تنظيف؟")}}</h4></ion-text>
+    </ion-list-header>
+
+      
+    <ion-item *ngFor="let mt of materials; index as i; count as c;" (click)="formvalue.materials=mt;calculate();">
+      <ion-label>{{diginix.translate(mt.size,mt.size_ar)}}</ion-label>
+      <ion-radio slot="start" value="{{i}}"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+</ion-list>
+
+
+
+
+<ion-list>
+  <ion-radio-group value="biff">
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Do you need additional services?","هل تحتاج إلى خدمات إضافية؟")}}</h4></ion-text>
+    </ion-list-header>
+    <ion-item *ngFor="let add of formvalue.additional_services; index as i; count as c;" (click)="calculate();">
+      <ion-label>{{diginix.translate(add.size,add.size_ar)}}</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="add.checked"></ion-checkbox>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where will the service take place?","أين ستتم الخدمة؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{location.city_info.name}}</h2>
+            <h3>{{location.area_info.name}}</h3>
+            <p>{{location.villa}} {{location.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+</ion-list>
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: You will need to bring a gate pass, I will not be home and am leaving the key under tha mat, etc.','مثال: ستحتاج إلى إحضار بطاقة مرور ، ولن أكون في المنزل وأترك المفتاح تحت حصيرة ، وما إلى ذلك.')}}"></ion-textarea>
+</ion-item>
+
+</ion-list>
+</div>
+
+
+
+</ion-content>
+
+
+
+<ion-footer class="ion-no-border">
+<ion-text color="medium" class="ion-padding"><small>{{diginix.translate("* Excluding VAT","* باستثناء الضريبة على القيمة المضافة")}}</small></ion-text>
+<ion-grid>
+  <ion-row>
+    <ion-col size="6" class="ion-text-center" no-padding>
+      <ion-text *ngIf="bill.printed_amount>bill.selling_amount" color="medium" class="strikethrough"><small>AED {{bill.printed_amount}} <br> </small></ion-text>
+      
+      <div [class]="bill.printed_amount<=bill.selling_amount?'vertical-center':''">
+      <ion-text color="zamkan"><strong>AED {{bill.selling_amount}}</strong></ion-text>
+      </div>
+
+    </ion-col>
+    <ion-col size="6" class="ion-text-center zamkan-bg" no-padding (click)="next()">
+      <div class="vertical-center">{{diginix.translate("Next","التالى")}}</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-footer>
