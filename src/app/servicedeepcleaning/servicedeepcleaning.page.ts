@@ -240,7 +240,7 @@ next(){
       }
 
   this.updateinfo();
-  localStorage.setItem('booking_data',JSON.stringify(this.formvalue));
+  window.localStorage.setItem('booking_data',JSON.stringify(this.formvalue));
   this.router.navigate(['/bookingreview'],{ queryParams: { } });
   
 

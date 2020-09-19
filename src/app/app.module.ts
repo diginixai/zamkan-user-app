@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
-//import { HTTP } from '@ionic-native/http/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
 import { DiginixService } from './diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
@@ -25,7 +25,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     StatusBar,
     SplashScreen,
     DiginixService,
-    Camera,
+    Camera,HTTP,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

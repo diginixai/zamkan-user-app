@@ -173,7 +173,7 @@ loadform(data){
 
   ngOnInit() {
 
-  this.user=JSON.parse(localStorage.getItem("user"));
+  this.user=JSON.parse(window.localStorage.getItem("user"));
   console.log('this is we',this.diginix.selected_city);
   this.selected_city=this.diginix.selected_city;
 

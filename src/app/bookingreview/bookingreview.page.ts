@@ -19,7 +19,7 @@ export class BookingreviewPage implements OnInit {
   public diginix:DiginixService,
 
     ) { 
-    this.booking_data=JSON.parse(localStorage.getItem('booking_data'));
+    this.booking_data=JSON.parse(window.localStorage.getItem('booking_data'));
     console.log('testing',this.booking_data.booking_details);  
   }
 

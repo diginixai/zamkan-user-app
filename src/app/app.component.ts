@@ -24,11 +24,11 @@ export class AppComponent {
   initializeApp() {
     
     this.diginix.callapi("data/cities/","",{},false).then((d)=>{
-          localStorage.setItem('cities',JSON.stringify(d));
+          window.localStorage.setItem('cities',JSON.stringify(d));
           this.diginix.cities=d;
 
-          if(localStorage.getItem('selected_city')!=undefined){
-            this.diginix.selected_city=JSON.parse(localStorage.getItem('selected_city'));
+          if(window.localStorage.getItem('selected_city')!=undefined){
+            this.diginix.selected_city=JSON.parse(window.localStorage.getItem('selected_city'));
             console.log('from localstorage',this.diginix.selected_city)
           }else{
             this.diginix.selected_city={id:0,name:"Select City",name_ar:"اختر مدينة"};

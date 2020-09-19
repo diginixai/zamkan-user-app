@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Component } from '@angular/core';
-
 import { LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { ActionSheetController } from '@ionic/angular';
-
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-//import { HTTP } from '@ionic-native/http/ngx';
+import { HTTP } from '@ionic-native/http/ngx';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class DiginixService {
 
 apiurl="https://test.zamkanapp.com/api/";
-
+run="angular";
 language="en";
 cities:any=[];
 selected_city:any={id:"",name:"",name_ar:""};
@@ -33,9 +32,11 @@ selected_city:any={id:"",name:"",name_ar:""};
 
 
   
-// private http: HTTP,
+// 
   constructor(  
-   private http: HttpClient,
+    private platform: Platform,
+    private http: HttpClient, // for angular request
+    private nativehttp: HTTP,
     public loadingController: LoadingController,
     public alertCtrl: AlertController,
     public toastController: ToastController,
@@ -43,12 +44,25 @@ selected_city:any={id:"",name:"",name_ar:""};
   ){  
 
 
-console.log('getapi--diginixtsl;k',localStorage.getItem('api'));
 
-this.cities=JSON.parse(localStorage.getItem('cities'));
+if(this.platform.is("android")==true){
+  this.run="native";
+}
+
+if(this.platform.is("ios")==true){
+  this.run="native";
+}
+
+if(this.platform.is("ios")==true){
+  this.run="native";
+}
 
 
-var lang=localStorage.getItem('language');
+
+this.cities=JSON.parse(window.localStorage.getItem('cities'));
+
+
+var lang=window.localStorage.getItem('language');
 if(lang==undefined){
   this.language="en";
   document.documentElement.dir = "ltr";
@@ -75,7 +89,7 @@ async language_switch() {
         role: 'destructive',
         icon: '',
         handler: () => {
-          localStorage.setItem("language","en");
+          window.localStorage.setItem("language","en");
           document.documentElement.dir = "ltr";
           this.language="en";
         }
@@ -84,7 +98,7 @@ async language_switch() {
         icon: '',
         role: 'destructive',
         handler: () => {
-          localStorage.setItem("language","ar");
+          window.localStorage.setItem("language","ar");
           document.documentElement.dir = "rtl";
           this.language="ar";
         }
@@ -111,7 +125,7 @@ async language_switch() {
         role: 'destructive',
         icon: '',
         handler: () => {
-          localStorage.setItem("selected_city",JSON.stringify(value));
+          window.localStorage.setItem("selected_city",JSON.stringify(value));
           this.selected_city=value;
         }
       });
@@ -147,12 +161,83 @@ async language_switch() {
 
 
 
+
+
+
+
+
 async callapi(url,msg="Loading",data={},silent=false){
-  
+
+
+
   const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
         message: msg,
     });
+
+
+
+
+  if(this.run=="native"){
+
+    console.log('native api request run initiated');
+ var p = new Promise ((resolve,reject)=>{
+                 if(msg!=''){
+                  loading.present();
+                    }
+                 var link=this.apiurl+url;
+                 this.nativehttp.setHeader('*','api', localStorage.getItem('api'));
+                 this.nativehttp.post(link,data,{}).then(dataxx => {
+                                  try {
+                                      var tcson=JSON.parse(dataxx.data);
+                                      console.log(tcson);
+                                                if(tcson[0]==true){
+                                                         loading.dismiss();
+                                                          resolve(tcson[1]);
+                                                }else{
+                                                          loading.dismiss();
+
+                                                          if(silent==false){
+                                                          if(tcson[1]['route']!=undefined){
+                                                               this.alert(this.translate("Please Login","الرجاء تسجيل الدخول"),this.translate("Please login your account","الرجاء تسجيل الدخول إلى حسابك"));
+                                                             
+                                                          }else{
+                                    this.alert(this.translate("Technical Error","خطأ تقني"),JSON.stringify(tcson[1]));
+                                                          }
+                                                            }
+                                                          reject(tcson[1]);
+
+                                                }
+
+                                  } catch (e) {
+                                                   loading.dismiss();
+                                                  this.alert(this.translate("Technical Error","خطأ تقني"),this.translate("Technical Server Error","خطأ في الخادم الفني"));
+                                                  reject("");
+
+                                  }
+
+               },
+               err => {
+                   loading.dismiss();
+                  this.alert(this.translate("Technical Error","خطأ تقني"),this.translate("Technical Error in connection.","خطأ فني في الاتصال."));
+                  reject("");
+              }
+
+     );
+
+        
+
+
+}); 
+
+
+
+
+}else{
+
+
+
+
 
 
 
@@ -209,11 +294,29 @@ async callapi(url,msg="Loading",data={},silent=false){
 
 }); 
 
-return p;
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
 
+
+
+
+return p;
+
+
+}
 
 
 

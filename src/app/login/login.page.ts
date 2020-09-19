@@ -31,9 +31,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {
 
 
-  // if(localStorage.getItem("api")!=undefined){
-  //   this.router.navigate(['/home'],{ queryParams: { } });
-  // }
+  // window.localStorage.deleteItem('api');
+  // window.localStorage.deleteItem('user');
 
 
   
@@ -55,8 +54,8 @@ export class LoginPage implements OnInit {
     	this.diginix.callapi("login/login/","Signing in...",{email:this.login.email,password:this.login.password}).then((d)=>{
     			console.log(d);
           this.x=d;
-    			localStorage.setItem('user',JSON.stringify(this.x));
-    			localStorage.setItem('api',this.x.api);
+    			window.localStorage.setItem('user',JSON.stringify(this.x));
+    			window.localStorage.setItem('api',this.x.api);
           this.router.navigate(['/home'],{ queryParams: { } });
 
     		}).catch((e)=>{ console.log(e); });
