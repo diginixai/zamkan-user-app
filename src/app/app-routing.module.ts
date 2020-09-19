@@ -71,6 +71,18 @@ const routes: Routes = [
   {
     path: 'servicedeepcleaning',
     loadChildren: () => import('./servicedeepcleaning/servicedeepcleaning.module').then( m => m.ServicedeepcleaningPageModule)
+  },
+  {
+    path: 'accountprofileedit',
+    loadChildren: () => import('./accountprofileedit/accountprofileedit.module').then( m => m.AccountprofileeditPageModule)
+  },
+  {
+    path: 'accountchangepw',
+    loadChildren: () => import('./accountchangepw/accountchangepw.module').then( m => m.AccountchangepwPageModule)
+  },
+  {
+    path: 'accountaddressmanage',
+    loadChildren: () => import('./accountaddressmanage/accountaddressmanage.module').then( m => m.AccountaddressmanagePageModule)
   }
 ];
 @NgModule({

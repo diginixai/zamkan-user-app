@@ -10,8 +10,8 @@ import { DiginixService } from '../diginix.service';
 export class LoginPage implements OnInit {
 
 	login:any={
-	email:"",
-	password:"",
+	email:"admin@zamkanapp.com",
+	password:"carpenter",
 	}
 
   x:any={api:''}

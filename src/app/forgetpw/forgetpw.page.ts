@@ -14,7 +14,7 @@ export class ForgetpwPage implements OnInit {
 	}
 
 	background = {
-    backgroundImage: 'url(https://test.zamkanapp.com/assets/ptheme/css/images/paper-grey-texture-wrinkled-wallpaper-preview.jpg)'
+    backgroundImage: "url('./assets/purplebg.jpg')"
   };
 
 

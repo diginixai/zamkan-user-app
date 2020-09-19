@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+
+  	<ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+
+
+    <ion-title>{{this.diginix.translate("Profile Edit","تحرير ملف التعريف")}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+<ion-item>
+			<ion-icon slot="start" name="person"></ion-icon>
+			<ion-label position="stacked">{{this.diginix.translate("First Name","الاسم الاول")}}</ion-label>
+  			<ion-input [(ngModel)]="user.name"></ion-input>
+</ion-item>
+
+<ion-item>
+			<ion-icon slot="start" name="person"></ion-icon>
+			<ion-label position="stacked">{{this.diginix.translate("Last Name","الكنية")}}</ion-label>
+  			<ion-input [(ngModel)]="user.last_name"></ion-input>
+</ion-item>
+
+
+
+<ion-item>
+
+			<ion-label position="stacked">{{this.diginix.translate("Email ID","عنوان الايميل")}}</ion-label>
+  			<ion-input disabled [(ngModel)]="user.email"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked">{{this.diginix.translate("Mobile Number","رقم الهاتف المحمول")}}</ion-label>
+  <ion-input [(ngModel)]="user.mobile"></ion-input>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="stacked">{{this.diginix.translate("City","مدينة")}}</ion-label>
+   <ion-select (ionChange)="populate_area();" [(ngModel)]="user.city_id">
+    <ion-select-option *ngFor="let c of city_list" value="{{c.id}}">{{diginix.translate(c.name,c.name_ar)}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="stacked">{{this.diginix.translate("Area","منطقة")}}</ion-label>
+   <ion-select  [(ngModel)]="user.area_id">
+    <ion-select-option *ngFor="let c of area_list" value="{{c.areaId}}">{{diginix.translate(c.name,c.name)}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+
+
+<ion-item>
+  <ion-label position="stacked">{{this.diginix.translate("Building/Street Name","اسم المبنى / الشارع")}}</ion-label>
+  <ion-input [(ngModel)]="user.street"></ion-input>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="stacked">{{this.diginix.translate("Apartment / Villa Number","رقم الشقة / الفيلا")}}</ion-label>
+  <ion-input [(ngModel)]="user.villa"></ion-input>
+</ion-item>
+
+
+
+</ion-content>
+
+
+
+
+
+
+<ion-footer class="ion-no-border">
+    <ion-button color="zamkan" size="large" expand="full"  (click)="update()" >{{this.diginix.translate("Update Information","تحديث المعلومات")}}</ion-button>
+</ion-footer>
+
+

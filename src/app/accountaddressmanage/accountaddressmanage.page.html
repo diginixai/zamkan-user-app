@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+
+
+  	<ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+    <ion-title>{{diginix.translate("My Address History","محفوظات عنواني")}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+<ion-list class="ion-padding">
+  <ion-item  *ngFor="let adr of address_history; index as i; count as c;" (click)="confirmbox(adr.id);">
+          <ion-label>
+            <h2>{{adr.city_info.name}}</h2>
+            <h3>{{adr.area_info.name}}</h3>
+            <p>{{adr.villa}} {{adr.street}}</p>
+          </ion-label>
+          <ion-icon slot="end" color="danger" name="close-circle"></ion-icon>
+  </ion-item>
+</ion-list>
+
+
+
+</ion-content>

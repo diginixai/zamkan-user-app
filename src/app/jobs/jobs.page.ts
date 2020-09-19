@@ -11,7 +11,13 @@ export class JobsPage implements OnInit {
 
   constructor(private router: Router,public diginix:DiginixService,) { }
 
+  current_segment="upcoming";
+
   ngOnInit() {
+  }
+
+  sc(){
+  	console.log(this.current_segment);
   }
 
 }

@@ -108,7 +108,10 @@ async language_switch() {
   }
 
 
-
+open_external_url(url){
+window.open(url, '_system', 'location=yes');
+    return false;
+}
 
 
 

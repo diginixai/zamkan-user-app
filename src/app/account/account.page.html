@@ -1,10 +1,104 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>account</ion-title>
+
+        <ion-buttons slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
+
+    <ion-title class="ion-text-center">{{diginix.translate('My Account','حسابي')}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+
+  		<ion-item  lines="none">
+          <ion-avatar slot="start">
+              <ion-icon name="person-circle" style="font-size:40px;"></ion-icon>
+          </ion-avatar>
+          <ion-label class="ion-no-margin">
+            <h3>{{user.name}}</h3>
+            <p>{{user.email}}</p>
+          </ion-label>
+        </ion-item>
+
+
+    <ion-list-header>
+      <ion-label><ion-text color="zamkan">{{diginix.translate('Account settings','إعدادت الحساب')}}</ion-text></ion-label>
+    </ion-list-header>
+    <ion-item [routerLink]="['/accountprofileedit']" >
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Edit Profile','تعديل الملف الشخصي')}}
+      </ion-label>
+    </ion-item>
+    <ion-item [routerLink]="['/accountchangepw']">
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Change Password','غير كلمة السر')}}
+      </ion-label>
+    </ion-item>
+    <ion-item [routerLink]="['/accountaddressmanage']">
+      <ion-label  class="ion-padding-start">
+        {{diginix.translate('Saved Locations','المواقع المحفوظة')}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label><ion-text color="zamkan">{{diginix.translate('Informations for customer','معلومات للعميل')}}</ion-text></ion-label>
+    </ion-list-header>
+    <ion-item  (click)="term_conditions();">
+      <ion-label  class="ion-padding-start">
+        {{diginix.translate('Terms & Conditions','البنود و الظروف')}}
+      </ion-label>
+    </ion-item>
+    <ion-item (click)="payment_refund();">
+      <ion-label class="ion-padding-start" >
+        {{diginix.translate('Payment & refund policy','سياسة الدفع والاسترداد')}}
+      </ion-label>
+    </ion-item>
+    <ion-item (click)="privacy_policy();">
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Privacy Policy','سياسة خاصة')}}
+      </ion-label>
+    </ion-item>
+
+  </ion-list>
+  
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label><ion-text color="zamkan">{{diginix.translate('Other Settings','اعدادات اخرى')}}</ion-text></ion-label>
+    </ion-list-header>
+    <ion-item (click)="not_working();">
+      <ion-label  class="ion-padding-start">
+        {{diginix.translate('Notifications','إشعارات')}}
+      </ion-label>
+      <ion-toggle slot="end" mode="ios" color="primary"  checked></ion-toggle>
+    </ion-item>
+    <ion-item (click)="review_app_link()">
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Review the app','راجع التطبيق')}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item (click)="support();">
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Send feedback','ارسل رأيك')}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item (click)="signout();">
+      <ion-label class="ion-padding-start">
+        {{diginix.translate('Sign out','خروج')}}
+      </ion-label>
+    </ion-item>
+
+
+  </ion-list>
 
 </ion-content>
 

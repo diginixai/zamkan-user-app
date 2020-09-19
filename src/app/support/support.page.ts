@@ -9,7 +9,13 @@ import { DiginixService } from '../diginix.service';
 })
 export class SupportPage implements OnInit {
 
-  constructor(private router: Router,public diginix:DiginixService,) { }
+  constructor(private router: Router,public diginix:DiginixService,) { 
+
+
+  	window.open('whatsapp://send?phone=+971585922350', '_system', 'location=yes');
+    this.router.navigate(['/home'],{});
+
+  }
 
   ngOnInit() {
   }
