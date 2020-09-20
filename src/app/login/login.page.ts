@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiginixService } from '../diginix.service';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
 
 @Component({
   selector: 'app-login',
@@ -32,22 +34,23 @@ users = { id: '', name: '', email: '', picture: { data: { url: '' } } };
   private router: Router,
   public diginix:DiginixService,
   private route: ActivatedRoute,
+  private googlePlus: GooglePlus,
   ) { 
 
 
 
-fb.getLoginStatus()
-  .then(res => {
-    console.log(res.status);
-    if (res.status === 'connect') {
-      this.isLoggedIn = true;
-      console.log('constructur says you are logged in');
-    } else {
-      this.isLoggedIn = false;
-      console.log('constructur says you are not logged in');
-    }
-  })
-  .catch(e => console.log(e));
+// fb.getLoginStatus()
+//   .then(res => {
+//     console.log(res.status);
+//     if (res.status === 'connect') {
+//       this.isLoggedIn = true;
+//       console.log('constructur says you are logged in');
+//     } else {
+//       this.isLoggedIn = false;
+//       console.log('constructur says you are not logged in');
+//     }
+//   })
+//   .catch(e => console.log(e));
 
 
 
@@ -91,6 +94,29 @@ fb.getLoginStatus()
 
 
 
+  googleSignIn() {
+    this.googlePlus.login({})
+      .then((result) => { console.log(result);
+
+        var jsonDATA = {
+          "email":result.email,
+          "provider_id":result.userId,
+          "provider_type":'google',
+          "first_name":result.givenName,
+          "last_name": '',
+          "ionicapp":'true'
+          }
+
+          this.init_third_party_login(jsonDATA);
+
+
+
+
+       })
+      .catch((err) => { console.log(err); });
+  }
+
+
 
 
   /* facebook login functions */
@@ -127,16 +153,7 @@ fb_getUserDetail(userid: any) {
           }
 
 
-          let dx:any={api:''};
-
-          this.diginix.callapi("login/social_authenticate/",this.diginix.translate("Signing in...","تسجيل الدخول..."),jsonDATA,false).then((d)=>{
-            dx=d;
-            console.log('zamkanportal callback on facebook signin',d);
-            localStorage.setItem('user',JSON.stringify(dx));
-            localStorage.setItem('api',dx.api);
-            this.router.navigate(['/home'],{ queryParams: { } });
-
-          });
+          this.init_third_party_login(jsonDATA);
 
 
 
@@ -156,6 +173,23 @@ fb_logout() {
 }
 
 
+
+
+init_third_party_login(data){
+
+  let dx:any={api:''};
+
+          this.diginix.callapi("login/social_authenticate/",this.diginix.translate("Signing in...","تسجيل الدخول..."),data,false).then((d)=>{
+            dx=d;
+            console.log('zamkanportal callback on facebook signin',d);
+            localStorage.setItem('user',JSON.stringify(dx));
+            localStorage.setItem('api',dx.api);
+            this.router.navigate(['/home'],{ queryParams: { } });
+
+          });
+
+
+}
 
 
 }

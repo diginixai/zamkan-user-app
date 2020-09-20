@@ -14,7 +14,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { DiginixService } from './diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
-
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import { Facebook } from '@ionic-native/facebook/ngx';
     StatusBar,
     SplashScreen,
     DiginixService,
-    Camera,HTTP,Facebook,
+    Camera,HTTP,Facebook,GooglePlus,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

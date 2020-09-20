@@ -171,7 +171,7 @@ window.open(url, '_system', 'location=yes');
 
 async callapi(url,msg="Loading",data={},silent=false){
 
-
+console.log('feftching url',url);
 
   const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
@@ -248,6 +248,7 @@ async callapi(url,msg="Loading",data={},silent=false){
  var p = new Promise ((resolve,reject)=>{
 
 
+   console.log('angular api request run initiated');
 
                  if(msg!=''){
                   loading.present();
