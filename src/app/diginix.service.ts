@@ -191,6 +191,7 @@ async callapi(url,msg="Loading",data={},silent=false){
                  var link=this.apiurl+url;
                  this.nativehttp.setHeader('*','api', localStorage.getItem('api'));
                  this.nativehttp.post(link,data,{}).then(dataxx => {
+                  console.log('http request sent',dataxx);
                                   try {
                                       var tcson=JSON.parse(dataxx.data);
                                       console.log(tcson);
@@ -254,6 +255,7 @@ async callapi(url,msg="Loading",data={},silent=false){
                  var link=this.apiurl+url;
 //this.httpOptions
                  this.http.post(link,data,this.httpOptions).subscribe(dataxx => {
+                  console.log('http request sent',dataxx);
                                   try {
                                       var tcson=dataxx;
                                       //var tcson=JSON.parse(dataxx['_body']);

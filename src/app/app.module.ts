@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
 import { DiginixService } from './diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 
 
@@ -25,7 +25,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
     StatusBar,
     SplashScreen,
     DiginixService,
-    Camera,HTTP,
+    Camera,HTTP,Facebook,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

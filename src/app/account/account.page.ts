@@ -47,8 +47,8 @@ export class AccountPage implements OnInit {
   }
 
   signout(){
-    localStorage.deleteItem('user');
-    localStorage.deleteItem('api');
+    localStorage.removeItem('user');
+    localStorage.removeItem('api');
     this.router.navigate(['/login'],{ queryParams: {boot:true} });
 
   }
