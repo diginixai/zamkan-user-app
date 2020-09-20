@@ -9,31 +9,31 @@
 	<ion-grid class="ion-padding-horizontal">
 		<ion-row class="ion-padding-vertical">
 			<ion-col size="9" class="ion-padding-vertical">
-				<h1 class="title">Forget Password?</h1>
-				<ion-text class="mb">We will send you a password reset code in your mentioned email.</ion-text>
+				<h1 class="title">{{diginix.translate("Forget Password?","نسيت كلمة المرور؟")}}</h1>
+				<ion-text class="mb">{{diginix.translate("We will send you a password reset code in your mentioned email.","سنرسل لك رمز إعادة تعيين كلمة المرور في بريدك الإلكتروني المذكور.")}}</ion-text>
 			</ion-col>
 		</ion-row>
 		<ion-row class="ion-padding-top">
 			<ion-col class="ion-padding-vertical">
 				<!-- <form> -->
 					<ion-item lines="none" class="ion-no-padding">
-						<ion-input [(ngModel)]="reset.email" placeholder="Email Address" type="email" >
+						<ion-input [(ngModel)]="reset.email" placeholder="{{diginix.translate('Email Address','عنوان البريد الالكترونى')}}" type="email" >
 						</ion-input>
 					</ion-item>
 					
 					<ion-button class="action-button" expand="block" fill="solid" color="zamkan" type="submit" (click)="resetpw()">
-						<span>Send</span>
+						<span>{{diginix.translate("Send","إرسال")}}</span>
 					</ion-button>
 				<!-- </form> -->
 			</ion-col>
 		</ion-row>
 		<ion-row>
 			<ion-col class="ion-text-center ion-padding-bottom">
-				<a class="link" [routerLink]="['/login']">Login</a>
+				<a class="link" [routerLink]="['/login']">{{diginix.translate("Login","تسجيل الدخول")}}</a>
 
 				<br><br><br>
 
-				<a class="link" [routerLink]="['/register']">Register Now</a>
+				<a class="link" [routerLink]="['/register']">{{diginix.translate("Register Now","سجل الان")}}</a>
 
 			</ion-col>
 		</ion-row>

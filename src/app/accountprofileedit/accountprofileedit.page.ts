@@ -9,9 +9,11 @@ import { DiginixService } from '../diginix.service';
 })
 export class AccountprofileeditPage implements OnInit {
  
-	user:any={city_id:''};
+	user:any={city_id:'0',area_id:'7'};
 	city_list:any=[];
 	area_list:any=[];
+  default_area="0";
+  
 	api=localStorage.getItem('api');
 
   constructor(private router: Router,public diginix:DiginixService,) { }
@@ -20,7 +22,10 @@ export class AccountprofileeditPage implements OnInit {
 
   	this.user=JSON.parse(localStorage.getItem("user"));
   	this.city_list=JSON.parse(localStorage.getItem("cities"));
-  	this.populate_area();
+    this.default_id=this.user.area_id;
+    this.populate_area();
+    console.log(this.user);
+
   	
 
   }
@@ -29,7 +34,20 @@ export class AccountprofileeditPage implements OnInit {
     populate_area(){
         if(this.user.city_id!="" && this.user.city_id!=undefined){
         this.diginix.callapi("data/area/?id="+this.user.city_id,"Ferching Areas...",{}).then((d)=>{
-        this.area_list=d;
+          this.area_list=[];
+
+         d.forEach((value, key, index) => {
+            if(value.areaId==this.user.area_id){
+              value.selected=true;
+            }
+
+            this.area_list.push(value);
+          });
+
+         console.log(this.area_list);
+         this.default_area=this.user.area_id;
+        
+
         }).catch((e)=>{});
         }
   }
@@ -44,7 +62,7 @@ export class AccountprofileeditPage implements OnInit {
   		villa:this.user.villa,
   		street:this.user.street,
   		city_id:this.user.city_id,
-  		area:this.user.area_id,
+  		area:this.default_area,
   		mobile:this.user.mobile,
   		id_proof:this.user.id_proof,
   		certificate:this.user.certificate,

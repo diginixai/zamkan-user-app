@@ -9,9 +9,9 @@
 	<ion-grid class="ion-padding-horizontal">
 		<ion-row class="ion-padding-bottom">
 			<ion-col class="ion-text-center">
-				<h1 class="title">Create an account</h1>
+				<h1 class="title">{{diginix.translate('Create an account','انشئ حساب')}}</h1>
 				<p class="mb ion-padding-horizontal">
-					Create your account and join to our community today.
+					{{diginix.translate('Create your account and become our member today.','أنشئ حسابك وكن عضوًا لدينا اليوم.')}}
 				</p>
 			</ion-col>
 		</ion-row>
@@ -19,16 +19,16 @@
 			<ion-col>
 			
 					<ion-item lines="none" class="ion-no-padding">
-<ion-input placeholder="First Name" type="text" [(ngModel)]="signup.first_name"></ion-input>
+<ion-input placeholder="{{diginix.translate('First Name','الاسم الاول')}}" type="text" [(ngModel)]="signup.first_name"></ion-input>
 					</ion-item>
 
 					<ion-item lines="none" class="ion-no-padding">
-<ion-input placeholder="Last Name" type="text" [(ngModel)]="signup.last_name"></ion-input>
+<ion-input placeholder="{{diginix.translate('Last Name','الكنية')}}" type="text" [(ngModel)]="signup.last_name"></ion-input>
 					</ion-item>
 
 					
 					<ion-item lines="none" class="ion-no-padding">
-						<ion-input placeholder="Email Address" type="email" [(ngModel)]="signup.email">
+						<ion-input placeholder="{{diginix.translate('Email Address','عنوان البريد الالكترونى')}}" type="email" [(ngModel)]="signup.email">
 						</ion-input>
 					</ion-item>
 					
@@ -36,7 +36,7 @@
 
 
 					<ion-item lines="none" class="ion-no-padding">
-						<ion-input placeholder="Mobile Number" type="email" [(ngModel)]="signup.mobile">
+						<ion-input placeholder="{{diginix.translate('Mobile Number','رقم الهاتف المحمول')}}" type="email" [(ngModel)]="signup.mobile">
 						</ion-input>
 					</ion-item>
 					
@@ -45,38 +45,22 @@
 
 
 					<ion-item lines="none" class="ion-no-padding">
-						<ion-input placeholder="Password" type="password" [(ngModel)]="signup.password"></ion-input>
+						<ion-input placeholder="{{diginix.translate('Password','كلمه السر')}}" type="password" [(ngModel)]="signup.password"></ion-input>
 					</ion-item>
 
 					<ion-item lines="none" class="ion-no-padding">
-						<ion-input placeholder="Retype Password" type="password" [(ngModel)]="signup.password2"></ion-input>
+						<ion-input placeholder="{{diginix.translate('Retype Password','اعد ادخال كلمة المرور')}}" type="password" [(ngModel)]="signup.password2"></ion-input>
 					</ion-item>
 
 
 					
-					<ion-button class="action-button ion-margin-top" expand="block" fill="solid" color="primary"
+					<ion-button class="action-button ion-margin-top" expand="block" fill="solid" color="zamkan"
 						(click)="register();">
-						<span>Register</span>
+						<span>{{diginix.translate('Register','تسجيل')}}</span>
 					</ion-button>
 				
 			</ion-col>
 		</ion-row>
-		<ion-row>
-			<ion-col class="ion-text-center ion-padding">
-				Or
-			</ion-col>
-		</ion-row>
-		<ion-row>
-			<ion-col>
-				<ion-button class="social-button" expand="block" fill="solid" color="facebook" (click)="facebook_login()">
-					<ion-icon name="logo-facebook" class="ion-padding-end"></ion-icon>
-					<span>Continue with Facebook</span>
-				</ion-button>
-				<ion-button class="social-button ion-margin-top" expand="block" fill="solid" color="google" (click)="google_login()">
-					<ion-icon name="logo-google" class="ion-padding-end"></ion-icon>
-					<span>Continue with Google</span>
-				</ion-button>
-			</ion-col>
-		</ion-row>
+		
 	</ion-grid>
 </ion-content>

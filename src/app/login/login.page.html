@@ -3,15 +3,23 @@
 		<ion-toolbar>
 			<ion-buttons slot="start">
 				<ion-menu-button></ion-menu-button>
+
 			</ion-buttons>
+		
+		<ion-buttons slot="primary">
+          <ion-button (click)="change_language();" >
+           <ion-text color="light">{{diginix.language}} <ion-icon name="globe-outline"></ion-icon></ion-text>
+          </ion-button>
+        </ion-buttons>
+
 		</ion-toolbar>
 	</ion-header>
 	<ion-grid class="ion-padding-horizontal">
 		<ion-row class="ion-padding-vertical">
 			<ion-col size="9" class="ion-padding-vertical">
 				<img src="./assets/logo.svg" width="110"/>
-				<h1 class="title">Sign In</h1>
-				<ion-text class="mb">Enter your email and password for signing in.</ion-text>
+				<h1 class="title">{{diginix.translate("Sign In","تسجيل الدخول")}}</h1>
+				<ion-text class="mb">{{diginix.translate("Enter your email and password for signing in.","أدخل بريدك الإلكتروني وكلمة المرور لتسجيل الدخول.")}}</ion-text>
 			</ion-col>
 		</ion-row>
 		<ion-row class="ion-padding-top">
@@ -37,31 +45,47 @@
 						<ion-toggle mode="ios" slot="end" color="primary"></ion-toggle>
 					</ion-item> -->
 					<ion-button class="action-button" expand="block" fill="solid" color="zamkan" type="submit" (click)="signIn()">
-						<span>Get started</span>
+						<span>{{diginix.translate("Get started","البدء")}}</span>
 					</ion-button>
 				<!-- </form> -->
 			</ion-col>
 		</ion-row>
+
+
+
 		<ion-row>
 			<ion-col class="ion-text-center ion-padding-bottom">
-				<a class="link" [routerLink]="['/forgetpw']">Forgot password?</a>
-
-				<br><br><br>
-
-				<a class="link" [routerLink]="['/register']">Register Now</a>
-
-
-				<ion-button class="action-button" (click)="fbLogin()">
-					Facebook Login
-				</ion-button>
-
-				<ion-button class="action-button" (click)="googleSignIn()">
-					Google Login
-				</ion-button>
-
-
+				<ion-text color="light" [routerLink]="['/forgetpw']"><strong>{{diginix.translate("Forgot password ?","هل نسيت كلمة المرور؟")}}</strong></ion-text>
+			</ion-col>
+			<ion-col class="ion-text-center ion-padding-bottom">
+				<ion-text color="light" [routerLink]="['/register']"><strong>{{diginix.translate("Register Now","سجل الان")}}</strong></ion-text>
 			</ion-col>
 		</ion-row>
+
+
+
+		<ion-row>
+			<ion-col class="ion-text-center ion-padding">
+				<ion-text color="light"><h3>{{diginix.translate("OR","أو")}}</h3></ion-text>
+			</ion-col>
+		</ion-row>
+		<ion-row>
+			<ion-col>
+				<ion-button class="social-button" expand="block" fill="solid" color="facebook" (click)="fbLogin()">
+					<ion-icon name="logo-facebook" class="ion-padding-end"></ion-icon>
+					<span>{{diginix.translate("Facebook Login","تسجيل الدخول الى الفيسبوك")}}</span>
+				</ion-button>
+			</ion-col>
+			<ion-col>
+				<ion-button class="social-button"  expand="block" fill="solid" color="google" (click)="googleSignIn()">
+					<ion-icon name="logo-google" class="ion-padding-end"></ion-icon>
+					<span>{{diginix.translate("Google Login","جوجل تسجيل الدخول")}}</span>
+				</ion-button>
+			</ion-col>
+		</ion-row>
+
+
+
 	</ion-grid>
 
 	

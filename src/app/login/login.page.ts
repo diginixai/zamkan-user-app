@@ -192,4 +192,8 @@ init_third_party_login(data){
 }
 
 
+change_language(){
+  this.diginix.language_switch();
+}
+
 }
