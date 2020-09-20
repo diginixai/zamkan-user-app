@@ -30,9 +30,20 @@ export class ServicehomecleaningPage implements OnInit {
   	hours:null,
     materials:null,
     materials_index:null,
-    additional_services:null,
+    additional_services:[],
     additional_index:null,
-    location:null,
+    location:{
+      villa:"",
+      street:"",
+      area_name:"",
+      area:0,
+      city_name:"",
+      city_id:0,
+      lat:"",
+      lng:"",
+      area_info:{name:""},
+      city_info:{name:""},
+    },
   	frequency:'once',
   	booking_date:new Date().toISOString(),
     booking_date_human:null,
@@ -53,12 +64,12 @@ export class ServicehomecleaningPage implements OnInit {
 
 
       this.use_latest_address();
+      this.updateinfo();
 
   }
 
 
   calculate(){
-
     this.updateinfo();
     console.log(JSON.stringify(this.formvalue));
 //    console.log(this.formvalue.materials);
@@ -79,7 +90,6 @@ export class ServicehomecleaningPage implements OnInit {
 
     this.formvalue.bill=this.bill;
     
-
     this.updateinfo();
     console.log(this.formvalue);
     return true;
@@ -122,7 +132,7 @@ export class ServicehomecleaningPage implements OnInit {
       {
         'title':'Address',
         'title_ar':'عنوان',
-        'value':this.location.villa+" "+this.location.street+" "+this.location.area_name+" "+this.location.city_name,
+        'value':this.formvalue.location.villa+" "+this.formvalue.location.street+" "+this.formvalue.location.area_info.name+" "+this.formvalue.location.city_info.name,
       },
       {
         'title':'Notes',
@@ -193,6 +203,13 @@ export class ServicehomecleaningPage implements OnInit {
   	}else if(this.formvalue.step==2){
 
 
+
+    if(this.formvalue.location.villa==""){
+          this.diginix.toast("Address is missing.",500);
+        return false;
+    }
+
+
       if(this.formvalue.materials==null){
         this.diginix.toast("You have not selected the materials.",500);
         return false;
@@ -201,6 +218,7 @@ export class ServicehomecleaningPage implements OnInit {
 
 
   this.updateinfo();
+  console.log(this.formvalue);
   window.localStorage.setItem('booking_data',JSON.stringify(this.formvalue));
 	this.router.navigate(['/bookingreview'],{ queryParams: { } });
   	}
@@ -214,19 +232,6 @@ export class ServicehomecleaningPage implements OnInit {
 
 
 msg:any;
-  location:any={
-      villa:"",
-      street:"",
-      area_name:"",
-      area_info:{name:''},
-      city_info:{name:''},
-      area:0,
-      city_name:"",
-      city_id:0,
-      lat:"",
-      lng:"",
-    };
-
   tax:any;
   bill:any={
     printed_amount:0,
@@ -254,8 +259,25 @@ async whats_included(){
 
 
 use_latest_address(){      // fetch address 
+
+  var dx:any={
+      villa:"",
+      street:"",
+      area_name:"",
+      area:0,
+      city_name:"",
+      city_id:0,
+      lat:"",
+      lng:"",
+      area_info:{name:""},
+      city_info:{name:""},
+    }
+
       this.diginix.callapi("profile/recentaddress/","",{},false).then((d)=>{
-        this.location=d;
+        if(d!=false){
+          dx=d;
+        this.formvalue.location=dx;
+        }
       });
 }
 
@@ -274,7 +296,6 @@ use_latest_address(){      // fetch address
 const { data } = await modal.onWillDismiss();
 if(data.address){
 this.formvalue.location=data.address;
-this.location=data.address;
 }
 
 if(data.fetch_new_address){

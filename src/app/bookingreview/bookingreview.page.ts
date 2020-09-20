@@ -11,6 +11,7 @@ import { DiginixService } from '../diginix.service';
 export class BookingreviewPage implements OnInit {
 
 	booking_data:any;
+  sending=false;
 	
   constructor(
   public modalController: ModalController,
@@ -38,10 +39,13 @@ export class BookingreviewPage implements OnInit {
 
 
   book_now(){ 
+    this.sending=true;
     this.diginix.toast(this.diginix.translate("Payment connection is under process.","اتصال الدفع قيد المعالجة."),300);
     this.diginix.callapi("bookingsocket/submit/","Sending Booking",this.booking_data).then((d)=>{
 
-    });
+      this.router.navigate(['/jobs'],{ queryParams: { } });
+
+    }).catch((e)=>{ this.sending=false; });
   }
 
   

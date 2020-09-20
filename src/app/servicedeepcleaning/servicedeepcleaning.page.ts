@@ -35,7 +35,18 @@ export class ServicedeepcleaningPage implements OnInit {
     images:[],
     additional_services:null,
     additional_index:null,
-    location:null,
+    location:{
+      villa:"",
+      street:"",
+      area_name:"",
+      area:0,
+      city_name:"",
+      city_id:0,
+      lat:"",
+      lng:"",
+      area_info:{name:""},
+      city_info:{name:""},
+    },
   	frequency:'once',
   	booking_date:new Date().toISOString(),
     booking_date_human:null,
@@ -169,7 +180,7 @@ export class ServicedeepcleaningPage implements OnInit {
       {
         'title':'Address',
         'title_ar':'عنوان',
-        'value':this.location.villa+" "+this.location.street+" "+this.location.area_name+" "+this.location.city_name,
+        'value':this.formvalue.location.villa+" "+this.formvalue.location.street+" "+this.formvalue.location.area_info.name+" "+this.formvalue.location.city_info.name,
       },
       {
         'title':'Notes',
@@ -186,8 +197,7 @@ console.log(this.formvalue);
 
     this.updateinfo();
     console.log(JSON.stringify(this.formvalue));
-//    console.log(this.formvalue.materials);
-
+    
     this.bill.printed_amount=0;
     this.bill.selling_amount=0;
 
@@ -233,6 +243,11 @@ next(){
 
 
 
+    if(this.formvalue.location.villa==""){
+          this.diginix.toast("Address is missing.",500);
+        return false;
+    }
+
 
       if(this.formvalue.room_size.size==''){
         this.diginix.toast("Room size not selected.",500);
@@ -255,19 +270,6 @@ next(){
 
 
 msg:any;
-  location:any={
-      villa:"",
-      street:"",
-      area_name:"",
-      area:0,
-      city_name:"",
-      city_id:0,
-      lat:"",
-      lng:"",
-      area_info:{name:''},
-      city_info:{name:''},
-    };
-
   tax:any;
   bill:any={
     printed_amount:0,
@@ -293,13 +295,28 @@ async whats_included(){
 
 
 
-
-use_latest_address(){      // fetch address 
+use_latest_address(){   
+   // fetch address 
+  var dx:any={
+      villa:"",
+      street:"",
+      area_name:"",
+      area:0,
+      city_name:"",
+      city_id:0,
+      lat:"",
+      lng:"",
+      area_info:{name:""},
+      city_info:{name:""},
+    }
       this.diginix.callapi("profile/recentaddress/","",{},false).then((d)=>{
-        this.location=d;
+        if(d!=false){
+        dx=d;
+        this.formvalue.location=dx;
+      }
+        
       });
 }
-
 
    async presentModal() {
     const modal = await this.modalController.create({
@@ -315,29 +332,25 @@ use_latest_address(){      // fetch address
 const { data } = await modal.onWillDismiss();
 if(data.address){
 this.formvalue.location=data.address;
-this.location=data.address;
+
 }
 
 if(data.fetch_new_address){
   this.use_latest_address();
+
 }
 
-console.log(data);
 
 }
 
 
 delete_photo(inputname,i){
           this.formvalue[inputname].splice(i, 1);
-          //alert(i);
 }
 
 
 capture_photo(inputname){
 
-                    // if(this.formvalue[inputname]==undefined){
-                    //           this.formvalue[inputname]=[];
-                    // }
 
                     if(this.formvalue[inputname].length>3){
 this.diginix.alert(this.diginix.translate("Alert","إنذار"),this.diginix.translate("Maximum 3 Photos are allowed.","يسمح بحد أقصى 3 صور."));

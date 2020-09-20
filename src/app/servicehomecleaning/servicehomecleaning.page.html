@@ -119,9 +119,10 @@
   <ion-item>
           <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
           <ion-label>
-            <h2>{{location.city_info.name}}</h2>
-            <h3>{{location.area_info.name}}</h3>
-            <p>{{location.villa}} {{location.street}}</p>
+              <h2>{{formvalue.location.city_info.name}}</h2>
+            <h2>{{formvalue.location.city_info.name}}</h2>
+            <h3>{{formvalue.location.area_info.name}}</h3>
+            <p>{{formvalue.location.villa}} {{formvalue.location.street}}</p>
           </ion-label>
           <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
 

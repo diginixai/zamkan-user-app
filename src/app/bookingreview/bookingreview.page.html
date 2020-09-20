@@ -7,12 +7,12 @@
     </ion-button>
 </ion-buttons>
 
-    <ion-title>+{{diginix.translate('REVIEW BOOKING DETAILS','مراجعة تفاصيل الحجز')}}</ion-title>
+    <ion-title>{{diginix.translate('REVIEW BOOKING DETAILS','مراجعة تفاصيل الحجز')}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-
+<div *ngIf="sending==false">
 
 
 <div class="shadowbox">
@@ -76,19 +76,19 @@
       </ion-label>
     </ion-list-header>
 
-    <ion-item lines="none">
+    <ion-item *ngIf="diginix.payment_method=='card' || diginix.payment_method=='both'" lines="none">
      <ion-icon name="card-outline"></ion-icon>	
       <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Card','بطاقة')}}</ion-label>
       <ion-radio value="card"></ion-radio>
     </ion-item>
 
-    <ion-item lines="none">
+    <ion-item *ngIf="diginix.payment_method=='cash' || diginix.payment_method=='both'" lines="none">
     	<ion-icon name="cash-outline"></ion-icon>
       <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Cash','السيولة النقدية')}}</ion-label>
       <ion-radio value="cash"></ion-radio>
     </ion-item>
 
-    <ion-item lines="none">
+    <ion-item *ngIf="diginix.payment_method=='card' || diginix.payment_method=='both'" lines="none">
     	<small color="light">{{diginix.translate('Your card will only be charged after the service has been completed. By making this booking. you agree to Zamkanapp\'s Terms and Conditions.','لن يتم الخصم من بطاقتك إلا بعد اكتمال الخدمة. من خلال إجراء هذا الحجز. أنت توافق على شروط وأحكام Zamkanapp.')}}</small>
     </ion-item>
 
@@ -98,12 +98,22 @@
 
 </div>
 
-<small color="light">{{diginix.translate('We accept Visa & Mastercard. Your card will be verified for AED 1 and the charge will be reversed. You will only be charged for the service after it has been completed.','نحن نقبل Visa & Mastercard. سيتم التحقق من بطاقتك بمبلغ 1 درهم إماراتي وسيتم إلغاء الرسوم. سيتم محاسبتك على الخدمة فقط بعد اكتمالها.')}}</small>
+<small color="light" *ngIf="diginix.payment_method=='card' || diginix.payment_method=='both'" >{{diginix.translate('We accept Visa & Mastercard. Your card will be verified for AED 1 and the charge will be reversed. You will only be charged for the service after it has been completed.','نحن نقبل Visa & Mastercard. سيتم التحقق من بطاقتك بمبلغ 1 درهم إماراتي وسيتم إلغاء الرسوم. سيتم محاسبتك على الخدمة فقط بعد اكتمالها.')}}</small>
+
+</div>
+<div *ngIf="sending==true">
+
+  <div class="fullheight xc">
+    <img src="./assets/booking_sent.gif" id="imgPlacement"  class="beat">
+</div>
+
+
+</div>
 
 </ion-content>
 
 
-<ion-footer class="ion-no-border" *ngIf="booking_data.payment_method">
+<ion-footer class="ion-no-border" *ngIf="booking_data.payment_method && sending==false">
 	<ion-button *ngIf="booking_data.payment_method=='card'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('GOTO PAYMENT PAGE','اذهب إلى صفحة الدفع')}}</ion-button>
   <ion-button *ngIf="booking_data.payment_method=='cash'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('CONFIRM BOOKING','تأكيد الحجز')}}</ion-button>
 </ion-footer>

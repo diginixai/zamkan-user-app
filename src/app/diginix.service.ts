@@ -17,6 +17,7 @@ apiurl="https://test.zamkanapp.com/api/";
 run="angular";
 language="en";
 cities:any=[];
+payment_method="cash"; // cash card both
 selected_city:any={id:"",name:"",name_ar:""};
   
 

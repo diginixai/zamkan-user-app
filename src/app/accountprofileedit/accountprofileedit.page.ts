@@ -22,7 +22,7 @@ export class AccountprofileeditPage implements OnInit {
 
   	this.user=JSON.parse(localStorage.getItem("user"));
   	this.city_list=JSON.parse(localStorage.getItem("cities"));
-    this.default_id=this.user.area_id;
+    this.default_area=this.user.area_id;
     this.populate_area();
     console.log(this.user);
 
@@ -34,15 +34,9 @@ export class AccountprofileeditPage implements OnInit {
     populate_area(){
         if(this.user.city_id!="" && this.user.city_id!=undefined){
         this.diginix.callapi("data/area/?id="+this.user.city_id,"Ferching Areas...",{}).then((d)=>{
-          this.area_list=[];
+         
 
-         d.forEach((value, key, index) => {
-            if(value.areaId==this.user.area_id){
-              value.selected=true;
-            }
-
-            this.area_list.push(value);
-          });
+         this.area_list=d;
 
          console.log(this.area_list);
          this.default_area=this.user.area_id;
