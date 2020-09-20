@@ -20,14 +20,6 @@ cities:any=[];
 selected_city:any={id:"",name:"",name_ar:""};
   
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-      'api':localStorage.getItem('api'),
-      'demodata':'fineok',
-    })
-  }
-
 
 
 
@@ -254,8 +246,29 @@ console.log('feftching url',url);
                   loading.present();
                     }
                  var link=this.apiurl+url;
-//this.httpOptions
-                 this.http.post(link,data,this.httpOptions).subscribe(dataxx => {
+
+
+                if(localStorage.getItem('api')!=undefined){
+                  var httpOptions = {
+                    headers: new HttpHeaders({
+                      'Content-Type': 'application/json',
+                      'api':localStorage.getItem('api'),
+                      'demodata':'fineok',
+                    })
+                  }
+                }else{
+                  var httpOptions = {
+                    headers: new HttpHeaders({
+                      'Content-Type': 'application/json',
+                      'api':'',
+                      'demodata':'fineok',
+                    })
+                  }
+                }
+
+
+                 this.http.post(link,data,httpOptions).subscribe(dataxx => {
+
                   console.log('http request sent',dataxx);
                                   try {
                                       var tcson=dataxx;
@@ -288,6 +301,8 @@ console.log('feftching url',url);
 
                },
                err => {
+
+                console.log(err);
                    loading.dismiss();
                   this.alert(this.translate("Technical Error","خطأ تقني"),this.translate("Technical Error in connection.","خطأ فني في الاتصال."));
                   reject("");
