@@ -26,7 +26,7 @@ export class ServicesanitizationPage implements OnInit {
 
   formvalue={
   	room_type:"apartment",
-  	room_size:{size:'',base:0},
+  	room_size:{size:'',title:'',title_ar:'',cleaning_sanitization:{},sanitization:{}},
   	service_type:'cleaning_sanitization',
   	office_area:0,
     form_id:0,
@@ -119,7 +119,6 @@ updateinfo(){
 
     this.formvalue.tax=this.tax;
     this.formvalue.msg=this.msg;
-    this.formvalue.additional_services=this.additional;
 
     var date = new Date(this.formvalue.booking_date);
     this.formvalue.booking_date_human=date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
@@ -137,7 +136,7 @@ updateinfo(){
         'title':'Room Size',
         'title_ar':'حجم الغرفة',
         'value':this.formvalue.room_size.size,
-      },
+      	}
     }
 
 
@@ -191,7 +190,7 @@ if(this.formvalue.room_type=="office"){
 
 	this.office.forEach((value, key, index) => {
 		if(value.from<=area && value.to>=area){
-			this.room_size=value;
+			this.formvalue.room_size=value;
 			this.bill.printed_amount=area*value[this.formvalue.service_type].base_printed;
 			this.bill.selling_amount=area*value[this.formvalue.service_type].base_selling;
 		}
@@ -205,7 +204,7 @@ if(this.formvalue.room_type=="office"){
     if(this.formvalue.room_size==null || this.formvalue.room_size.size==""){
     	return false;
     }
-    var selected_service_type=this.service_type;
+    var selected_service_type=this.formvalue.service_type;
     this.bill.printed_amount=this.formvalue.room_size[this.formvalue.service_type].base_printed;
     this.bill.selling_amount=this.formvalue.room_size[this.formvalue.service_type].base_selling;
     this.formvalue.bill=this.bill;
@@ -221,9 +220,6 @@ if(this.formvalue.room_type=="office"){
   }
 
 
-reset_room(){
-	this.formvalue.room_size={size:'',base:0};
-}
 
 
 next(){
@@ -238,7 +234,7 @@ next(){
 
     if(this.formvalue.room_type=='office'){
 
-    	if(this.formvalue.office_area=='' || this.formvalue.office_area==0){
+    	if(this.formvalue.office_area==0){
         this.diginix.toast("Office area not entered.",500);
         return false;
       }
