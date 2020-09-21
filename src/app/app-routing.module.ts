@@ -83,6 +83,58 @@ const routes: Routes = [
   {
     path: 'accountaddressmanage',
     loadChildren: () => import('./accountaddressmanage/accountaddressmanage.module').then( m => m.AccountaddressmanagePageModule)
+  },
+  {
+    path: 'servicewatertankcleaning',
+    loadChildren: () => import('./servicewatertankcleaning/servicewatertankcleaning.module').then( m => m.ServicewatertankcleaningPageModule)
+  },
+  {
+    path: 'servicemovingmyhome',
+    loadChildren: () => import('./servicemovingmyhome/servicemovingmyhome.module').then( m => m.ServicemovingmyhomePageModule)
+  },
+  {
+    path: 'servicesanitization',
+    loadChildren: () => import('./servicesanitization/servicesanitization.module').then( m => m.ServicesanitizationPageModule)
+  },
+  {
+    path: 'serviceaccleaning',
+    loadChildren: () => import('./serviceaccleaning/serviceaccleaning.module').then( m => m.ServiceaccleaningPageModule)
+  },
+  {
+    path: 'serviceacrepair',
+    loadChildren: () => import('./serviceacrepair/serviceacrepair.module').then( m => m.ServiceacrepairPageModule)
+  },
+  {
+    path: 'servicehandyman',
+    loadChildren: () => import('./servicehandyman/servicehandyman.module').then( m => m.ServicehandymanPageModule)
+  },
+  {
+    path: 'serviceelectrician',
+    loadChildren: () => import('./serviceelectrician/serviceelectrician.module').then( m => m.ServiceelectricianPageModule)
+  },
+  {
+    path: 'serviceplumber',
+    loadChildren: () => import('./serviceplumber/serviceplumber.module').then( m => m.ServiceplumberPageModule)
+  },
+  {
+    path: 'servicebookatruck',
+    loadChildren: () => import('./servicebookatruck/servicebookatruck.module').then( m => m.ServicebookatruckPageModule)
+  },
+  {
+    path: 'servicemovinginternationally',
+    loadChildren: () => import('./servicemovinginternationally/servicemovinginternationally.module').then( m => m.ServicemovinginternationallyPageModule)
+  },
+  {
+    path: 'servicestorage',
+    loadChildren: () => import('./servicestorage/servicestorage.module').then( m => m.ServicestoragePageModule)
+  },
+  {
+    path: 'servicemoveinpainting',
+    loadChildren: () => import('./servicemoveinpainting/servicemoveinpainting.module').then( m => m.ServicemoveinpaintingPageModule)
+  },
+  {
+    path: 'servicepaintingcustom',
+    loadChildren: () => import('./servicepaintingcustom/servicepaintingcustom.module').then( m => m.ServicepaintingcustomPageModule)
   }
 ];
 @NgModule({

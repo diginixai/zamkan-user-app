@@ -16,23 +16,6 @@
   </ion-toolbar>
 </ion-header>
 
-  <ion-header *ngIf="formvalue.step==2">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-    <ion-button (click)="formvalue.step=1">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-
-    <ion-title>{{diginix.translate("Back","عودة")}}</ion-title>
-
-    <ion-buttons slot="end">
-    <ion-button (click)="whats_included()" slot="end">
-      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
-    </ion-button>
-  </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
 
 <ion-content class="ion-padding">
@@ -40,59 +23,47 @@
 
 
 <ion-text><h4>
-{{diginix.translate( "What type of home do you live in?" , "ما نوع المنزل الذي تعيش فيه؟" )}}</h4></ion-text>
+{{diginix.translate( "What type of unit you want sanitized?" , "ما نوع الوحدة التي تريد تعقيمها؟" )}}</h4></ion-text>
 
-<ion-button [color]="formvalue.room_type=='apartment'?'zamkan':'light'" (click)="formvalue.room_type='apartment';reset_room();calculate();" >{{diginix.translate('Apartment','شقة')}}</ion-button>
+<ion-button *ngFor="let rtype of room_type index as i; count as c;" [color]="formvalue.room_type==rtype.size?'zamkan':'light'" (click)="formvalue.room_type=rtype.size;reset_room();calculate();" >{{diginix.translate(rtype.title,rtype.title_ar)}}</ion-button>
 
-<ion-button [color]="formvalue.room_type=='villa'?'zamkan':'light'" (click)="formvalue.room_type='villa';reset_room();calculate();" >{{diginix.translate('Villa','فيلا')}}</ion-button>
 
 <div *ngIf="formvalue.room_type=='apartment'">
-<br>
-<ion-button [color]="formvalue.room_size.size==svc.size?'zamkan':'light'" (click)="formvalue.room_size=svc;calculate();" *ngFor="let svc of apartment index as i; count as c;"  >
-{{svc.size}}<br>AED {{svc.base}}
-</ion-button>
+<ion-text><h4>
+{{diginix.translate( "What is the size of your home?" , "ما هو حجم منزلك؟" )}}</h4></ion-text>
+<ion-button *ngFor="let rdm of apartment index as i; count as c;" [color]="formvalue.room_size.size==rdm.size?'zamkan':'light'" (click)="formvalue.room_size=rdm;calculate();" >{{diginix.translate(rdm.title,rdm.title_ar)}}</ion-button>
 </div>
+
 
 <div *ngIf="formvalue.room_type=='villa'">
-<br>
-<ion-button [color]="formvalue.room_size.size==svc.size?'zamkan':'light'" (click)="formvalue.room_size=svc;calculate();" *ngFor="let svc of villa index as i; count as c;"  >
-{{svc.size}}<br>AED {{svc.base}}
-</ion-button>
+<ion-text><h4>
+{{diginix.translate( "What is the size of your home?" , "ما هو حجم منزلك؟" )}}</h4></ion-text>
+<ion-button *ngFor="let rdm of villa index as i; count as c;" [color]="formvalue.room_size.size==rdm.size?'zamkan':'light'" (click)="formvalue.room_size=rdm;calculate();" >{{diginix.translate(rdm.title,rdm.title_ar)}}</ion-button>
 </div>
 
 
-<ion-list>
-  <ion-radio-group [(ngModel)]="formvalue.room_furnished" >
-    <ion-list-header>
-      <ion-text><h4>{{diginix.translate("Is your home furnished?","هل منزلك مفروش؟")}}</h4></ion-text>
-    </ion-list-header>
-
-      
-    <ion-item (click)="formvalue.room_furnished='yes';calculate();">
-      <ion-label>{{diginix.translate("Yes","نعم")}}</ion-label>
-      <ion-radio slot="start" value="yes"></ion-radio>
-    </ion-item>
-
-    <ion-item (click)="formvalue.room_furnished='no';calculate();">
-      <ion-label>{{diginix.translate("No","لا")}}</ion-label>
-      <ion-radio slot="start" value="no"></ion-radio>
-    </ion-item>
-
-  </ion-radio-group>
-</ion-list>
+<div *ngIf="formvalue.room_type=='office'">
+<ion-text><h4>
+{{diginix.translate( "What is the size of your office in square feet?" , "ما هو حجم مكتبك بالقدم المربع؟" )}}</h4></ion-text>
 
 
-<ion-list>
-  <ion-radio-group value="biff">
-    <ion-list-header>
-      <ion-text><h4>{{diginix.translate("Do you need additonal services?","هل تحتاج إلى خدمات إضافية؟")}}</h4></ion-text>
-    </ion-list-header>
-    <ion-item *ngFor="let add of additional; index as i; count as c;" (click)="calculate();">
-      <ion-label>{{diginix.translate(add.title,add.title_ar)}}</ion-label>
-    <ion-checkbox slot="start" [(ngModel)]="add.checked" ></ion-checkbox>
-    </ion-item>
-  </ion-radio-group>
-</ion-list>
+<ion-item>
+  <ion-label>{{diginix.translate( "Area in square feet" , "المساحة بالقدم المربع" )}}</ion-label>
+  <ion-input type="number" placeholder="0" [(ngModel)]="formvalue.office_area" (keyup)="calculate();"></ion-input>
+</ion-item>
+</div>
+
+
+
+
+<ion-text><h4>
+{{diginix.translate( "What service do you require?" , "ما الخدمة التي تطلبها؟" )}}</h4></ion-text>
+
+<ion-button [color]="formvalue.service_type=='cleaning_sanitization'?'zamkan':'light'" (click)="formvalue.service_type='cleaning_sanitization';calculate();" >{{diginix.translate('Cleaning and Sanitization','التنظيف والتعقيم')}}</ion-button>
+
+
+<ion-button [color]="formvalue.service_type=='sanitization'?'zamkan':'light'" (click)="formvalue.service_type='sanitization';calculate();" >{{diginix.translate('Sanitization Only','التعقيم فقط')}}</ion-button>
+
 
 
 
@@ -126,26 +97,20 @@
 
 
 
-
-
-<ion-text><h4>{{diginix.translate("When do you need deep cleaning","متى تحتاج إلى تنظيف عميق")}}</h4></ion-text>
+<ion-text><h4>{{diginix.translate("When do you want sanitization to be done?","متى تريد أن يتم التعقيم؟")}}</h4></ion-text>
 <ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
 
-<ion-text><h4>{{diginix.translate("Cleaning time","وقت التنظيف")}}</h4></ion-text>
-<ion-select [(ngModel)]="formvalue.booking_time">
-     <ion-select-option *ngFor="let tm of time" value="{{tm}}">{{tm}}</ion-select-option>
-</ion-select>
 
 
-
-      <ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
+<ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
 
           <ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: You will need to bring a gate pass, I will not be home and am leaving the key under tha mat, etc.','مثال: ستحتاج إلى إحضار بطاقة مرور ، ولن أكون في المنزل وأترك المفتاح تحت حصيرة ، وما إلى ذلك.')}}"></ion-textarea>
 
 
-<ion-list>
+
+  <ion-list>
   <ion-list-header>
-      <ion-text><h4>{{diginix.translate("Where will the service take place?","أين ستتم الخدمة؟")}}</h4></ion-text>
+      <ion-text><h4>{{diginix.translate("Where will the sanitization takes place?","أين سيتم التعقيم؟")}}</h4></ion-text>
   </ion-list-header>
 
   <ion-item>
@@ -163,7 +128,10 @@
 
 
 
+
+
 </ion-content>
+
 
 
 

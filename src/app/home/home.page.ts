@@ -36,8 +36,8 @@ products:[
 		title:"Senitization Services",
 		title_ar:"التشيخ",
 		image:"https://cdn.mrright.in/cdn/content/assets/2020-5/medium/0bc788ef8da746e2a95fdf4ffbbc84c2-shutterstock_1682326498.jpg",
-		form_id:0,
-		slug:"",
+		form_id:38,
+		slug:"servicesanitization",
 	}
 ]
 },
@@ -86,6 +86,43 @@ products:[
 ]
 },
 
+
+
+{
+title:"Moving and storage services",
+title_ar:"خدمات النقل والتخزين",
+products:[
+	{
+		title:"Moving my home",
+		title_ar:"نقل منزلي",
+		image:"https://coolbuzz.org/wp-content/uploads/2014/08/Moving-House.jpg",
+		form_id:36,
+		slug:"servicemovingmyhome",
+	},
+	{
+		title:"Book a truck",
+		title_ar:"احجز شاحنة",
+		image:"https://dial2hire.com/images/img_large_1.jpg",
+		form_id:0,
+		slug:"",
+	},
+	{
+		title:"Moving internationally",
+		title_ar:"التحرك دوليا",
+		image:"https://www.doveshipping.com/Portals/0/International%20Move.jpg",
+		form_id:0,
+		slug:"",
+	},
+	{
+		title:"Storage",
+		title_ar:"تخزين",
+		image:"https://www.arbycartage.com/wp-content/uploads/2017/02/storage.jpg",
+		form_id:0,
+		slug:"",
+	},
+	
+]
+},
 
 
 
@@ -138,6 +175,13 @@ products:[
 		form_id:0,
 		slug:"",
 	},
+	{
+		title:"Water Tank Cleaning",
+		title_ar:"تنظيف خزانات المياه",
+		image:"https://www.maxicareme.com/images/residential-water-tank-cleaning.jpg",
+		form_id:70,
+		slug:"servicewatertankcleaning",
+	}
 	
 ]
 }

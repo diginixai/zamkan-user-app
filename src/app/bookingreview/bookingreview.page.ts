@@ -48,5 +48,16 @@ export class BookingreviewPage implements OnInit {
     }).catch((e)=>{ this.sending=false; });
   }
 
+  enquiry_now(){ 
+    this.sending=true;
+    this.booking_data.payment_method="cash";
+    this.diginix.toast(this.diginix.translate("Payment connection is under process.","اتصال الدفع قيد المعالجة."),300);
+    this.diginix.callapi("bookingsocket/submit/","Sending Booking",this.booking_data).then((d)=>{
+
+      this.router.navigate(['/jobs'],{ queryParams: { } });
+
+    }).catch((e)=>{ this.sending=false; });
+  }
+
   
 }

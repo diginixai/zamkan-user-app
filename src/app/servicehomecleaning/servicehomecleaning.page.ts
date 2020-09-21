@@ -24,6 +24,7 @@ export class ServicehomecleaningPage implements OnInit {
   
   formvalue={
     form_id:0,
+    form_type:'booking',
   	step:1,  // one for main form, two for second input, three for location
     booking_type:"Home Cleaning",
   	cleaners:null,
@@ -47,7 +48,7 @@ export class ServicehomecleaningPage implements OnInit {
   	frequency:'once',
   	booking_date:new Date().toISOString(),
     booking_date_human:null,
-  	cleaning_time:null,
+  	booking_time:null,
     msg:null,
     bill:{},
     tax:null,
@@ -127,7 +128,7 @@ export class ServicehomecleaningPage implements OnInit {
       {
         'title':'Service Time',
         'title_ar':'وقت الخدمة',
-        'value':this.formvalue.cleaning_time,
+        'value':this.formvalue.booking_time,
       },
       {
         'title':'Address',
@@ -160,7 +161,7 @@ export class ServicehomecleaningPage implements OnInit {
       this.tax=received_dt.rate.tax;
       this.what_included=received_dt.what_included;
       this.time=received_dt.time;
-      this.formvalue.cleaning_time=received_dt.time[0];
+      this.formvalue.booking_time=received_dt.time[0];
       this.formvalue.form_id=received_dt.form_id;
 
 

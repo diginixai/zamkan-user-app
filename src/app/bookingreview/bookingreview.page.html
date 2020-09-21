@@ -36,7 +36,7 @@
 
 
 
-<div class="shadowbox">
+<div class="shadowbox" *ngIf="booking_data.form_type!='enquiry'">
 <ion-list>
   <ion-item>
     <ion-label>{{diginix.translate('Payment Details','بيانات الدفع')}}</ion-label>
@@ -65,7 +65,7 @@
 
 
 
-<div class="shadowbox">
+<div class="shadowbox" *ngIf="booking_data.form_type!='enquiry'">
 
 
 <ion-list>
@@ -113,7 +113,11 @@
 </ion-content>
 
 
-<ion-footer class="ion-no-border" *ngIf="booking_data.payment_method && sending==false">
+<ion-footer class="ion-no-border" *ngIf="booking_data.form_type=='booking' && booking_data.payment_method && sending==false">
 	<ion-button *ngIf="booking_data.payment_method=='card'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('GOTO PAYMENT PAGE','اذهب إلى صفحة الدفع')}}</ion-button>
   <ion-button *ngIf="booking_data.payment_method=='cash'" expand="full" color="zamkan" size="large" (click)="book_now();">{{diginix.translate('CONFIRM BOOKING','تأكيد الحجز')}}</ion-button>
+</ion-footer>
+
+<ion-footer class="ion-no-border" *ngIf="booking_data.form_type=='enquiry' && sending==false">
+  <ion-button expand="full" color="zamkan" size="large" (click)="enquiry_now();">{{diginix.translate('SENDING ENQUIRY','استفسار عن الإرسال')}}</ion-button>
 </ion-footer>

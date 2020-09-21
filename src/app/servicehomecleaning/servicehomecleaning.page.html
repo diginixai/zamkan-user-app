@@ -66,7 +66,7 @@
 <ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
 
 <ion-text><h4>{{diginix.translate("Cleaning time","وقت التنظيف")}}</h4></ion-text>
-<ion-select [(ngModel)]="formvalue.cleaning_time">
+<ion-select [(ngModel)]="formvalue.booking_time">
      <ion-select-option *ngFor="let tm of time" value="{{tm}}">{{tm}}</ion-select-option>
 </ion-select>
 </div>

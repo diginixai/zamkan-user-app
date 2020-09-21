@@ -8,32 +8,22 @@ import { DiginixService } from '../diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
-  selector: 'app-servicedeepcleaning',
-  templateUrl: './servicedeepcleaning.page.html',
-  styleUrls: ['./servicedeepcleaning.page.scss'],
+  selector: 'app-servicewatertankcleaning',
+  templateUrl: './servicewatertankcleaning.page.html',
+  styleUrls: ['./servicewatertankcleaning.page.scss'],
 })
-export class ServicedeepcleaningPage implements OnInit {
+export class ServicewatertankcleaningPage implements OnInit {
 
 
-  
-  apartment=[];
-  villa=[]; 
-  materials:any;
-  additional:any=[{title:'Steam Cleaning',title_ar:'تنظيف التيار',slug:'steam'},{title:'Grout Cleaning',title_ar:'تنظيف الجص',slug:'grout'}];
-  
-  time:any;
 
+	time:any;
+  base_rate:any={base_selling:"0"};
   formvalue={
-  	room_type:"apartment",
-  	room_size:{size:'',base:0},
-  	room_furnished:"no",
-    form_id:0,
+  	form_id:0,
     form_type:'booking',
   	step:1,  // one for main form, two for second input, three for location
-    booking_type:"Deep Cleaning",
-  	apartment:null,
-  	villa:null,
-    images:[],
+    booking_type:"Water Tank Cleaning",
+  	images:[],
     additional_services:null,
     additional_index:null,
     location:{
@@ -48,7 +38,6 @@ export class ServicedeepcleaningPage implements OnInit {
       area_info:{name:""},
       city_info:{name:""},
     },
-  	frequency:'once',
   	booking_date:new Date().toISOString(),
     booking_date_human:null,
   	booking_time:null,
@@ -62,37 +51,41 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-  constructor(
-  private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
   	private router: Router,
   	public modalController: ModalController,
     public diginix:DiginixService,
-    private camera: Camera,
-    ) { 
+    private camera: Camera,) { 
 
-     this.use_latest_address();
 
-    }
+  	 this.use_latest_address();
 
-  ngOnInit() {
+  }
+
+ ngOnInit() {
+
+
+ 	 	this.route
+      .queryParams
+      .subscribe(params => {
+       // this.name=params.name;
+       this.formvalue.form_id=params.form_id
+      });
 
 
   //  this.diginix.alert('thankyou','nishant');
 
   let received_dt:any={form_id:null,time:[""],what_included:"",rate:{tax:0,additional:null,materials:[],hours:[],cleaners:[]}};
 
-    this.diginix.callapi("newpriceapis/deepcleaning","Loading only...",{service_id:77}).then((d)=>{
+    this.diginix.callapi("newpriceapis/watertankcleaning","Loading only...",{service_id:this.formvalue.form_id}).then((d)=>{
       
       received_dt=d;
-      this.apartment=received_dt.rate.apartment;
-      this.villa=received_dt.rate.villa;
-
       this.tax=received_dt.rate.tax;
       this.what_included=received_dt.what_included;
       this.time=received_dt.time;
       this.formvalue.booking_time=received_dt.time[0];
       this.formvalue.form_id=received_dt.form_id;
-
+      this.base_rate=received_dt.rate.base;
 
     }).catch((e)=>{
       console.log(e);
@@ -100,13 +93,8 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-  	this.route
-      .queryParams
-      .subscribe(params => {
-       // this.name=params.name;
-       this.formvalue.form_id=params.form_id
-      });
-
+ 
+    this.calculate();
 
 
 
@@ -117,55 +105,37 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-
-
-
-    updateinfo(){
+updateinfo(){
 
     this.formvalue.tax=this.tax;
     this.formvalue.msg=this.msg;
-    this.formvalue.additional_services=this.additional;
+    
 
     var date = new Date(this.formvalue.booking_date);
     this.formvalue.booking_date_human=date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
 
-    var additional_services_text="";
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked==true){
-    	if(additional_services_text==""){
-    		additional_services_text=value.title;
-    	}else{
-    		additional_services_text=additional_services_text+", "+value.title;
-    	}
-    	}
+    // var additional_services_text="";
+    // this.additional.forEach((value, key, index) => {
+    //   if(value.checked==true){
+    //   if(additional_services_text==""){
+    //     additional_services_text=value.title;
+    //   }else{
+    //     additional_services_text=additional_services_text+", "+value.title;
+    //   }
+    //   }
 
-    });
+    // });
 
-    if(additional_services_text==""){
-      additional_services_text="no";
-    }
+    // if(additional_services_text==""){
+    //   additional_services_text="no";
+    // }
 
 
     this.formvalue.booking_details=[
       {
-        'title':'Type of House',
-        'title_ar':'سيفا كي أفادي',
-        'value':this.formvalue.room_type,
-      },
-      {
-        'title':'Room Size',
-        'title_ar':'حجم الغرفة',
-        'value':this.formvalue.room_size.size,
-      },
-      {
-        'title':'Is home furnished?',
-        'title_ar':'هل المنزل مفروش؟',
-        'value':this.formvalue.room_furnished,
-      },
-      {
-        'title':'Additonal Services',
-        'title_ar':'خدمات إضافية',
-        'value':additional_services_text,
+        'title':'Service',
+        'title_ar':'نوع الخدمة',
+        'value':this.formvalue.booking_type,
       },
       {
         'title':'Service Date',
@@ -193,55 +163,32 @@ console.log(this.formvalue);
   }
 
 
-    calculate(){
-    console.log(this.formvalue);
 
+
+
+
+calculate(){
     this.updateinfo();
     console.log(JSON.stringify(this.formvalue));
     
     this.bill.printed_amount=0;
     this.bill.selling_amount=0;
 
-    if(this.formvalue.room_size==null || this.formvalue.room_size.size==""){
-    	return false;
-    }
+    //var base_price=this.formvalue.base_rate
+    this.bill.selling_amount=this.base_rate.base_selling;
 
 
-    var base_price=this.formvalue.room_size.base;
-    this.bill.selling_amount=base_price;
-
-
-    // check additional services 
-    var additional_service_price=0;
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked && value.checked==true){
-    		additional_service_price=this.formvalue.room_size[value.slug];
-    	}
-    });
-
-    this.bill.selling_amount=this.bill.selling_amount+additional_service_price;
-
-    
     this.formvalue.bill=this.bill;
-    
-
-    this.updateinfo();
-    console.log(this.formvalue);
+    console.log('calculate called',this.formvalue);
     return true;
-  }
-
-
-
-
-
-reset_room(){
-	this.formvalue.room_size={size:'',base:0};
 }
+
 
 
 next(){
 
 
+console.log(this.formvalue);
 
 
     if(this.formvalue.location.villa==""){
@@ -250,8 +197,13 @@ next(){
     }
 
 
-      if(this.formvalue.room_size.size==''){
-        this.diginix.toast("Room size not selected.",500);
+      if(this.formvalue.booking_date==''){
+        this.diginix.toast("Booking date not selected..",500);
+        return false;
+      }
+
+      if(this.formvalue.booking_time==''){
+        this.diginix.toast("Booking time not selected..",500);
         return false;
       }
 
@@ -263,6 +215,8 @@ next(){
 
 
 }
+
+
 
 
 
@@ -393,7 +347,6 @@ correctOrientation: true
 
 
 }
-
 
 
 

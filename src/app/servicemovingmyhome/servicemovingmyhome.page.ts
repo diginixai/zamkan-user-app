@@ -8,32 +8,26 @@ import { DiginixService } from '../diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
 @Component({
-  selector: 'app-servicedeepcleaning',
-  templateUrl: './servicedeepcleaning.page.html',
-  styleUrls: ['./servicedeepcleaning.page.scss'],
+  selector: 'app-servicemovingmyhome',
+  templateUrl: './servicemovingmyhome.page.html',
+  styleUrls: ['./servicemovingmyhome.page.scss'],
 })
-export class ServicedeepcleaningPage implements OnInit {
+export class ServicemovingmyhomePage implements OnInit {
 
 
-  
-  apartment=[];
-  villa=[]; 
-  materials:any;
-  additional:any=[{title:'Steam Cleaning',title_ar:'تنظيف التيار',slug:'steam'},{title:'Grout Cleaning',title_ar:'تنظيف الجص',slug:'grout'}];
-  
-  time:any;
+  apartment=[{size:'Studio',base:'0'},{size:'1 BHK',base:'0'},{size:'2 BHK',base:'0'},{size:'3 BHK',base:'0'},{size:'4 BHK',base:'0'}];
+  villa=[{size:'2 BHK',base:'0'},{size:'3 BHK',base:'0'},{size:'4 BHK',base:'0'},{size:'5 BHK',base:'0'}];
 
+	time:any;
+  base_rate:any={base_selling:"0"};
   formvalue={
-  	room_type:"apartment",
-  	room_size:{size:'',base:0},
-  	room_furnished:"no",
-    form_id:0,
-    form_type:'booking',
+    room_type:'apartment',
+    room_size:'',
+  	form_id:36,
+    form_type:'enquiry',
   	step:1,  // one for main form, two for second input, three for location
-    booking_type:"Deep Cleaning",
-  	apartment:null,
-  	villa:null,
-    images:[],
+    booking_type:"Moving My Home",
+  	images:[],
     additional_services:null,
     additional_index:null,
     location:{
@@ -48,7 +42,18 @@ export class ServicedeepcleaningPage implements OnInit {
       area_info:{name:""},
       city_info:{name:""},
     },
-  	frequency:'once',
+    location_end:{
+      villa:"",
+      street:"",
+      area_name:"",
+      area:0,
+      city_name:"",
+      city_id:0,
+      lat:"",
+      lng:"",
+      area_info:{name:""},
+      city_info:{name:""},
+    },
   	booking_date:new Date().toISOString(),
     booking_date_human:null,
   	booking_time:null,
@@ -62,37 +67,41 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-  constructor(
-  private route: ActivatedRoute,
+
+  constructor(private route: ActivatedRoute,
   	private router: Router,
   	public modalController: ModalController,
     public diginix:DiginixService,
-    private camera: Camera,
-    ) { 
+    private camera: Camera,) { 
 
-     this.use_latest_address();
+  this.use_latest_address('location');
 
-    }
+}
 
-  ngOnInit() {
+ngOnInit() {
+
+
+ 	 	this.route
+      .queryParams
+      .subscribe(params => {
+       // this.name=params.name;
+       this.formvalue.form_id=params.form_id
+      });
 
 
   //  this.diginix.alert('thankyou','nishant');
 
   let received_dt:any={form_id:null,time:[""],what_included:"",rate:{tax:0,additional:null,materials:[],hours:[],cleaners:[]}};
 
-    this.diginix.callapi("newpriceapis/deepcleaning","Loading only...",{service_id:77}).then((d)=>{
+    this.diginix.callapi("newpriceapis/movingmyhome","Loading only...",{service_id:this.formvalue.form_id}).then((d)=>{
       
       received_dt=d;
-      this.apartment=received_dt.rate.apartment;
-      this.villa=received_dt.rate.villa;
-
       this.tax=received_dt.rate.tax;
       this.what_included=received_dt.what_included;
       this.time=received_dt.time;
       this.formvalue.booking_time=received_dt.time[0];
       this.formvalue.form_id=received_dt.form_id;
-
+      this.base_rate=received_dt.rate.base;
 
     }).catch((e)=>{
       console.log(e);
@@ -100,13 +109,8 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-  	this.route
-      .queryParams
-      .subscribe(params => {
-       // this.name=params.name;
-       this.formvalue.form_id=params.form_id
-      });
-
+ 
+    this.calculate();
 
 
 
@@ -115,57 +119,37 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-
-
-
-
-
-    updateinfo(){
+updateinfo(){
 
     this.formvalue.tax=this.tax;
     this.formvalue.msg=this.msg;
-    this.formvalue.additional_services=this.additional;
+    
 
     var date = new Date(this.formvalue.booking_date);
     this.formvalue.booking_date_human=date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
 
-    var additional_services_text="";
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked==true){
-    	if(additional_services_text==""){
-    		additional_services_text=value.title;
-    	}else{
-    		additional_services_text=additional_services_text+", "+value.title;
-    	}
-    	}
+    // var additional_services_text="";
+    // this.additional.forEach((value, key, index) => {
+    //   if(value.checked==true){
+    //   if(additional_services_text==""){
+    //     additional_services_text=value.title;
+    //   }else{
+    //     additional_services_text=additional_services_text+", "+value.title;
+    //   }
+    //   }
 
-    });
+    // });
 
-    if(additional_services_text==""){
-      additional_services_text="no";
-    }
+    // if(additional_services_text==""){
+    //   additional_services_text="no";
+    // }
 
 
     this.formvalue.booking_details=[
       {
-        'title':'Type of House',
-        'title_ar':'سيفا كي أفادي',
-        'value':this.formvalue.room_type,
-      },
-      {
-        'title':'Room Size',
-        'title_ar':'حجم الغرفة',
-        'value':this.formvalue.room_size.size,
-      },
-      {
-        'title':'Is home furnished?',
-        'title_ar':'هل المنزل مفروش؟',
-        'value':this.formvalue.room_furnished,
-      },
-      {
-        'title':'Additonal Services',
-        'title_ar':'خدمات إضافية',
-        'value':additional_services_text,
+        'title':'Service',
+        'title_ar':'نوع الخدمة',
+        'value':this.formvalue.booking_type,
       },
       {
         'title':'Service Date',
@@ -179,10 +163,18 @@ export class ServicedeepcleaningPage implements OnInit {
       },
 
       {
-        'title':'Address',
-        'title_ar':'عنوان',
+        'title':'Moving From',
+        'title_ar':'الانتقال من',
         'value':this.formvalue.location.villa+" "+this.formvalue.location.street+" "+this.formvalue.location.area_info.name+" "+this.formvalue.location.city_info.name,
       },
+
+      {
+        'title':'Moving to',
+        'title_ar':'الانتقال إلى',
+        'value':this.formvalue.location_end.villa+" "+this.formvalue.location_end.street+" "+this.formvalue.location_end.area_info.name+" "+this.formvalue.location_end.city_info.name,
+      },
+
+
       {
         'title':'Notes',
         'title_ar':'ملاحظات',
@@ -193,55 +185,35 @@ console.log(this.formvalue);
   }
 
 
-    calculate(){
-    console.log(this.formvalue);
 
+
+calculate(){
     this.updateinfo();
     console.log(JSON.stringify(this.formvalue));
     
     this.bill.printed_amount=0;
     this.bill.selling_amount=0;
 
-    if(this.formvalue.room_size==null || this.formvalue.room_size.size==""){
-    	return false;
-    }
+    //var base_price=this.formvalue.base_rate
+    this.bill.selling_amount=this.base_rate.base_selling;
 
 
-    var base_price=this.formvalue.room_size.base;
-    this.bill.selling_amount=base_price;
-
-
-    // check additional services 
-    var additional_service_price=0;
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked && value.checked==true){
-    		additional_service_price=this.formvalue.room_size[value.slug];
-    	}
-    });
-
-    this.bill.selling_amount=this.bill.selling_amount+additional_service_price;
-
-    
     this.formvalue.bill=this.bill;
-    
-
-    this.updateinfo();
-    console.log(this.formvalue);
+    console.log('calculate called',this.formvalue);
     return true;
-  }
-
-
-
-
-
-reset_room(){
-	this.formvalue.room_size={size:'',base:0};
 }
+
 
 
 next(){
 
 
+
+
+if(this.formvalue.room_size==""){
+          this.diginix.toast("Room Size not selected.",500);
+        return false;
+    }
 
 
     if(this.formvalue.location.villa==""){
@@ -250,12 +222,26 @@ next(){
     }
 
 
-      if(this.formvalue.room_size.size==''){
-        this.diginix.toast("Room size not selected.",500);
+    if(this.formvalue.location_end.villa==""){
+          this.diginix.toast("Moving to is missing.",500);
+        return false;
+    }
+
+    
+
+      if(this.formvalue.booking_date==''){
+        this.diginix.toast("Booking date not selected..",500);
+        return false;
+      }
+
+      if(this.formvalue.booking_time==''){
+        this.diginix.toast("Booking time not selected..",500);
         return false;
       }
 
   this.updateinfo();
+  console.log(this.formvalue);
+  
   window.localStorage.setItem('booking_data',JSON.stringify(this.formvalue));
   this.router.navigate(['/bookingreview'],{ queryParams: { } });
   
@@ -263,6 +249,25 @@ next(){
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -296,7 +301,7 @@ async whats_included(){
 
 
 
-use_latest_address(){   
+use_latest_address(typ){   
    // fetch address 
   var dx:any={
       villa:"",
@@ -313,7 +318,8 @@ use_latest_address(){
       this.diginix.callapi("profile/recentaddress/","",{},false).then((d)=>{
         if(d!=false){
         dx=d;
-        this.formvalue.location=dx;
+
+        this.formvalue[typ]=dx;
       }
         
       });
@@ -337,12 +343,40 @@ this.formvalue.location=data.address;
 }
 
 if(data.fetch_new_address){
-  this.use_latest_address();
-
+  this.use_latest_address('location');
 }
 
 
 }
+
+
+
+
+   async presentModal_moving_to() {
+    const modal = await this.modalController.create({
+      component: AddresslistPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+      address_history:[],
+        selected_addres:{},
+      }
+    });
+    await modal.present();
+ 
+const { data } = await modal.onWillDismiss();
+if(data.address){
+this.formvalue.location_end=data.address;
+
+}
+
+if(data.fetch_new_address){
+  this.use_latest_address('location_end');
+}
+
+
+}
+
+
 
 
 delete_photo(inputname,i){
@@ -393,7 +427,6 @@ correctOrientation: true
 
 
 }
-
 
 
 

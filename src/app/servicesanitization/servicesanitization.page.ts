@@ -7,26 +7,28 @@ import { WhatincludedPage } from '../whatincluded/whatincluded.page';
 import { DiginixService } from '../diginix.service';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+
 @Component({
-  selector: 'app-servicedeepcleaning',
-  templateUrl: './servicedeepcleaning.page.html',
-  styleUrls: ['./servicedeepcleaning.page.scss'],
+  selector: 'app-servicesanitization',
+  templateUrl: './servicesanitization.page.html',
+  styleUrls: ['./servicesanitization.page.scss'],
 })
-export class ServicedeepcleaningPage implements OnInit {
+export class ServicesanitizationPage implements OnInit {
 
-
-  
   apartment=[];
   villa=[]; 
-  materials:any;
-  additional:any=[{title:'Steam Cleaning',title_ar:'تنظيف التيار',slug:'steam'},{title:'Grout Cleaning',title_ar:'تنظيف الجص',slug:'grout'}];
+  office=[];
+  room_type=[];
+
+
   
   time:any;
 
   formvalue={
   	room_type:"apartment",
   	room_size:{size:'',base:0},
-  	room_furnished:"no",
+  	service_type:'cleaning_sanitization',
+  	office_area:0,
     form_id:0,
     form_type:'booking',
   	step:1,  // one for main form, two for second input, three for location
@@ -60,19 +62,15 @@ export class ServicedeepcleaningPage implements OnInit {
   }
 
 
-
-
-  constructor(
-  private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
   	private router: Router,
   	public modalController: ModalController,
     public diginix:DiginixService,
-    private camera: Camera,
-    ) { 
+    private camera: Camera,) { 
 
-     this.use_latest_address();
+  this.use_latest_address();
 
-    }
+}
 
   ngOnInit() {
 
@@ -81,11 +79,13 @@ export class ServicedeepcleaningPage implements OnInit {
 
   let received_dt:any={form_id:null,time:[""],what_included:"",rate:{tax:0,additional:null,materials:[],hours:[],cleaners:[]}};
 
-    this.diginix.callapi("newpriceapis/deepcleaning","Loading only...",{service_id:77}).then((d)=>{
+    this.diginix.callapi("newpriceapis/sanitizationservice","Loading only...",{service_id:77}).then((d)=>{
       
       received_dt=d;
       this.apartment=received_dt.rate.apartment;
       this.villa=received_dt.rate.villa;
+      this.office=received_dt.rate.office;
+      this.room_type=received_dt.rate.room_type;
 
       this.tax=received_dt.rate.tax;
       this.what_included=received_dt.what_included;
@@ -115,12 +115,7 @@ export class ServicedeepcleaningPage implements OnInit {
 
 
 
-
-
-
-
-
-    updateinfo(){
+updateinfo(){
 
     this.formvalue.tax=this.tax;
     this.formvalue.msg=this.msg;
@@ -129,55 +124,41 @@ export class ServicedeepcleaningPage implements OnInit {
     var date = new Date(this.formvalue.booking_date);
     this.formvalue.booking_date_human=date.getFullYear()+'-' + (date.getMonth()+1) + '-'+date.getDate();
 
-    var additional_services_text="";
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked==true){
-    	if(additional_services_text==""){
-    		additional_services_text=value.title;
-    	}else{
-    		additional_services_text=additional_services_text+", "+value.title;
-    	}
-    	}
+    if(this.formvalue.room_type=="office"){
 
-    });
+    	var rs={
+        'title':'Office Size',
+        'title_ar':'حجم الغرفة',
+        'value':this.formvalue.office_area+" SQ. FT." ,
+      	}
+    }else{
 
-    if(additional_services_text==""){
-      additional_services_text="no";
-    }
-
-
-    this.formvalue.booking_details=[
-      {
-        'title':'Type of House',
-        'title_ar':'سيفا كي أفادي',
-        'value':this.formvalue.room_type,
-      },
-      {
+    	var rs={
         'title':'Room Size',
         'title_ar':'حجم الغرفة',
         'value':this.formvalue.room_size.size,
       },
+    }
+
+
+
+    this.formvalue.booking_details=[
       {
-        'title':'Is home furnished?',
-        'title_ar':'هل المنزل مفروش؟',
-        'value':this.formvalue.room_furnished,
+        'title':'Type of Place',
+        'title_ar':'سيفا كي أفادي',
+        'value':this.formvalue.room_type,
       },
+      rs,
       {
-        'title':'Additonal Services',
-        'title_ar':'خدمات إضافية',
-        'value':additional_services_text,
+        'title':'Type of service',
+        'title_ar':'نوع الخدمة',
+        'value':this.formvalue.service_type,
       },
       {
         'title':'Service Date',
         'title_ar':'تاريخ الخدمة',
         'value':this.formvalue.booking_date_human,
       },
-      {
-        'title':'Service Time',
-        'title_ar':'وقت الخدمة',
-        'value':this.formvalue.booking_time,
-      },
-
       {
         'title':'Address',
         'title_ar':'عنوان',
@@ -193,7 +174,9 @@ console.log(this.formvalue);
   }
 
 
-    calculate(){
+
+
+  calculate(){
     console.log(this.formvalue);
 
     this.updateinfo();
@@ -202,36 +185,40 @@ console.log(this.formvalue);
     this.bill.printed_amount=0;
     this.bill.selling_amount=0;
 
+if(this.formvalue.room_type=="office"){
+
+	var area=this.formvalue.office_area;
+
+	this.office.forEach((value, key, index) => {
+		if(value.from<=area && value.to>=area){
+			this.room_size=value;
+			this.bill.printed_amount=area*value[this.formvalue.service_type].base_printed;
+			this.bill.selling_amount=area*value[this.formvalue.service_type].base_selling;
+		}
+    });
+
+
+}else{
+
+
+
     if(this.formvalue.room_size==null || this.formvalue.room_size.size==""){
     	return false;
     }
-
-
-    var base_price=this.formvalue.room_size.base;
-    this.bill.selling_amount=base_price;
-
-
-    // check additional services 
-    var additional_service_price=0;
-    this.additional.forEach((value, key, index) => {
-    	if(value.checked && value.checked==true){
-    		additional_service_price=this.formvalue.room_size[value.slug];
-    	}
-    });
-
-    this.bill.selling_amount=this.bill.selling_amount+additional_service_price;
-
-    
+    var selected_service_type=this.service_type;
+    this.bill.printed_amount=this.formvalue.room_size[this.formvalue.service_type].base_printed;
+    this.bill.selling_amount=this.formvalue.room_size[this.formvalue.service_type].base_selling;
     this.formvalue.bill=this.bill;
     
+}
+
+
+
 
     this.updateinfo();
     console.log(this.formvalue);
     return true;
   }
-
-
-
 
 
 reset_room(){
@@ -249,11 +236,20 @@ next(){
         return false;
     }
 
+    if(this.formvalue.room_type=='office'){
 
+    	if(this.formvalue.office_area=='' || this.formvalue.office_area==0){
+        this.diginix.toast("Office area not entered.",500);
+        return false;
+      }
+
+
+    }else{
       if(this.formvalue.room_size.size==''){
         this.diginix.toast("Room size not selected.",500);
         return false;
       }
+  }
 
   this.updateinfo();
   window.localStorage.setItem('booking_data',JSON.stringify(this.formvalue));
@@ -263,6 +259,14 @@ next(){
 
 
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -294,6 +298,10 @@ async whats_included(){
     await modal.present();
 }
 
+
+reset_room(){
+	this.formvalue.room_size={size:'',title:'',title_ar:'',cleaning_sanitization:{},sanitization:{}};
+}
 
 
 use_latest_address(){   

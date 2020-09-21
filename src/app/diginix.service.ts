@@ -183,6 +183,8 @@ console.log('feftching url',url);
                     }
                  var link=this.apiurl+url;
                  this.nativehttp.setHeader('*','api', localStorage.getItem('api'));
+                 this.nativehttp.setHeader('*','Content-Type','application/json');
+                 this.nativehttp.setDataSerializer('json');
                  this.nativehttp.post(link,data,{}).then(dataxx => {
                   console.log('http request sent',dataxx);
                                   try {
