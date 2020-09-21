@@ -97,24 +97,8 @@ const routes: Routes = [
     loadChildren: () => import('./servicesanitization/servicesanitization.module').then( m => m.ServicesanitizationPageModule)
   },
   {
-    path: 'serviceaccleaning',
-    loadChildren: () => import('./serviceaccleaning/serviceaccleaning.module').then( m => m.ServiceaccleaningPageModule)
-  },
-  {
-    path: 'serviceacrepair',
-    loadChildren: () => import('./serviceacrepair/serviceacrepair.module').then( m => m.ServiceacrepairPageModule)
-  },
-  {
     path: 'servicehandyman',
     loadChildren: () => import('./servicehandyman/servicehandyman.module').then( m => m.ServicehandymanPageModule)
-  },
-  {
-    path: 'serviceelectrician',
-    loadChildren: () => import('./serviceelectrician/serviceelectrician.module').then( m => m.ServiceelectricianPageModule)
-  },
-  {
-    path: 'serviceplumber',
-    loadChildren: () => import('./serviceplumber/serviceplumber.module').then( m => m.ServiceplumberPageModule)
   },
   {
     path: 'servicebookatruck',
@@ -135,6 +119,10 @@ const routes: Routes = [
   {
     path: 'servicepaintingcustom',
     loadChildren: () => import('./servicepaintingcustom/servicepaintingcustom.module').then( m => m.ServicepaintingcustomPageModule)
+  },
+  {
+    path: 'bookingdetail',
+    loadChildren: () => import('./bookingdetail/bookingdetail.module').then( m => m.BookingdetailPageModule)
   }
 ];
 @NgModule({

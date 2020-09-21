@@ -28,8 +28,14 @@
 <br>
 <ion-text color="dark">{{diginix.translate("Lets get things done today!","دعنا ننجز الأشياء اليوم!")}}</ion-text>
 </p>
-<br>
 </div>
+
+
+<ion-slides>
+  <ion-slide *ngFor="let bn of app_banner; index as in; count as co;" >
+    <img class="banner-round" [src]="diginix.translate(bn.image,bn.image_ar)"/>
+  </ion-slide>
+</ion-slides>
 
 <div *ngFor="let sr of services; index as i; count as c;">
 <ion-text><h5>{{diginix.translate(sr.title,sr.title_ar)}}</h5></ion-text>

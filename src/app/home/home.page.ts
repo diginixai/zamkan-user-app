@@ -12,6 +12,7 @@ export class HomePage implements OnInit {
 
 user:any={name:'',last_name:''};
 selected_city:any={id:0,name:"Select City",name_ar:"اختر مدينة"}
+app_banner:any=[];
 
 services:any=[
 {
@@ -51,36 +52,41 @@ products:[
 		title:"AC Cleaning",
 		title_ar:"المكيفات",
 		image:"https://www.maproservices.com/images/resource/ac_1.jpg",
-		form_id:0,
-		slug:"",
+		form_id:72,
+		slug:"servicehandyman",
+		payload:{}
 	},
 	{
 		title:"AC Repair",
 		title_ar:"إصلاح مكيفات الهواء",
 		image:"https://clareservices.com/wp-content/uploads/2020/07/air-conditioning-repair-service-hyderabad.jpg",
-		form_id:0,
-		slug:"",
+		form_id:72,
+		slug:"servicehandyman",
+		payload:{service_type:'ac_repair'}
 	},
 	{
 		title:"Handyman",
 		title_ar:"عامل يدوي",
 		image:"https://www.venturef0rth.com/wp-content/uploads/2019/09/handyman-business-names.jpg",
-		form_id:0,
-		slug:"",
+		form_id:43,
+		slug:"servicehandyman",
+		payload:{service_type:'general_work'}
 	},
 	{
 		title:"Electrician",
 		title_ar:"عامل الكهرباء",
 		image:"https://professional-electrician.com/wp-content/uploads/2019/05/NICEIC.jpg",
-		form_id:0,
-		slug:"",
+		form_id:78,
+		slug:"servicehandyman",
+		payload:{service_type:'electrical_work'}
 	},
 	{
 		title:"Plumber",
 		title_ar:"سباك",
 		image:"https://3gt0nhu0ij8432xn03lq3lff-wpengine.netdna-ssl.com/wp-content/uploads/2015/11/VIGILANT-plumber-fixing-a-sink-shutterstock_132523334-e1448389230378-620x400.jpg",
-		form_id:0,
-		slug:"",
+		form_id:79,
+		slug:"servicehandyman",
+		payload:{service_type:'plumbing'}
 	},
 	
 ]
@@ -98,6 +104,7 @@ products:[
 		image:"https://coolbuzz.org/wp-content/uploads/2014/08/Moving-House.jpg",
 		form_id:36,
 		slug:"servicemovingmyhome",
+		payload:{}
 	},
 	{
 		title:"Book a truck",
@@ -105,6 +112,7 @@ products:[
 		image:"https://dial2hire.com/images/img_large_1.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Moving internationally",
@@ -112,6 +120,7 @@ products:[
 		image:"https://www.doveshipping.com/Portals/0/International%20Move.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Storage",
@@ -119,6 +128,7 @@ products:[
 		image:"https://www.arbycartage.com/wp-content/uploads/2017/02/storage.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	
 ]
@@ -136,6 +146,7 @@ products:[
 		image:"https://handymanrepair.com.sg/wp-content/uploads/2019/09/painting-service-1.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Have a custom request?",
@@ -143,6 +154,7 @@ products:[
 		image:"https://i.pinimg.com/originals/fd/4a/2d/fd4a2d32637ac45181ab5cce0dfae38a.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 ]
 },
@@ -160,6 +172,7 @@ products:[
 		image:"https://5.imimg.com/data5/ID/PV/MY-49748500/carpet-cleaning-services-500x500.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Mattress Cleaning",
@@ -167,6 +180,7 @@ products:[
 		image:"https://thehappyhousecleaning.co.uk/wp-content/uploads/2018/08/Mattress-cleaning-services-page-pic1.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Sofa Cleaning",
@@ -174,6 +188,7 @@ products:[
 		image:"https://5.imimg.com/data5/ZK/YW/HC/SELLER-96092479/sofa-cleaning-services-500x500.jpg",
 		form_id:0,
 		slug:"",
+		payload:{}
 	},
 	{
 		title:"Water Tank Cleaning",
@@ -181,6 +196,7 @@ products:[
 		image:"https://www.maxicareme.com/images/residential-water-tank-cleaning.jpg",
 		form_id:70,
 		slug:"servicewatertankcleaning",
+		payload:{}
 	}
 	
 ]
@@ -201,7 +217,8 @@ loadform(data){
 		return false;
 	}
 
-	this.router.navigate(["/"+data.slug],{ queryParams: { title: data.title,form_id:data.form_id } });
+this.router.navigate(["/"+data.slug],{ queryParams: data.payload });
+//this.router.navigate(["/"+data.slug],{ queryParams: { title: data.title,form_id:data.form_id } });
 
 }
 
@@ -216,6 +233,12 @@ loadform(data){
 
 
   ngOnInit() {
+
+
+  this.diginix.callapi('data/appbanner',"",{},true).then((d)=>{
+  	this.app_banner=d;
+  	console.log(d);
+  });
 
   this.user=JSON.parse(window.localStorage.getItem("user"));
   console.log('this is we',this.diginix.selected_city);

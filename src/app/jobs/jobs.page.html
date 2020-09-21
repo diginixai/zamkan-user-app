@@ -22,15 +22,21 @@
 
 
 <ion-list class="ion-padding">
-	<ion-list-header>
-		<ion-text color="zamkan">This section is currently under development.</ion-text>
-	</ion-list-header>
- 		<ion-item>
+ 		<ion-item *ngFor="let booking of data; index as in; count as co;" (click)="pop_option(booking)">
           <ion-label>
-            <ion-text color="zamkan"><h2>House Cleaning</h2></ion-text>
-            <h3>Date : 2020-06-03</h3>
-            <p>Payment Status : <ion-text color="danger">AED 300 Unpaid</ion-text></p>
+            <ion-text color="zamkan"><strong>#{{booking.booking_code}}</strong></ion-text>
+            <h3>Date : {{booking.date}}</h3>
+            <p>{{booking.requirement}}</p>
           </ion-label>
+
+            <ion-text slot="end" class="ion-text-right">
+              <span>AED {{booking.amount}}</span><br>
+              <ion-text [color]="booking.payment_status=='Unpaid'?'danger':'success'">{{booking.payment_status}}</ion-text>
+
+            </ion-text>
+
+
+
         </ion-item>
         <ion-item>
           <ion-label>

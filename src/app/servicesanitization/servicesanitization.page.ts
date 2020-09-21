@@ -62,7 +62,8 @@ export class ServicesanitizationPage implements OnInit {
   }
 
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+  	private route: ActivatedRoute,
   	private router: Router,
   	public modalController: ModalController,
     public diginix:DiginixService,
@@ -207,13 +208,13 @@ if(this.formvalue.room_type=="office"){
     var selected_service_type=this.formvalue.service_type;
     this.bill.printed_amount=this.formvalue.room_size[this.formvalue.service_type].base_printed;
     this.bill.selling_amount=this.formvalue.room_size[this.formvalue.service_type].base_selling;
-    this.formvalue.bill=this.bill;
+    
     
 }
 
 
 
-
+	this.formvalue.bill=this.bill;
     this.updateinfo();
     console.log(this.formvalue);
     return true;
