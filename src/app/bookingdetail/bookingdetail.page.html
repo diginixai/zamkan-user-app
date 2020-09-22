@@ -1,9 +1,60 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bookingdetail</ion-title>
+  	<ion-buttons slot="start">
+				<ion-back-button></ion-back-button>
+			</ion-buttons>
+    <ion-title class="ion-text-center">{{diginix.translate("Booking Information","تفاصيل الحجز")}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding ion-text-center">
+
+<ion-text [color]="zamkan"><h1>#{{booking.booking_code}}</h1></ion-text>
+<ion-list>
+	<ion-item>
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate("Type of Service","نوع الخدمة")}}</small></ion-text>
+    		<ion-text><p>{{booking.requirement}}</p></ion-text>
+    	</ion-label>
+    </ion-item>
+
+    <ion-item>
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate("Booking Created","تم إنشاء الحجز")}}</small></ion-text>
+    		<ion-text><p>{{booking.created_at}}</p></ion-text>
+    	</ion-label>
+    </ion-item>
+
+    <ion-item>
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate("Date of Service","تاريخ الخدمة")}}</small></ion-text>
+    		<ion-text><p>{{booking.date}}</p></ion-text>
+    	</ion-label>
+    </ion-item>
+
+    <ion-item>
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate("Booking Status","وضع الحجز")}}</small></ion-text>
+    		<ion-text><p>{{booking.status}}</p></ion-text>
+    	</ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let bd of booking.data; index as i; count as c;">
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate(bd.title,bd.title_ar)}}</small></ion-text>
+    		<ion-text><p>{{bd.value}}</p></ion-text>
+    	</ion-label>
+    </ion-item>
+
+    <!-- <ion-item>
+    	<ion-label>
+    		<ion-text color="zamkan"><small>{{diginix.translate("","")}}</small></ion-text>
+    		<ion-text><p>{{booking.}}</p></ion-text>
+    	</ion-label>
+    </ion-item> -->
+
+
+
+</ion-list>
 
 </ion-content>

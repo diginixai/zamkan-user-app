@@ -23,6 +23,7 @@ export class JobsPage implements OnInit {
 
   sc(){
   	console.log(this.current_segment);
+    this.load_booking();
   }
 
 
@@ -56,11 +57,11 @@ export class JobsPage implements OnInit {
 async pop_option(booking){
 
 
+var buttons=[];
 
-const actionSheet = await this.actionSheetController.create({
-      header:this.diginix.translate('Action','خيارات'),
-      cssClass: 'my-custom-class',
-      buttons: [{
+
+if(this.current_segment=="upcoming"){
+buttons.push({
         text: this.diginix.translate('Cancel this booking','إلغاء هذا الحجز'),
         role: 'destructive',
         icon: 'trash',
@@ -73,20 +74,24 @@ const actionSheet = await this.actionSheetController.create({
                 this.load_booking();
 
             });
-
-
-
-
-
         }
-      }, {
+  });
+}
+
+if(booking.payment_status=="Unpaid" && this.current_segment=="upcoming"){
+buttons.push({
         text: this.diginix.translate('Pay for this booking','ادفع لهذا الحجز'),
         icon: 'cash-outline',
         handler: () => {
           this.diginix.toast(this.diginix.translate('This feature is not available now.','هذه الميزة غير متوفرة الآن.'),300);
         }
-      },
-      {
+      });
+}
+
+
+
+if(booking.status!="Cancelled"){
+buttons.push({
         text: this.diginix.translate('Talk to support','تحدث إلى الدعم'),
         icon: 'logo-whatsapp',
         handler: () => {
@@ -94,30 +99,46 @@ const actionSheet = await this.actionSheetController.create({
           var url="https://wa.me/971585922350?text=I%20need%20help%20for%20my%20booking%20%23"+booking.booking_code;
           window.open(url, '_system', 'location=yes');
         }
-      }, {
+      });
+}
+
+
+if(this.current_segment=="upcoming"){
+buttons.push({
         text: this.diginix.translate('Update Booking','تحديث الحجز'),
         icon: 'swap-horizontal-outline',
         handler: () => {
-          console.log('Update Booking');
+          this.router.navigate(['/bookingupdate'],{ queryParams: { id: booking.id } });
         }
-      }, {
+      });
+}
+
+
+
+buttons.push({
         text: this.diginix.translate('Show Booking Information','إظهار معلومات الحجز'),
         icon: 'information-circle-outline',
         handler: () => {
           this.booking_info(booking.id);
         }
-      },
-      {
+      });
+
+buttons.push({
         text: this.diginix.translate('Close this dialogue','أغلق هذا الحوار'),
         icon: 'close',
         role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
         }
-      }
+      });
 
 
-      ]
+
+
+const actionSheet = await this.actionSheetController.create({
+      header:this.diginix.translate('Action','خيارات'),
+      cssClass: 'my-custom-class',
+      buttons:buttons
     });
     await actionSheet.present();
   }

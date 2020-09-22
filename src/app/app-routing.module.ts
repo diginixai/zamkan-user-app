@@ -123,6 +123,10 @@ const routes: Routes = [
   {
     path: 'bookingdetail',
     loadChildren: () => import('./bookingdetail/bookingdetail.module').then( m => m.BookingdetailPageModule)
+  },
+  {
+    path: 'bookingupdate',
+    loadChildren: () => import('./bookingupdate/bookingupdate.module').then( m => m.BookingupdatePageModule)
   }
 ];
 @NgModule({

@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+  	<ion-buttons slot="start">
+				<ion-back-button></ion-back-button>
+			</ion-buttons>
+
+    <ion-title>{{diginix.translate('Update Booking','تغيير تفاصيل الحجز')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+
+<ion-text [color]="zamkan"><h1>#{{booking.booking_code}}</h1></ion-text>
+
+<div>
+	*** {{diginix.translate("Current Booking Information","معلومات الحجز الحالية")}} ***<br>
+	<br>
+	<ion-text color="zamkan">{{diginix.translate("Booking Type","نوع الحجز")}}</ion-text> : {{booking.requirement}}<br>
+	<ion-text color="zamkan">{{diginix.translate("Service Date","تاريخ الخدمة")}}</ion-text> : {{booking.date}}<br>
+	<ion-text color="zamkan">{{diginix.translate("Address","عنوان")}}</ion-text> : {{booking.address}} {{booking.address_2}} 
+	{{booking.area_info.name}} {{booking.city_info.name}}
+
+
+</div>
+<br><br><br>
+<ion-item>
+  <ion-label position="stacked">New Booking Date</ion-label>
+  <ion-datetime displayFormat="YYYY-MM-DD" [min]="today" display-timezone="utc" [(ngModel)]="booking.date"></ion-datetime>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="stacked">New Booking Time</ion-label>
+  <ion-datetime displayFormat="HH:mm" minuteValues="0,15,30,45" min="08:00" max="18:00" display-timezone="utc" [(ngModel)]="booking.service_time"></ion-datetime>
+</ion-item>
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("New Address Information","معلومات العنوان الجديد")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{location.city_info.name}}</h2>
+            <h2>{{location.city_info.name}}</h2>
+            <h3>{{location.area_info.name}}</h3>
+            <p>{{location.villa}} {{location.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+</ion-list>
+
+
+
+
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+	<ion-button (click)="update_booking();" size="large" expand="full" color="zamkan">{{diginix.translate("Update","تحديث")}}</ion-button>
+</ion-footer>
