@@ -12,10 +12,10 @@ import { AddresslistPage } from '../addresslist/addresslist.page';
 export class BookingupdatePage implements OnInit {
 
   booking_id:any;
-  booking:any={area_info:{name:''},city_info:{name:''}};
+  booking:any={area_info:{name:""},city_info:{name:""}};
   today=new Date().toISOString();
   location={
-  		id:"",
+  	  id:"",
       villa:"",
       street:"",
       area_name:"",

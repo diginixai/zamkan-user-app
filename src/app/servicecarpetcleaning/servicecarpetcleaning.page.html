@@ -1,0 +1,160 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-button (click)="gohome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+<ion-text><h4>
+{{diginix.translate( "How many carpets do you need cleaned?" , "كم عدد السجاد الذي تحتاجه للتنظيف؟" )}}</h4></ion-text>
+
+<ion-button (click)="updqty(1)" [color]="qty=='1'?'zamkan':'light'">{{diginix.translate( "1" , "1" )}}</ion-button>
+<ion-button (click)="updqty(2)" [color]="qty=='2'?'zamkan':'light'">{{diginix.translate( "2" , "2" )}}</ion-button>
+<ion-button (click)="updqty(3)" [color]="qty=='3'?'zamkan':'light'">{{diginix.translate( "3" , "3" )}}</ion-button>
+<ion-button (click)="updqty(4)" [color]="qty=='4'?'zamkan':'light'">{{diginix.translate( "4" , "4" )}}</ion-button>
+<ion-button (click)="updqty(5)" [color]="qty=='5'?'zamkan':'light'">{{diginix.translate( "5" , "5" )}}</ion-button>
+<ion-button (click)="updqty(6)" [color]="qty=='6'?'zamkan':'light'">{{diginix.translate( "6" , "6" )}}</ion-button>
+<ion-button (click)="updqty(7)" [color]="qty=='7'?'zamkan':'light'">{{diginix.translate( "7" , "7" )}}</ion-button>
+<ion-button (click)="updqty(8)" [color]="qty=='8'?'zamkan':'light'">{{diginix.translate( "8" , "8" )}}</ion-button>
+<ion-button (click)="updqty(9)" [color]="qty=='9'?'zamkan':'light'">{{diginix.translate( "9" , "9" )}}</ion-button>
+<ion-button (click)="updqty(10)" [color]="qty=='10'?'zamkan':'light'">{{diginix.translate( "10" , "10" )}}</ion-button>
+
+
+<div *ngFor="let item of content_loop index as i; count as c;" >
+<div *ngIf="item.display==true">
+<ion-text class="ion-text-padding"><p>{{diginix.translate( item.title , item.title_ar )}}</p></ion-text>
+<ion-row>
+<ion-col><ion-input placeholder="Width" [(ngModel)]="item.width" (keyup)="calculate();" ></ion-input></ion-col>
+<ion-col><ion-input placeholder="Height" [(ngModel)]="item.length" (keyup)="calculate();"></ion-input></ion-col>
+<ion-col>
+	<ion-select [(ngModel)]="item.scale" (ionChange)="calculate();">
+      <ion-select-option value="cm">cm</ion-select-option>
+      <ion-select-option value="inches">inches</ion-select-option>
+      <ion-select-option value="feet">feet</ion-select-option>
+    </ion-select>
+</ion-col>
+<ion-col>
+	<ion-select [(ngModel)]="item.type" (ionChange)="calculate();">
+      <ion-select-option value="shampoo_cleaning">{{diginix.translate("Shampoo Cleaning","تنظيف الشامبو")}}</ion-select-option>
+      <ion-select-option value="steam_cleaning">{{diginix.translate("Steam Cleaning","التنظيف بالبخار")}}</ion-select-option>
+    </ion-select>
+</ion-col>
+</ion-row>
+</div>
+</div>
+
+
+
+
+
+<ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
+
+          <ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: You will need to bring a gate pass, I will not be home and am leaving the key under tha mat, etc.','مثال: ستحتاج إلى إحضار بطاقة مرور ، ولن أكون في المنزل وأترك المفتاح تحت حصيرة ، وما إلى ذلك.')}}"></ion-textarea>
+
+
+          
+
+<!-- photo upload block -->
+<ion-list>
+  
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Attach photos (optional)","إرفاق صور (اختياري)")}}</h4></ion-text>
+    </ion-list-header>
+
+</ion-list>
+<div padding>
+<ion-grid>
+  <ion-row>
+   
+
+    <ion-col size="4" *ngFor="let p of formvalue.images; let i=index" >
+      <img width="100" height="100" [src]="p"/><br>
+      <a (click)="delete_photo('images',i);"style="background-color:#e64a2e;bottom:0px;width:100px;height:20px;position:absolute;text-align:center;color:white;">{{diginix.translate("Delete","حذف")}}</a>
+    </ion-col>
+
+
+     <ion-col  size="4" ><img (click)="capture_photo('images');" src="./assets/photo_upload.png" width="80" height="80" /></ion-col>
+
+
+  </ion-row>
+</ion-grid>
+</div>
+<!-- end of photo upload block -->
+
+
+
+
+
+
+<ion-text><h4>{{diginix.translate("When do you need deep cleaning","متى تحتاج إلى تنظيف عميق")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+<ion-text><h4>{{diginix.translate("Cleaning time","وقت التنظيف")}}</h4></ion-text>
+<ion-select [(ngModel)]="formvalue.booking_time">
+     <ion-select-option *ngFor="let tm of time" value="{{tm}}">{{tm}}</ion-select-option>
+</ion-select>
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where will the service take place?","أين ستتم الخدمة؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{formvalue.location.city_info.name}}</h2>
+            <h3>{{formvalue.location.area_info.name}}</h3>
+            <p>{{formvalue.location.villa}} {{formvalue.location.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+</ion-list>
+
+
+
+
+
+
+
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+<ion-text color="medium" class="ion-padding"><small>{{diginix.translate("* Excluding VAT","* باستثناء الضريبة على القيمة المضافة")}}</small></ion-text>
+<ion-grid>
+  <ion-row>
+    <ion-col size="6" class="ion-text-center" no-padding>
+      <ion-text *ngIf="bill.printed_amount>bill.selling_amount" color="medium" class="strikethrough"><small>AED {{bill.printed_amount}} <br> </small></ion-text>
+      
+      <div [class]="bill.printed_amount<=bill.selling_amount?'vertical-center':''">
+      <ion-text color="zamkan"><strong>AED {{bill.selling_amount}}</strong></ion-text>
+      </div>
+
+    </ion-col>
+    <ion-col size="6" class="ion-text-center zamkan-bg" no-padding (click)="next()">
+      <div class="vertical-center">{{diginix.translate("Next","التالى")}}</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-footer>

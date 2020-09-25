@@ -17,10 +17,19 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 
+import { ShopPageModule } from './shop/shop.module';
+import { ShopCategoryFilterPage } from './shop-category-filter/shop-category-filter.page';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule,HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule,HttpClientModule,
+    ShopPageModule,
+    FormsModule,
+    ReactiveFormsModule
+     ],
   providers: [
     StatusBar,
     SplashScreen,

@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-button (click)="back()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate('Checkout','الدفع')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<div class="ion-padding">
+
+<ion-list>
+  <ion-item class="ion-no-padding">
+    <ion-label class="input-label" position="floating">{{diginix.translate('Firts Name*','الاسم الاول*')}}</ion-label>
+    <ion-input type="text" [(ngModel)]="formvalue.fname"></ion-input>
+  </ion-item>
+
+  <ion-item class="ion-no-padding">
+    <ion-label class="input-label" position="floating">{{diginix.translate('Last Name*','الكنية*')}}</ion-label>
+    <ion-input type="text" [(ngModel)]="formvalue.lname"></ion-input>
+  </ion-item>
+
+  <ion-item class="ion-no-padding">
+    <ion-label class="input-label" position="floating">{{diginix.translate('Email*','البريد الإلكتروني*')}}</ion-label>
+    <ion-input type="email" [(ngModel)]="formvalue.email"></ion-input>
+  </ion-item>
+
+  <ion-item class="ion-no-padding">
+    <ion-label class="input-label" position="floating">{{diginix.translate('Phone*','هاتف*')}}</ion-label>
+    <ion-input type="text" [(ngModel)]="formvalue.phone"></ion-input>
+  </ion-item>
+
+</ion-list>
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Address","عنوان")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+              <h2>{{formvalue.location.city_info.name}}</h2>
+            <h2>{{formvalue.location.city_info.name}}</h2>
+            <h3>{{formvalue.location.area_info.name}}</h3>
+            <p>{{formvalue.location.villa}} {{formvalue.location.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+
+</ion-list>
+<div class="shadowbox">
+<ion-list>
+  <ion-radio-group [(ngModel)]="payment_method">
+    <ion-list-header>
+      <ion-label>
+        {{diginix.translate('Payment Method','طريقة الدفع او السداد')}}
+      </ion-label>
+    </ion-list-header>
+
+    <ion-item lines="none">
+     <ion-icon name="card-outline"></ion-icon>	
+      <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Card','بطاقة')}}</ion-label>
+      <ion-radio value="card"></ion-radio>
+    </ion-item>
+
+    <ion-item lines="none">
+    	<ion-icon name="cash-outline"></ion-icon>
+      <ion-label>&nbsp;&nbsp;&nbsp;{{diginix.translate('Cash','السيولة النقدية')}}</ion-label>
+      <ion-radio value="cash"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+</ion-list>
+</div>
+
+  <div class="shadowbox">
+    <ion-row>
+      <ion-col *ngIf="cartitmes">
+        <div class="separator"></div>
+        <ion-item lines="none" class="invoice-total">
+          <ion-label>{{diginix.translate('Total','مجموع')}}</ion-label>
+          <ion-text slot="end">AED {{ cartitmes?.cart_totals?.total }}</ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+      <ion-row>
+          <ion-col>
+                <ion-button (click)="orderNow()"
+                    class="action-button"
+                    expand="block"
+                    fill="solid"
+                    color="primary"
+                    type="submit"
+                  >
+                    <span>Order</span>
+                  </ion-button>
+            </ion-col>
+        </ion-row>
+
+</div>
+
+
+
+</ion-content>
+
+
+

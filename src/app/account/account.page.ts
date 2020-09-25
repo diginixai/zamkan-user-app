@@ -12,7 +12,11 @@ export class AccountPage implements OnInit {
 	user:any={};
 	
 
-  constructor(private router: Router,public diginix:DiginixService,) { }
+  constructor(private router: Router,public diginix:DiginixService,) { 
+
+    this.user=JSON.parse(localStorage.getItem("user"));
+    
+   }
 
   ngOnInit() {
 

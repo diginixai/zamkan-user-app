@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">{{diginix.translate('My Orders','طلباتي')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+<ion-segment [(ngModel)]="current_segment">
+  <ion-segment-button value="new" (click)="getOrders('new')">
+    <ion-label>{{diginix.translate('Latest','آخر')}}</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="completed" (click)="getOrders('completed')">
+    <ion-label>{{diginix.translate('Completed','منجز')}}</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="cancelled" (click)="getOrders('cancelled')">
+    <ion-label> {{diginix.translate('Cancelled','ألغيت')}}</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+
+<div [ngSwitch]="current_segment">
+<ion-list *ngSwitchCase="'upcoming'" class="ion-padding">
+ 		<ion-item *ngFor="let order of data; index as in; count as co;" (click)="pop_option(order)">
+          <ion-label>
+            <ion-text color="zamkan"><strong>#{{order.id}}</strong></ion-text>
+            <h3>Date : {{order.created_at | date: 'dd-MM-y' }}</h3>
+            <p> {{order.fname}}  {{order.lname}} </p>
+          </ion-label>
+
+            <ion-text slot="end" class="ion-text-right">
+              <span>AED {{order.grand_total}}</span><br>
+              <ion-text [color]="order.payment_status=='Unpaid'?'danger':'success'">{{order.payment_status}}</ion-text>
+
+            </ion-text>
+
+
+
+        </ion-item>
+       
+</ion-list>
+
+<ion-list *ngSwitchCase="'old'" class="ion-padding">
+  <ion-item *ngFor="let order of data; index as in; count as co;" (click)="pop_option(order)">
+       <ion-label>
+         <ion-text color="zamkan"><strong>#{{order.id}}</strong></ion-text>
+         <h3>Date : {{order.created_at | date: 'dd-MM-y' }}</h3>
+         <p> {{order.fname}}  {{order.lname}} </p>
+       </ion-label>
+
+         <ion-text slot="end" class="ion-text-right">
+           <span>AED {{order.grand_total}}</span><br>
+           <ion-text [color]="order.payment_status=='Unpaid'?'danger':'success'">{{order.payment_status}}</ion-text>
+
+         </ion-text>
+
+
+
+     </ion-item>
+    
+</ion-list>
+<ion-list *ngSwitchCase="'cancelled'" class="ion-padding">
+  <ion-item *ngFor="let order of data; index as in; count as co;" (click)="pop_option(order)">
+       <ion-label>
+         <ion-text color="zamkan"><strong>#{{order.id}}</strong></ion-text>
+         <h3>Date : {{order.created_at | date: 'dd-MM-y' }}</h3>
+         <p> {{order.fname}}  {{order.lname}} </p>
+       </ion-label>
+
+         <ion-text slot="end" class="ion-text-right">
+           <span>AED {{order.grand_total}}</span><br>
+           <ion-text [color]="order.payment_status=='Unpaid'?'danger':'success'">{{order.payment_status}}</ion-text>
+
+         </ion-text>
+
+
+
+     </ion-item>
+    
+</ion-list>
+</div>
+
+
+
+</ion-content>
+
+
+
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/home']">
+            <ion-icon name="home"></ion-icon>
+           <ion-label>{{diginix.translate('Home','الصفحة الرئيسية')}}</ion-label>
+          </ion-tab-button>
+        
+      </ion-col>
+
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/jobs']">
+        <ion-icon name="newspaper"></ion-icon>
+            <ion-label>{{diginix.translate('Jobs','وظائف')}}</ion-label>
+            </ion-tab-button>
+      </ion-col>
+
+      
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/shop']">
+          <ion-icon name="cart"></ion-icon>
+            <ion-label>{{diginix.translate('Shop','متجر')}}</ion-label>
+          </ion-tab-button>
+      </ion-col>
+
+
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/support']">
+          <ion-icon name="help-buoy"></ion-icon>
+            <ion-label>{{diginix.translate('Support','الدعم')}}</ion-label>
+          </ion-tab-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/account']">
+          <ion-icon name="person-circle"></ion-icon>
+          <ion-label>{{diginix.translate('Account','الحساب')}}</ion-label>
+        </ion-tab-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-footer>

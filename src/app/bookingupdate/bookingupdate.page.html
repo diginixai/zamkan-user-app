@@ -18,7 +18,7 @@
 	<ion-text color="zamkan">{{diginix.translate("Booking Type","نوع الحجز")}}</ion-text> : {{booking.requirement}}<br>
 	<ion-text color="zamkan">{{diginix.translate("Service Date","تاريخ الخدمة")}}</ion-text> : {{booking.date}}<br>
 	<ion-text color="zamkan">{{diginix.translate("Address","عنوان")}}</ion-text> : {{booking.address}} {{booking.address_2}} 
-	{{booking.area_info.name}} {{booking.city_info.name}}
+<!-- 	{{booking.area_info.name}} {{booking.city_info.name}} -->
 
 
 </div>
@@ -44,10 +44,10 @@
   <ion-item>
           <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
           <ion-label>
-            <h2>{{location.city_info.name}}</h2>
+          <!--   <h2>{{location.city_info.name}}</h2>
             <h2>{{location.city_info.name}}</h2>
             <h3>{{location.area_info.name}}</h3>
-            <p>{{location.villa}} {{location.street}}</p>
+            <p>{{location.villa}} {{location.street}}</p> -->
           </ion-label>
           <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
 

@@ -1,9 +1,141 @@
-<ion-header>
+<ion-header *ngIf="formvalue.step==1">
   <ion-toolbar>
-    <ion-title>servicebookatruck</ion-title>
+    <ion-buttons slot="start">
+    <ion-button (click)="gohome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where are you moving from?","من اين تنتقل؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{formvalue.location.city_info.name}}</h2>
+            <h3>{{formvalue.location.area_info.name}}</h3>
+            <p>{{formvalue.location.villa}} {{formvalue.location.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+</ion-list>
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where are you moving to?","إلى أين ستنتقل ؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-icon color="zamkan" slot="start" name="checkmark-circle"></ion-icon>
+          <ion-label>
+            <h2>{{formvalue.location_end.city_info.name}}</h2>
+            <h3>{{formvalue.location_end.area_info.name}}</h3>
+            <p>{{formvalue.location_end.villa}} {{formvalue.location_end.street}}</p>
+          </ion-label>
+          <ion-button slot="end" color="light" (click)="presentModal_moving_to()">{{diginix.translate("Change","يتغيرون")}}</ion-button>
+
+
+  </ion-item>
+</ion-list>
+
+
+
+<ion-text><h4>{{diginix.translate("When do you need to move?","عندما لا تحتاج إلى نقل؟")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+
+<ion-text><h4>{{diginix.translate("Please select the time","الرجاء تحديد الوقت")}}</h4></ion-text>
+<ion-select [(ngModel)]="formvalue.booking_time">
+     <ion-select-option *ngFor="let tm of time" value="{{tm}}">{{tm}}</ion-select-option>
+</ion-select>
+
+
+
+
+<ion-text><h4>{{diginix.translate("Please list the items that you need to move","")}}</h4></ion-text>
+
+<ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: Chairs, tables, sofa, beds, etc.','')}}"></ion-textarea>
+
+
+
+
+
+<!-- photo upload block -->
+<ion-list>
+  
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Attach photos (optional)","إرفاق صور (اختياري)")}}</h4></ion-text>
+    </ion-list-header>
+
+</ion-list>
+<div padding>
+<ion-grid>
+  <ion-row>
+   
+
+    <ion-col size="4" *ngFor="let p of formvalue.images; let i=index" >
+      <img width="100" height="100" [src]="p"/><br>
+      <a (click)="delete_photo('images',i);"style="background-color:#e64a2e;bottom:0px;width:100px;height:20px;position:absolute;text-align:center;color:white;">{{diginix.translate("Delete","حذف")}}</a>
+    </ion-col>
+
+
+     <ion-col  size="4" ><img (click)="capture_photo('images');" src="./assets/photo_upload.png" width="80" height="80" /></ion-col>
+
+
+  </ion-row>
+</ion-grid>
+</div>
+<!-- end of photo upload block -->
+
+
+
+
 
 </ion-content>
+
+
+
+
+
+<ion-footer class="ion-no-border">
+<!-- <ion-text color="medium" class="ion-padding"><small>{{diginix.translate("* Excluding VAT","* باستثناء الضريبة على القيمة المضافة")}}</small></ion-text> -->
+<ion-grid>
+  <ion-row>
+  	<!--  
+    <ion-col size="6" class="ion-text-center" no-padding>
+      
+     <ion-text *ngIf="bill.printed_amount>bill.selling_amount" color="medium" class="strikethrough"><small>AED {{bill.printed_amount}} <br> </small></ion-text>
+      
+      <div [class]="bill.printed_amount<=bill.selling_amount?'vertical-center':''">
+      <ion-text color="zamkan"><strong>AED {{bill.selling_amount}}</strong></ion-text>
+      </div>
+
+    </ion-col>  -->
+    <ion-col class="ion-text-center zamkan-bg" no-padding (click)="next()">
+      <div class="vertical-center">{{diginix.translate("View Details","عرض التفاصيل")}}</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-footer>

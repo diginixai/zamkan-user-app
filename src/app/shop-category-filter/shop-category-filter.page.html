@@ -1,0 +1,29 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Category filter</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Apply</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+<form id="custom-filter" name="categoryFilter" [formGroup]="categoryFilter">
+<ion-list *ngFor="let list of catList">
+
+<ion-item>
+  <ion-label> {{list.name}}</ion-label>
+  <ion-checkbox color="primary" slot="start" (ionChange)="submitFilters(list.id, $event.target.checked,'cat')"></ion-checkbox>
+</ion-item>
+  <ion-list class="submcategories">
+    <ion-item *ngFor="let s of list.children">
+      <ion-label> {{s.name}}</ion-label>
+      <ion-checkbox color="primary" slot="start" (ionChange)="submitFilters(s.id, $event.target.checked,'cat')"></ion-checkbox>
+    </ion-item>
+  </ion-list> 
+</ion-list>
+</form>    
+
+
+
+
+</ion-content>

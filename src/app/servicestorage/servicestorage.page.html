@@ -1,9 +1,114 @@
-<ion-header>
+<ion-header *ngIf="formvalue.step==1">
   <ion-toolbar>
-    <ion-title>servicestorage</ion-title>
+    <ion-buttons slot="start">
+    <ion-button (click)="gohome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+
+
+
+
+
+
+<ion-text><h4>
+{{diginix.translate( "What kind of storage do you need?" , "" )}}</h4></ion-text>
+
+<ion-button [color]="formvalue.storage_type==svc.title?'zamkan':'light'" (click)="formvalue.storage_type=svc.title;calculate();" *ngFor="let svc of storage_type index as i; count as c;"  >{{diginix.translate(svc.title,svc.title_ar)}}</ion-button>
+
+
+
+
+<ion-text><h4>{{diginix.translate("When do you need the storage?","متى تحتاج التخزين؟")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+
+<ion-text><h4>{{diginix.translate("Till what date do you need the storage?","حتى أي تاريخ تريد التخزين")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date_end" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+
+
+
+<ion-list>
+  <ion-radio-group>
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("What would you like to store?","ماذا تريد ان تخزن؟")}}</h4></ion-text>
+    </ion-list-header>
+
+  <ion-item *ngFor="let svc of what_to_store index as i; count as c;" (click)="calculate();">
+  <ion-label>{{diginix.translate(svc.title,svc.title_ar)}}</ion-label>
+  <ion-checkbox slot="start" [(ngModel)]="what_to_store[i].checked"></ion-checkbox>
+  </ion-item>
+
+  </ion-radio-group>
+</ion-list>
+
+
+
+<ion-text><h4>{{diginix.translate("How much storage space do you need?","كم مساحة التخزين التي تحتاجها؟")}}</h4></ion-text>
+<ion-select [(ngModel)]="formvalue.how_much_storage">
+    <ion-select-option *ngFor="let svc of how_much_storage index as i; count as c;" value="{{svc.title}}">{{diginix.translate(svc.title,svc.title_ar)}}</ion-select-option>
+</ion-select>
+
+
+
+
+<ion-list>
+  <ion-radio-group>
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Do you also require these services?","هل تحتاج أيضًا إلى هذه الخدمات؟")}}</h4></ion-text>
+    </ion-list-header>
+
+  <ion-item *ngFor="let svc of also_needed index as i; count as c;" (click)="calculate();">
+  <ion-label>{{diginix.translate(svc.title,svc.title_ar)}}</ion-label>
+  <ion-checkbox slot="start" [(ngModel)]="also_needed[i].checked"></ion-checkbox>
+  </ion-item>
+
+  </ion-radio-group>
+</ion-list>
+
+
+<ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
+
+<ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: You will need to bring a gate pass, I will not be home and am leaving the key under tha mat, etc.','مثال: ستحتاج إلى إحضار بطاقة مرور ، ولن أكون في المنزل وأترك المفتاح تحت حصيرة ، وما إلى ذلك.')}}"></ion-textarea>
+
 
 </ion-content>
+
+
+
+
+
+<ion-footer class="ion-no-border">
+<!-- <ion-text color="medium" class="ion-padding"><small>{{diginix.translate("* Excluding VAT","* باستثناء الضريبة على القيمة المضافة")}}</small></ion-text> -->
+<ion-grid>
+  <ion-row>
+  	<!--  
+    <ion-col size="6" class="ion-text-center" no-padding>
+      
+     <ion-text *ngIf="bill.printed_amount>bill.selling_amount" color="medium" class="strikethrough"><small>AED {{bill.printed_amount}} <br> </small></ion-text>
+      
+      <div [class]="bill.printed_amount<=bill.selling_amount?'vertical-center':''">
+      <ion-text color="zamkan"><strong>AED {{bill.selling_amount}}</strong></ion-text>
+      </div>
+
+    </ion-col>  -->
+    <ion-col class="ion-text-center zamkan-bg" no-padding (click)="next()">
+      <div class="vertical-center">{{diginix.translate("View Details","عرض التفاصيل")}}</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-footer>

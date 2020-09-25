@@ -24,14 +24,14 @@
 
 <div *ngIf="user.name!=''">
 <p>
-<ion-text color="secondary" style="font-size:30px;">{{diginix.translate("Hello User,","مرحبا المستخدم ،")}}</ion-text>
+<ion-text color="zamkan" style="font-size:30px;">{{diginix.translate("Hello User,","مرحبا المستخدم ،")}}</ion-text>
 <br>
 <ion-text color="dark">{{diginix.translate("Lets get things done today!","دعنا ننجز الأشياء اليوم!")}}</ion-text>
 </p>
 </div>
 
-
-<ion-slides>
+<!-- autoplay="5000" loop="true" speed="3000" -->
+<ion-slides [options]="slideOptsOne" >
   <ion-slide *ngFor="let bn of app_banner; index as in; count as co;" >
     <img class="banner-round" [src]="diginix.translate(bn.image,bn.image_ar)"/>
   </ion-slide>
@@ -79,7 +79,16 @@
        			</ion-tab-button>
 			</ion-col>
 
-			<ion-col>
+			
+      <ion-col>
+        <ion-tab-button tab="schedule" [routerLink]="['/shop']">
+          <ion-icon name="cart"></ion-icon>
+            <ion-label>{{diginix.translate('Shop','متجر')}}</ion-label>
+          </ion-tab-button>
+      </ion-col>
+
+
+      <ion-col>
 				<ion-tab-button tab="schedule" [routerLink]="['/support']">
 					<ion-icon name="help-buoy"></ion-icon>
       			<ion-label>{{diginix.translate('Support','الدعم')}}</ion-label>

@@ -13,7 +13,7 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
 export class LoginPage implements OnInit {
 
 	login:any={
-	email:"admin@zamkanapp.com",
+	email:"nishant@diginixai.com",
 	password:"carpenter",
 	}
 

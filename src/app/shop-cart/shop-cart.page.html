@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{diginix.translate('Shopping Cart','عربة التسوق')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngIf="cartitmes">
+        <ion-list *ngIf="cartitmes?.cart_data?.length > 0">
+          <ion-item-sliding *ngFor="let item of cartitmes?.cart_data">
+            <ion-item lines="none" class="customcartitme">
+              <ion-thumbnail slot="start">
+                  <img [src]="item.image">
+              </ion-thumbnail>
+              <ion-label>
+                <p class="name">{{diginix.translate(item.name,item.name_ar)}}</p>
+                <p class="info">Qty: {{diginix.translate(item.quantity,item.quantity)}} </p>
+                <p class="price">AED {{diginix.translate(item.price,item.price)}}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option>
+                <ion-button (click)="remeoveItems(item.key)"
+                  class="notif-button"
+                  fill="clear"
+                  size="small"
+                  shape="round"
+                  color="danger"
+                >
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+        <ion-list *ngIf="cartitmes?.cart_data?.length == 0">
+          <ion-item color="zamkan">
+              Empty Cart..
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngIf="cartitmes">
+        <p class="section ion-padding-bottom"> {{diginix.translate('Summary','ملخص')}}</p>
+        <ion-list *ngIf="cartitmes?.cart_totals">
+          <ion-item lines="none" class="invoice-item">
+            <ion-label> {{diginix.translate('Subtotal','المجموع الفرعي')}}</ion-label>
+            <ion-text slot="end">AED {{ cartitmes?.cart_totals?.sub_total }}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="invoice-item">
+            <ion-label>{{diginix.translate('Discount','خصم')}} ({{ cartitmes?.cart_totals?.discount_perc }}%)</ion-label>
+            <ion-text slot="end">AED {{ cartitmes?.cart_totals?.discount_amt }}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="invoice-item">
+            <ion-label> {{diginix.translate('Tax Payable','الضريبة المستحقة')}} ({{ cartitmes?.cart_totals?.tax_perc }}%)</ion-label>
+            <ion-text slot="end">AED {{ cartitmes?.cart_totals?.tax_amt }}</ion-text>
+          </ion-item>
+        </ion-list>
+        <div class="separator"></div>
+        <ion-item lines="none" class="invoice-total">
+          <ion-label>{{diginix.translate('Total','مجموع')}}</ion-label>
+          <ion-text slot="end">AED {{ cartitmes?.cart_totals?.total }}</ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="checkout()"
+          class="action-button"
+          expand="block"
+          fill="solid"
+          color="zamkan"
+          type="button"
+        >
+          <span>Checkout Now</span>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

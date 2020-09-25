@@ -104,10 +104,10 @@ const routes: Routes = [
     path: 'servicebookatruck',
     loadChildren: () => import('./servicebookatruck/servicebookatruck.module').then( m => m.ServicebookatruckPageModule)
   },
-  {
-    path: 'servicemovinginternationally',
-    loadChildren: () => import('./servicemovinginternationally/servicemovinginternationally.module').then( m => m.ServicemovinginternationallyPageModule)
-  },
+  // {
+  //   path: 'servicemovinginternationally',
+  //   loadChildren: () => import('./servicemovinginternationally/servicemovinginternationally.module').then( m => m.ServicemovinginternationallyPageModule)
+  // },
   {
     path: 'servicestorage',
     loadChildren: () => import('./servicestorage/servicestorage.module').then( m => m.ServicestoragePageModule)
@@ -127,7 +127,64 @@ const routes: Routes = [
   {
     path: 'bookingupdate',
     loadChildren: () => import('./bookingupdate/bookingupdate.module').then( m => m.BookingupdatePageModule)
+  },
+  {
+    path: 'servicecarpetcleaning',
+    loadChildren: () => import('./servicecarpetcleaning/servicecarpetcleaning.module').then( m => m.ServicecarpetcleaningPageModule)
+  },
+  {
+    path: 'servicesofacleaning',
+    loadChildren: () => import('./servicesofacleaning/servicesofacleaning.module').then( m => m.ServicesofacleaningPageModule)
+  },
+  {
+    path: 'servicemattresscleaning',
+    loadChildren: () => import('./servicemattresscleaning/servicemattresscleaning.module').then( m => m.ServicemattresscleaningPageModule)
+  },
+  {
+    path: 'servicepestcontrol',
+    loadChildren: () => import('./servicepestcontrol/servicepestcontrol.module').then( m => m.ServicepestcontrolPageModule)
+  },
+
+
+
+    {
+    path: 'shop',
+    loadChildren: () => import('./shop/shop.module').then( m => m.ShopPageModule)
+  },
+  {
+    path: 'shop-category-filter',
+    loadChildren: () => import('./shop-category-filter/shop-category-filter.module').then( m => m.ShopCategoryFilterPageModule)
+  },
+  {
+    path: 'product-detail/:id',
+    loadChildren: () => import('./shop-product-detail/shop-product-detail.module').then( m => m.ShopProductDetailPageModule)
+  },
+  {
+    path: 'cart',
+    loadChildren: () => import('./shop-cart/shop-cart.module').then( m => m.ShopCartPageModule)
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./shop-checkout/shop-checkout.module').then( m => m.ShopCheckoutPageModule)
+  },
+  {
+    path: 'orderhistory',
+    loadChildren: () => import('./shop-orderhistory/shop-orderhistory.module').then( m => m.ShopOrderhistoryPageModule)
+  },
+  {
+    path: 'serviceappliancerepair',
+    loadChildren: () => import('./serviceappliancerepair/serviceappliancerepair.module').then( m => m.ServiceappliancerepairPageModule)
+  },
+  {
+    path: 'servicemoveinternational',
+    loadChildren: () => import('./servicemoveinternational/servicemoveinternational.module').then( m => m.ServicemoveinternationalPageModule)
+  },
+  {
+    path: 'orderdetail/:id',
+    loadChildren: () => import('./shop-order-detail/shop-order-detail.module').then( m => m.ShopOrderDetailPageModule)
   }
+
+
 ];
 @NgModule({
   imports: [

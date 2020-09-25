@@ -1,0 +1,89 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{diginix.translate('Order detail','تفاصيل الطلب')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+         <ion-list>
+          <ion-item>
+            <strong>{{diginix.translate('Customer details','تفاصيل العميل')}} : </strong>
+          </ion-item>
+            <ion-item>
+              <strong>{{diginix.translate('Name','اسم')}} : </strong>
+              {{ orders.fname }} {{ orders.lname }}
+            </ion-item>
+            <ion-item>
+              <strong>{{diginix.translate('Address 1','العنوان 1')}} : </strong>
+              {{ orders.address1 }} {{ orders.city }} {{ orders.country }} 
+            </ion-item>
+            <ion-item *ngIf="orders.address1">
+              <strong>{{diginix.translate('Address 2','العنوان 2')}} : </strong>
+              {{ orders.address2 }} {{ orders.city }} {{ orders.country }} 
+            </ion-item>
+         </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col *ngIf="orders">
+        <ion-list *ngIf="orders?.items?.length > 0">
+            <ion-item lines="none" class="customcartitme" *ngFor="let item of orders?.items">
+              <!-- <ion-thumbnail slot="start">
+                  <img [src]="item.image">
+              </ion-thumbnail> -->
+              
+              <ion-label>
+                <p class="name">{{ item.product_name }}</p>
+                <p class="info">Qty: {{ item.quantity }} X AED {{ item.price }} </p>
+                <p class="price">AED {{ item.total }}</p>
+                <ion-text [color]="item.status=='cancelled'?'danger':'success'">{{ item.status }} </ion-text>
+              </ion-label>
+            </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <p class="section ion-padding-bottom"> {{diginix.translate('Summary','ملخص')}}</p>
+        <ion-list *ngIf="orders">
+          <ion-item lines="none" class="invoice-item">
+            <ion-label> {{diginix.translate('Subtotal','المجموع الفرعي')}}</ion-label>
+            <ion-text slot="end">AED {{ orders?.sub_total }}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="invoice-item">
+            <ion-label>{{diginix.translate('Discount','خصم')}} ({{ orders?.discount_percetage }}%)</ion-label>
+            <ion-text slot="end">AED {{ orders?.discount }}</ion-text>
+          </ion-item>
+          <ion-item lines="none" class="invoice-item">
+            <ion-label> {{diginix.translate('Tax Payable','الضريبة المستحقة')}} ({{ orders?.tax_percetage }}%)</ion-label>
+            <ion-text slot="end">AED {{ orders?.tax }}</ion-text>
+          </ion-item>
+        </ion-list>
+        <div class="separator"></div>
+        <ion-item lines="none" class="invoice-total">
+          <ion-label>{{diginix.translate('Total','مجموع')}}</ion-label>
+          <ion-text slot="end">AED {{ orders?.grand_total }}</ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="backtoShop()"
+          class="action-button"
+          expand="block"
+          fill="solid"
+          color="primary"
+          type="button"
+        >
+          <span>{{diginix.translate('Back to shop','العودة إلى المتجر')}}</span>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

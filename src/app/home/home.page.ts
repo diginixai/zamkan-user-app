@@ -14,6 +14,14 @@ user:any={name:'',last_name:''};
 selected_city:any={id:0,name:"Select City",name_ar:"اختر مدينة"}
 app_banner:any=[];
 
+
+slideOptsOne = {
+ initialSlide: 0,
+ slidesPerView: 1,
+ autoplay:true
+};
+
+
 services:any=[
 {
 title:"Cleaning Services",
@@ -54,6 +62,14 @@ products:[
 		image:"https://www.maproservices.com/images/resource/ac_1.jpg",
 		form_id:72,
 		slug:"servicehandyman",
+		payload:{}
+	},
+	{
+		title:"Appliance Repair and Installation",
+		title_ar:"إصلاح الأجهزة وتركيبها",
+		image:"https://3.imimg.com/data3/BJ/TC/MY-20266512/fridge-repair-500x500.jpeg",
+		form_id:71,
+		slug:"serviceappliancerepair",
 		payload:{}
 	},
 	{
@@ -110,27 +126,68 @@ products:[
 		title:"Book a truck",
 		title_ar:"احجز شاحنة",
 		image:"https://dial2hire.com/images/img_large_1.jpg",
-		form_id:0,
-		slug:"",
+		form_id:99,
+		slug:"servicebookatruck",
 		payload:{}
 	},
 	{
-		title:"Moving internationally",
-		title_ar:"التحرك دوليا",
-		image:"https://www.doveshipping.com/Portals/0/International%20Move.jpg",
-		form_id:0,
-		slug:"",
+		title:"Moving Internationally",
+		title_ar:"تتحرك دوليا",
+		image:"https://www.chessmoving.com.au/images/Blog/2015/06_June/7_Ways_to_Reduce_Stress_During_an_International_Move-259017.jpg",
+		form_id:37,
+		slug:"servicemoveinternational",
 		payload:{}
 	},
 	{
 		title:"Storage",
 		title_ar:"تخزين",
 		image:"https://www.arbycartage.com/wp-content/uploads/2017/02/storage.jpg",
-		form_id:0,
-		slug:"",
+		form_id:48,
+		slug:"servicestorage",
 		payload:{}
 	},
 	
+]
+},
+
+
+
+{
+title:"Pest Control",
+title_ar:"مكافحة الآفات",
+products:[ 
+	{
+		title:"Cockroaches",
+		title_ar:"الصراصير",
+		image:"https://5.imimg.com/data5/MC/LC/GLADMIN-48799173/cockroaches-control-service-500x500.jpg",
+		form_id:85,
+		slug:"servicepestcontrol",
+		payload:{service_type:'cockroaches'}
+	},
+	{
+		title:"Ants",
+		title_ar:"النمل",
+		image:"https://thegardeningcook.com/wp-content/uploads/2018/03/ant-trail.jpg",
+		form_id:85,
+		slug:"servicepestcontrol",
+		payload:{service_type:'ants'}
+	},
+	{
+		title:"Bed Bugs",
+		title_ar:"بق الفراش",
+		image:"https://www.nyccarpetcleaners.com/uploads/712335c526f006b180e242fbebde4a3e1c874d65-248",
+		form_id:85,
+		slug:"servicepestcontrol",
+		payload:{service_type:'bed_bugs'}
+	},
+	{
+		title:"Pest Control",
+		title_ar:"مكافحة الآفات",
+		image:"https://media.istockphoto.com/photos/man-spraying-pesticide-in-kitchen-picture-id928077000?k=6&m=928077000&s=612x612&w=0&h=Va-V9eMYC6msiJC_kCHOMw-HgXKQYUD9gp8GheMsHgE=",
+		form_id:85,
+		slug:"servicepestcontrol",
+		payload:{service_type:'general'}
+	},
 ]
 },
 
@@ -156,6 +213,7 @@ products:[
 		slug:"",
 		payload:{}
 	},
+	
 ]
 },
 
@@ -170,24 +228,24 @@ products:[
 		title:"Carpet Cleaning",
 		title_ar:"السجاد",
 		image:"https://5.imimg.com/data5/ID/PV/MY-49748500/carpet-cleaning-services-500x500.jpg",
-		form_id:0,
-		slug:"",
+		form_id:52,
+		slug:"servicecarpetcleaning",
 		payload:{}
 	},
 	{
 		title:"Mattress Cleaning",
 		title_ar:"تنظيف",
 		image:"https://thehappyhousecleaning.co.uk/wp-content/uploads/2018/08/Mattress-cleaning-services-page-pic1.jpg",
-		form_id:0,
-		slug:"",
+		form_id:53,
+		slug:"servicemattresscleaning",
 		payload:{}
 	},
 	{
 		title:"Sofa Cleaning",
 		title_ar:"الأريكة",
 		image:"https://5.imimg.com/data5/ZK/YW/HC/SELLER-96092479/sofa-cleaning-services-500x500.jpg",
-		form_id:0,
-		slug:"",
+		form_id:54,
+		slug:"servicesofacleaning",
 		payload:{}
 	},
 	{

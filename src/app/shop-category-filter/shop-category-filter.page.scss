@@ -1,0 +1,66 @@
+.detailHead {
+    --background: #428bca;
+}
+
+ion-header.md.header-md.hydrated {
+    background: #028bc1;
+    --background: var(--ion-toolbar-background,var(--ion-background-color,#028bc1));
+    --color: var(--ion-toolbar-color,var(--ion-text-color,#fff));
+}
+
+
+ion-toolbar.md.hydrated {
+    background: #028bc1;
+    --background: var(--ion-toolbar-background,var(--ion-background-color,#028bc1));
+    --color: var(--ion-toolbar-color,var(--ion-text-color,#fff));
+}
+
+ion-avatar {
+    width: 73px;
+    height: auto;
+    margin-right: 17px;
+}
+
+ion-avatar img {
+    border-radius: 0px;
+}
+
+.detailHead h2 {
+    color: #fff;
+}
+
+.detailHead h3 {
+    color: #fff;
+    border-bottom: 1px solid #ffffff69;
+    padding-bottom: 8px;
+    margin-bottom: 5px;
+}
+
+.detailHead  p {
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+.color-blue{
+    color:#428bca;
+}
+.otherdesc ol li {
+    font-size: 13px;
+    white-space: initial;
+}
+
+.customAccomsec ion-avatar {
+    width: 57px;
+}
+.filtertabs {
+    display: block;
+    margin-bottom:30px;
+}
+
+.filtertabs ion-segment-button {
+    display: block;
+    border-bottom: 1px solid;
+}
+ion-list.submcategories {
+    padding-left: 38px;
+}

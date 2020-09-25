@@ -1,0 +1,138 @@
+<ion-header *ngIf="formvalue.step==1">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    <ion-button (click)="gohome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+    <ion-title>{{diginix.translate(what_included.title,what_included.title_ar)}}</ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button (click)="whats_included()" slot="end">
+      <ion-text color="medium">{{diginix.translate("What's included","يحتويه")}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-text>
+    </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+
+
+
+<ion-text><h4>
+{{diginix.translate( "What type of home do you live in?" , "ما نوع المنزل الذي تعيش فيه؟" )}}</h4></ion-text>
+
+<ion-button [color]="formvalue.room_type=='apartment'?'zamkan':'light'" (click)="formvalue.room_type='apartment';reset_room();calculate();" >{{diginix.translate('Apartment','شقة')}}</ion-button>
+
+<ion-button [color]="formvalue.room_type=='villa'?'zamkan':'light'" (click)="formvalue.room_type='villa';reset_room();calculate();" >{{diginix.translate('Villa','فيلا')}}</ion-button>
+
+<div *ngIf="formvalue.room_type=='apartment'">
+<br>
+<ion-button [color]="formvalue.room_size.size==svc.size?'zamkan':'light'" (click)="formvalue.room_size=svc;calculate();" *ngFor="let svc of apartment index as i; count as c;"  >
+{{svc.size}}<!-- <br>AED {{svc.base}} -->
+</ion-button>
+</div>
+
+<div *ngIf="formvalue.room_type=='villa'">
+<br>
+<ion-button [color]="formvalue.room_size.size==svc.size?'zamkan':'light'" (click)="formvalue.room_size=svc;calculate();" *ngFor="let svc of villa index as i; count as c;"  >
+{{svc.size}}<<!-- br>AED {{svc.base}} -->
+</ion-button>
+</div>
+
+
+
+
+
+<ion-text><h4>{{diginix.translate("When do you need to move?","عندما لا تحتاج إلى نقل؟")}}</h4></ion-text>
+<ion-datetime [(ngModel)]="formvalue.booking_date" displayFormat="YYYY-MM-DD" placeholder="Select Date"></ion-datetime>
+
+
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where are you moving from?","من اين تنتقل؟")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-input [(ngModel)]="formvalue.start_country" placeholder="Country"></ion-input>
+  </ion-item>
+    <ion-item>
+          <ion-input [(ngModel)]="formvalue.start_address" placeholder="Address"></ion-input>
+  </ion-item>
+</ion-list>
+
+
+
+<ion-list>
+  <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Where are you moving to?","")}}</h4></ion-text>
+  </ion-list-header>
+
+  <ion-item>
+          <ion-input [(ngModel)]="formvalue.destination_country" placeholder="Country"></ion-input>
+  </ion-item>
+    <ion-item>
+          <ion-input [(ngModel)]="formvalue.destination_address" placeholder="Address"></ion-input>
+  </ion-item>
+</ion-list>
+
+
+
+<ion-list>
+  <ion-radio-group>
+    <ion-list-header>
+      <ion-text><h4>{{diginix.translate("Do you need these services?","")}}</h4></ion-text>
+    </ion-list-header>
+  <ion-item (click)="calculate();">
+  <ion-label>{{diginix.translate('handyman','')}}</ion-label>
+  <ion-checkbox slot="start" [(ngModel)]="formvalue.additional_services.handyman"></ion-checkbox>
+  </ion-item>
+
+  <ion-item (click)="calculate();">
+  <ion-label>{{diginix.translate('storage','')}}</ion-label>
+  <ion-checkbox slot="start" [(ngModel)]="formvalue.additional_services.storage"></ion-checkbox>
+  </ion-item>
+  </ion-radio-group>
+</ion-list>
+
+
+
+<ion-text><h4>{{diginix.translate("Is there anything else you would like us to know?","هل هناك أي شيء آخر تريد منا أن نعرفه؟")}}</h4></ion-text>
+
+<ion-textarea rows="3" [(ngModel)]="msg"  placeholder="{{diginix.translate('Example: You will need to bring a gate pass, I will not be home and am leaving the key under tha mat, etc.','مثال: ستحتاج إلى إحضار بطاقة مرور ، ولن أكون في المنزل وأترك المفتاح تحت حصيرة ، وما إلى ذلك.')}}"></ion-textarea>
+
+
+</ion-content>
+
+
+
+
+
+<ion-footer class="ion-no-border">
+<!-- <ion-text color="medium" class="ion-padding"><small>{{diginix.translate("* Excluding VAT","* باستثناء الضريبة على القيمة المضافة")}}</small></ion-text> -->
+<ion-grid>
+  <ion-row>
+  	<!--  
+    <ion-col size="6" class="ion-text-center" no-padding>
+      
+     <ion-text *ngIf="bill.printed_amount>bill.selling_amount" color="medium" class="strikethrough"><small>AED {{bill.printed_amount}} <br> </small></ion-text>
+      
+      <div [class]="bill.printed_amount<=bill.selling_amount?'vertical-center':''">
+      <ion-text color="zamkan"><strong>AED {{bill.selling_amount}}</strong></ion-text>
+      </div>
+
+    </ion-col>  -->
+    <ion-col class="ion-text-center zamkan-bg" no-padding (click)="next()">
+      <div class="vertical-center">{{diginix.translate("View Details","عرض التفاصيل")}}</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-footer>

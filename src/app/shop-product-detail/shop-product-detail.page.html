@@ -1,0 +1,109 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Product Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-no-padding">
+      <ion-slides pager="true" [options]="imgConfig" class="product-slides">
+        <ion-slide>
+          <ion-card>
+            <ion-card-content class="ion-no-padding">
+              <img [src]="puductdetails?.product_image" alt="" />
+            </ion-card-content>
+          </ion-card>
+        </ion-slide>
+      </ion-slides>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-no-padding">
+      <div class="details ion-text-center">
+        <!-- <span>{{diginix.translate(puductdetails?.name,puductdetails?.name_ar)}}</span> -->
+        <h2> {{diginix.translate(puductdetails?.name,puductdetails?.name_ar)}}</h2>
+        <p>AED {{diginix.translate(puductdetails?.sku.regular_price,puductdetails?.sku.regular_price)}}</p>
+
+        <ion-button (click)="addTocart(puductdetails.id)" 
+        class="action-button"
+        expand="block"
+        fill="solid"
+        color="zamkan"
+        type="button"
+      >
+        <span> {{diginix.translate('Add to cart','أضف إلى السلة')}}</span>
+      </ion-button>
+      </div>
+    </ion-col>
+  </ion-row>
+  <div class="separator ion-margin-vertical"></div>
+
+
+  <ion-row>
+    <ion-col>
+      <ion-text>{{diginix.translate('Description','وصف')}}</ion-text>
+      <div class="about" [innerHTML]="diginix.translate(puductdetails?.description,puductdetails?.description_ar)"></div>
+    
+    </ion-col>
+  </ion-row>
+  <div class="separator ion-margin-vertical"></div>
+  <!-- <ion-row>
+    <ion-col class="ion-no-padding">
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-text>Overall Score</ion-text>
+        <ion-button
+          slot="end"
+          fill="clear"
+          size="small"
+          shape="round"
+          color="primary"
+        >
+          See All
+        </ion-button>
+      </ion-item>
+      <div class="container">
+        <div class="score-container">
+          <h1>{{ product.overall }}</h1>
+        </div>
+        <div class="stats">
+          <p>{{ product.reviews }} Reviews</p>
+          <p>{{ product.sold }} Sold</p>
+        </div>
+      </div>
+      
+    </ion-col>
+  </ion-row> -->
+  <div class="separator ion-margin-vertical"></div>
+  <ion-row class="reltedproducts">
+    <ion-col class="ion-no-padding">
+      <ion-item lines="none" class="ion-no-padding">
+        <ion-text>{{diginix.translate('Related Products','منتجات ذات صله')}}</ion-text>
+        
+      </ion-item>
+    <div *ngIf="relatedProduct?.length > 0">
+
+      <ng-container>
+        <ion-col size="6" *ngFor="let rel of relatedProduct" class="ion-no-padding">
+          <ion-card (click)="productDetail(rel)">
+            <ion-card-header class="ion-no-padding">
+              <!-- <ion-badge class="badge" color="danger">sadasda</ion-badge> -->
+              <img [src]="rel?.product_image" />
+            </ion-card-header>
+            <ion-card-content>
+              <p>{{diginix.translate(rel?.name,rel?.name_ar)}}</p>
+              <span>AED {{diginix.translate(rel?.regular_price,rel?.regular_price)}}</span>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ng-container>
+
+    </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

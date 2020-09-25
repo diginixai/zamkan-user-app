@@ -1,0 +1,130 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start"  (click)="categoriesfilter()">
+      <ion-icon name="funnel"></ion-icon>
+    </ion-buttons>
+    <ion-title>{{diginix.translate('Products','منتجات')}}</ion-title>
+    <ion-select interface="popover" value="0" slot="end" [(ngModel)]="sortby" (ionChange)="sortByfilter()">
+      <ion-select-option value="0">Default sorting</ion-select-option>
+      <ion-select-option value="ASC">Sort by price: low to high</ion-select-option>
+      <ion-select-option value="DESC">Sort by price: high to low</ion-select-option>
+    </ion-select>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding-horizontal">
+  <ion-grid>
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-padding-vertical">
+        <ion-searchbar animated class="ion-no-padding" debounce="500" (ionChange)="searchListings($event)" [(ngModel)]="search_text"></ion-searchbar>
+      </ion-col>
+    </ion-row>      
+    <ion-row>
+      <ion-col class="ion-no-padding">
+        <ion-item lines="none" class="section">
+          <ion-text color="dark">
+            <h5>{{diginix.translate('Products','منتجات')}}</h5>
+          </ion-text>
+          <ion-buttons slot="end">
+            <ion-button
+            slot="end"
+            fill="clear"
+            size="small"
+            shape="round"
+            color="medium"
+            class="small-button"
+            (click)="changeView('grid')"
+          >
+            <ion-icon slot="icon-only" name="grid-outline"></ion-icon>
+          </ion-button>
+
+          <ion-button
+            slot="end"
+            fill="clear"
+            size="small"
+            shape="round"
+            color="medium"
+            class="small-button"
+            (click)="changeView('card')"
+          >
+            <ion-icon slot="icon-only" name="square-outline"></ion-icon>
+          </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-no-padding product_zm">
+      <ng-container [ngSwitch]="layout">
+        <ng-container *ngSwitchCase="'grid'">
+          <ion-col size="6" *ngFor="let item of products" class="ion-no-padding">
+            <ion-card (click)="productDetail(item)">
+              <ion-card-header class="ion-no-padding">
+                <!-- <ion-badge class="badge" color="danger">sadasda</ion-badge> -->
+                <img [src]="item?.product_image" />
+              </ion-card-header>
+              <ion-card-content>
+                <p>{{diginix.translate(item?.name,item?.name_ar)}}</p>
+                <span>AED {{diginix.translate(item?.sku.regular_price,item?.sku.regular_price)}}</span>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ng-container>
+        <ng-container *ngSwitchCase="'card'">
+          <ion-col  size="12" *ngFor="let item of products" class="ion-no-padding listview">
+            <ion-card (click)="productDetail(item)">
+              <ion-card-content class="ion-no-padding">
+                <img [src]="item?.product_image" />
+                <div class="overlay">
+                  <div class="top">
+                    <!-- <div class="badge" *ngIf="item?.badge">{{ item?.badge }}</div> -->
+                    <ion-button
+                      fill="clear"
+                      size="small"
+                      shape="round"
+                      color="light"
+                      class="small-button"
+                    >
+                      <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+                    </ion-button>
+                  </div>
+                  <div class="content">
+                    <p>{{diginix.translate(item?.name,item?.name_ar)}}</p>
+                    <span>AED {{diginix.translate(item?.sku.regular_price,item?.sku.regular_price)}}</span>
+                  </div>
+                </div>
+            
+              </ion-card-content>
+            </ion-card>
+            
+          </ion-col>
+        </ng-container>
+        
+      </ng-container>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border customfooter">
+ 
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" class="ion-text-center" no-padding>
+        
+        <div class="customcart" (click)="cart()">
+          <ion-text color="zamkan" class="ion-padding"> <ion-icon name="cart"></ion-icon>{{diginix.translate("Total","مجموع")}}</ion-text>
+        <ion-text color="zamkan" *ngIf="cartitmes"><strong *ngIf="cartitmes.cart_totals">AED {{ cartitmes.cart_totals.sub_total }}</strong></ion-text>
+        </div>
+  
+      </ion-col>
+      <ion-col size="6" class="ion-text-center customcheckout zamkan-bg" no-padding (click)="checkout()">
+        <div class="vertical-center">{{diginix.translate("Checkout","الدفع")}}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  </ion-footer>
+
+
+<!-- Category sections -->
+
